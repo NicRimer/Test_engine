@@ -1,10 +1,14 @@
 let currentQuestionIndex = 0;
 
-document.getElementById('fileInput').addEventListener('change', handleFile);
+document.getElementById('fileInput').addEventListener('change', function(event) {
+  resetQuiz(); // Add this line!
+  handleFile(event);
+});
 document.getElementById('finishQuizBtn').addEventListener('click', finishQuiz);
 document.getElementById('prevBtn').addEventListener('click', () => showQuestion(currentQuestionIndex - 1));
 document.getElementById('nextBtn').addEventListener('click', () => showQuestion(currentQuestionIndex + 1));
 document.getElementById('loadQuizFileBtn').addEventListener('click', function() {
+  resetQuiz(); // Add this line!
   const selectedFile = document.getElementById('quizFileSelect').value;
   fetch(selectedFile)
     .then(res => {
@@ -18,7 +22,6 @@ document.getElementById('loadQuizFileBtn').addEventListener('click', function() 
       if (shuffleQuestions) shuffleArray(questions);
 
       window.shuffleAnswersEnabled = document.getElementById('shuffleAnswersToggle').checked;
-
       window.quizData = questions;
       window.userAnswers = {};
       renderQuiz(questions);
@@ -26,6 +29,17 @@ document.getElementById('loadQuizFileBtn').addEventListener('click', function() 
     })
     .catch(err => alert('Could not load file: ' + err.message));
 });
+
+function resetQuiz() {
+  // Clear all quiz data and UI
+  window.quizData = [];
+  window.userAnswers = {};
+  document.getElementById('quizContainer').innerHTML = '';
+  document.getElementById('finalScore').textContent = '';
+  document.getElementById('summaryList').innerHTML = '';
+  document.getElementById('quizSummary').style.display = 'none';
+  document.getElementById('finishQuizBtn').style.display = 'none';
+}
 
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
