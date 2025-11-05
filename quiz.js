@@ -1,12 +1,14 @@
 let currentQuestionIndex = 0;
 
 document.getElementById('fileInput').addEventListener('change', function(event) {
-  resetQuiz(); // Add this line!
+  resetQuiz();
   handleFile(event);
+  document.getElementById("quizSetupBlock").style.display = "none"; // Hide block
 });
 document.getElementById('finishQuizBtn').addEventListener('click', finishQuiz);
 document.getElementById('prevBtn').addEventListener('click', () => showQuestion(currentQuestionIndex - 1));
 document.getElementById('nextBtn').addEventListener('click', () => showQuestion(currentQuestionIndex + 1));
+document.getElementById("quizSetupBlock").style.display = "none";
 document.getElementById('loadQuizFileBtn').addEventListener('click', function() {
   resetQuiz(); // Add this line!
   const selectedFile = document.getElementById('quizFileSelect').value;
@@ -28,6 +30,7 @@ document.getElementById('loadQuizFileBtn').addEventListener('click', function() 
       showQuestion(0);
     })
     .catch(err => alert('Could not load file: ' + err.message));
+  document.getElementById("quizSetupBlock").style.display = "none"; // Hide block
 });
 
 function resetQuiz() {
@@ -241,6 +244,8 @@ function showQuestion(index) {
   document.getElementById('prevBtn').disabled = index === 0;
   document.getElementById('nextBtn').disabled = index === total - 1;
 }
+
+
 
 function finishQuiz() {
   const total = window.totalQuestions || 0;
