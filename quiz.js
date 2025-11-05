@@ -8,7 +8,7 @@ document.getElementById('fileInput').addEventListener('change', function(event) 
 document.getElementById('finishQuizBtn').addEventListener('click', finishQuiz);
 document.getElementById('prevBtn').addEventListener('click', () => showQuestion(currentQuestionIndex - 1));
 document.getElementById('nextBtn').addEventListener('click', () => showQuestion(currentQuestionIndex + 1));
-document.getElementById('restart').addEventListener('click', () => document.getElementById("quizSetupBlock").style.display = "");
+document.getElementById('restart').addEventListener('click', () => resetQuiz());
 document.getElementById("quizSetupBlock").style.display = "";
 document.getElementById('loadQuizFileBtn').addEventListener('click', function() {
   resetQuiz(); // Add this line!
