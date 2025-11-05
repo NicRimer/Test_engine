@@ -4,6 +4,28 @@ document.getElementById('fileInput').addEventListener('change', handleFile);
 document.getElementById('finishQuizBtn').addEventListener('click', finishQuiz);
 document.getElementById('prevBtn').addEventListener('click', () => showQuestion(currentQuestionIndex - 1));
 document.getElementById('nextBtn').addEventListener('click', () => showQuestion(currentQuestionIndex + 1));
+document.getElementById('loadQuizFileBtn').addEventListener('click', function() {
+  const selectedFile = document.getElementById('quizFileSelect').value;
+  fetch(selectedFile)
+    .then(res => {
+      if (!res.ok) throw new Error('File not found');
+      return res.text();
+    })
+    .then(content => {
+      let questions = parseQuestions(content);
+
+      const shuffleQuestions = document.getElementById('shuffleToggle').checked;
+      if (shuffleQuestions) shuffleArray(questions);
+
+      window.shuffleAnswersEnabled = document.getElementById('shuffleAnswersToggle').checked;
+
+      window.quizData = questions;
+      window.userAnswers = {};
+      renderQuiz(questions);
+      showQuestion(0);
+    })
+    .catch(err => alert('Could not load file: ' + err.message));
+});
 
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
