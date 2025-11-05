@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>GitHub Copilot Quiz – One-at-a-Time</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -10,16 +11,18 @@
   <h2>Upload a Quiz File (.txt)</h2>
   <label><input type="checkbox" id="shuffleToggle"> Shuffle questions</label><br>
   <label><input type="checkbox" id="shuffleAnswersToggle"> Shuffle answers</label><br><br>
-  <div>
-  <label for="quizFileSelect">Choose quiz from project:</label>
-  <select id="quizFileSelect">
-    <option value="quizzes/GH-900.txt">GH-900.txt</option>
-    <!-- Add more options as needed -->
-  </select>
-  <button id="loadQuizFileBtn">Load</button>
-</div>
-<br>
   <input type="file" id="fileInput" accept=".txt"><br><br>
+
+  <div>
+    <label for="quizFileSelect">Choose quiz from project:</label>
+    <select id="quizFileSelect">
+          <option value="quizzes/GH-300.txt">GH-300.txt</option>
+		      <option value="quizzes/GH-900.txt">GH-900.txt</option>
+      <!-- Add more quiz files as needed -->
+    </select>
+    <button id="loadQuizFileBtn">Load</button>
+  </div>
+  <br>
 
   <div id="quizContainer"></div>
 
@@ -41,5 +44,3 @@
   <script src="quiz.js"></script>
 </body>
 </html>
-
-
