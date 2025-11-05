@@ -42,6 +42,7 @@ function resetQuiz() {
   document.getElementById('summaryList').innerHTML = '';
   document.getElementById('quizSummary').style.display = 'none';
   document.getElementById('finishQuizBtn').style.display = 'none';
+  document.getElementById("quizSetupBlock").style.display = "";
 }
 
 function shuffleArray(array) {
@@ -244,8 +245,6 @@ function showQuestion(index) {
   document.getElementById('prevBtn').disabled = index === 0;
   document.getElementById('nextBtn').disabled = index === total - 1;
 }
-
-
 
 function finishQuiz() {
   const total = window.totalQuestions || 0;
