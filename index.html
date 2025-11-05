@@ -10,6 +10,16 @@
   <h2>Upload a Quiz File (.txt)</h2>
   <label><input type="checkbox" id="shuffleToggle"> Shuffle questions</label><br>
   <label><input type="checkbox" id="shuffleAnswersToggle"> Shuffle answers</label><br><br>
+  <div>
+  <label for="quizFileSelect">Choose quiz from project:</label>
+  <select id="quizFileSelect">
+    <option value="quizzes/sample1.txt">sample1.txt</option>
+    <option value="quizzes/sample2.txt">sample2.txt</option>
+    <!-- Add more options as needed -->
+  </select>
+  <button id="loadQuizFileBtn">Load</button>
+</div>
+<br>
   <input type="file" id="fileInput" accept=".txt"><br><br>
 
   <div id="quizContainer"></div>
@@ -32,3 +42,4 @@
   <script src="quiz.js"></script>
 </body>
 </html>
+
