@@ -87,7 +87,7 @@ Option D (/docs) is incorrect because documentation in the /docs folder is typic
 7. Which of the following GitHub syntax formats is consistent with the associated text?
 A. This is a heading
 B. This is a link
-C. <!-- This is a comment -->
+C. <! -- This is a comment -- >
 D. This is bolded text
 E. This is an ordered list
 Answer: C
