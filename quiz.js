@@ -296,3 +296,73 @@ function finishQuiz() {
   document.getElementById('finalScore').textContent =
     `✅ Final Score: ${percent}% (${correct} out of ${total})`;
 }
+
+/////// Voice recognition ////////
+// ==== Web Speech API Integration ====
+// Adds voice interaction: reads question and choices aloud, then listens for user answer
+
+function speak(text) {
+  if (!window.speechSynthesis) return;
+  const utterance = new window.SpeechSynthesisUtterance(text);
+  window.speechSynthesis.speak(utterance);
+}
+
+function listenForAnswer(onResultCallback) {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    alert('Speech Recognition API not supported in this browser.');
+    return;
+  }
+  const recognition = new SpeechRecognition();
+  recognition.lang = 'en-US';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript.trim();
+    onResultCallback(transcript);
+  };
+  recognition.onerror = (event) => {
+    console.error('Speech recognition error', event.error);
+  };
+  recognition.start();
+}
+
+// Enhance showQuestion to trigger speak() and listenForAnswer after question display
+const originalShowQuestion = showQuestion;
+showQuestion = function(index) {
+  originalShowQuestion.call(this, index);
+  const questionObj = window.quizData ? window.quizData[index] : null;
+  if (!questionObj) return;
+  // Prepare text: "Question: ... Possible answers: A. ..., B. ..."
+  let qText = `${questionObj.questionText}. Possible answers: `;
+  const choiceEntries = Object.entries(questionObj.choices).map(([label, txt]) => `${label}: ${txt}`);
+  qText += choiceEntries.join(', ');
+  speak(qText);
+  // Start listening after speech is done (approximate, as API does not give true end event)
+  setTimeout(() => {
+    listenForAnswer((spoken) => {
+      // Match spoken response to available answers (accept letter or text)
+      let selectedKey = null;
+      for (const [key, opt] of Object.entries(questionObj.choices)) {
+        // Accept label (A, B, C) or option text
+        if (
+          spoken.toLowerCase() === key.toLowerCase() ||
+          spoken.toLowerCase().includes(opt.toLowerCase())
+        ) {
+          selectedKey = key;
+          break;
+        }
+      }
+      if (selectedKey) {
+        // Check answer and mark as submitted
+        checkAnswer(index, questionObj.answers, questionObj.answers.length > 1 ? 'checkbox' : 'radio', questionObj.explanation, true);
+        speak('Your answer is submitted.');
+      } else {
+        speak('Could not match to any answer. Please try again or select manually.');
+      }
+    });
+  }, Math.max(2500, qText.length * 45)); // Wait by text length (approx.)
+}
+// ==== End Web Speech API Integration ====
+
+
