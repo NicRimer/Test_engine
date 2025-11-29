@@ -1,9 +1,13 @@
+/* ---------------------------------------------------------
+   QUIZ ENGINE CORE
+--------------------------------------------------------- */
+
 let currentQuestionIndex = 0;
 
 document.getElementById('fileInput').addEventListener('change', function(event) {
   resetQuiz();
   handleFile(event);
-  document.getElementById("quizSetupBlock").style.display = "none"; // Hide block
+  document.getElementById("quizSetupBlock").style.display = "none";
 });
 document.getElementById('finishQuizBtn').addEventListener('click', finishQuiz);
 document.getElementById('prevBtn').addEventListener('click', () => showQuestion(currentQuestionIndex - 1));
@@ -11,8 +15,9 @@ document.getElementById('nextBtn').addEventListener('click', () => showQuestion(
 document.getElementById('restart').addEventListener('click', () => resetQuiz());
 document.getElementById("quizSetupBlock").style.display = "";
 document.getElementById('loadQuizFileBtn').addEventListener('click', function() {
-  resetQuiz(); // Add this line!
+  resetQuiz();
   const selectedFile = document.getElementById('quizFileSelect').value;
+
   fetch(selectedFile)
     .then(res => {
       if (!res.ok) throw new Error('File not found');
@@ -21,21 +26,22 @@ document.getElementById('loadQuizFileBtn').addEventListener('click', function() 
     .then(content => {
       let questions = parseQuestions(content);
 
-      const shuffleQuestions = document.getElementById('shuffleToggle').checked;
-      if (shuffleQuestions) shuffleArray(questions);
+      if (document.getElementById('shuffleToggle').checked)
+        shuffleArray(questions);
 
       window.shuffleAnswersEnabled = document.getElementById('shuffleAnswersToggle').checked;
+
       window.quizData = questions;
       window.userAnswers = {};
       renderQuiz(questions);
       showQuestion(0);
     })
     .catch(err => alert('Could not load file: ' + err.message));
-  document.getElementById("quizSetupBlock").style.display = "none"; // Hide block
+
+  document.getElementById("quizSetupBlock").style.display = "none";
 });
 
 function resetQuiz() {
-  // Clear all quiz data and UI
   window.quizData = [];
   window.userAnswers = {};
   document.getElementById('quizContainer').innerHTML = '';
@@ -62,8 +68,8 @@ function handleFile(event) {
     const content = e.target.result;
     let questions = parseQuestions(content);
 
-    const shuffleQuestions = document.getElementById('shuffleToggle').checked;
-    if (shuffleQuestions) shuffleArray(questions);
+    if (document.getElementById('shuffleToggle').checked)
+      shuffleArray(questions);
 
     window.shuffleAnswersEnabled = document.getElementById('shuffleAnswersToggle').checked;
 
@@ -78,20 +84,16 @@ function handleFile(event) {
 function parseQuestions(text) {
   const questionBlocks = text.split(/\n(?=\d+\.\s)/);
   const questions = [];
-  const seenQuestions = new Set();
+  const seen = new Set();
 
   questionBlocks.forEach(block => {
     const lines = block.trim().split('\n').filter(Boolean);
     if (lines.length < 6) return;
 
-    const questionLine = lines[0];
-    const questionText = questionLine.replace(/^\d+\.\s*/, '').trim();
+    const questionText = lines[0].replace(/^\d+\.\s*/, '').trim();
 
-    if (seenQuestions.has(questionText.toLowerCase())) {
-      console.warn(`Duplicate question skipped: "${questionText}"`);
-      return;
-    }
-    seenQuestions.add(questionText.toLowerCase());
+    if (seen.has(questionText.toLowerCase())) return;
+    seen.add(questionText.toLowerCase());
 
     const choices = {};
     let i = 1;
@@ -101,18 +103,19 @@ function parseQuestions(text) {
       i++;
     }
 
-    const answerLine = lines.find(line => line.startsWith("Answer:"));
-    const explanationStart = lines.findIndex(line => line.startsWith("Explanation:"));
-    const explanationLines = lines.slice(explanationStart + 1).filter(line => !line.startsWith("[Reference"));
-
+    const answerLine = lines.find(l => l.startsWith("Answer:"));
     const rawAnswer = answerLine?.split("Answer:")[1]?.trim();
-    const answerArray = rawAnswer?.split(',').map(ans => ans.trim().toUpperCase()) || [];
-    const explanation = explanationLines.join(' ');
+    const answers = rawAnswer?.split(',').map(a => a.trim().toUpperCase()) || [];
+
+    const expStart = lines.findIndex(l => l.startsWith("Explanation:"));
+    const explanation = expStart !== -1
+      ? lines.slice(expStart + 1).join(' ')
+      : "";
 
     questions.push({
       questionText,
       choices,
-      answers: answerArray,
+      answers,
       explanation
     });
   });
@@ -138,42 +141,44 @@ function renderQuiz(questions) {
 
     const inputType = q.answers.length > 1 ? 'checkbox' : 'radio';
 
-    // ✅ Shuffle answers and relabel them A, B, C...
     let choiceEntries = Object.entries(q.choices);
     if (window.shuffleAnswersEnabled) shuffleArray(choiceEntries);
 
     const newLabels = ['A', 'B', 'C', 'D', 'E'];
-    const choiceMap = {}; // new label → original label (for grading)
-    choiceEntries.forEach(([origKey, value], i) => {
+    const choiceMap = {}; // new → original
+
+    choiceEntries.forEach(([origKey, txt], i) => {
       const newKey = newLabels[i];
       choiceMap[newKey] = origKey;
     });
 
-    q.choiceMap = choiceMap; // store mapping for answer checking
+    q.choiceMap = choiceMap;
 
-    choiceEntries.forEach(([origKey, value], i) => {
+    choiceEntries.forEach(([origKey, txt], i) => {
       const newKey = newLabels[i];
       const label = document.createElement('label');
-      label.innerHTML = `<input type="${inputType}" name="q${index}" value="${newKey}"> ${newKey}. ${value}`;
+      label.innerHTML = `<input type="${inputType}" name="q${index}" value="${newKey}"> ${newKey}. ${txt}`;
       choiceDiv.appendChild(label);
     });
 
     qDiv.appendChild(choiceDiv);
 
-    const submitBtn = document.createElement('button');
-    submitBtn.textContent = 'Submit';
-    submitBtn.onclick = () => checkAnswer(index, q.answers, inputType, q.explanation, true);
-    qDiv.appendChild(submitBtn);
+    const submit = document.createElement('button');
+    submit.textContent = 'Submit';
+    submit.onclick = () =>
+      checkAnswer(index, q.answers, inputType, q.explanation, true);
 
-    const resultDiv = document.createElement('div');
-    resultDiv.className = 'result';
-    resultDiv.id = `result${index}`;
-    qDiv.appendChild(resultDiv);
+    qDiv.appendChild(submit);
 
-    const explanationDiv = document.createElement('div');
-    explanationDiv.className = 'explanation';
-    explanationDiv.id = `explanation${index}`;
-    qDiv.appendChild(explanationDiv);
+    qDiv.appendChild(Object.assign(
+      document.createElement('div'),
+      { className: 'result', id: `result${index}` }
+    ));
+
+    qDiv.appendChild(Object.assign(
+      document.createElement('div'),
+      { className: 'explanation', id: `explanation${index}` }
+    ));
 
     container.appendChild(qDiv);
   });
@@ -204,47 +209,47 @@ function checkAnswer(index, correctAnswers, inputType, explanation, markAsSubmit
     return false;
   }
 
-  // ✅ Translate shuffled letters back to original for grading
-  const reverseMap = Object.fromEntries(
-    Object.entries(question.choiceMap || {}).map(([newK, oldK]) => [newK, oldK])
-  );
+  const reverseMap = question.choiceMap;
   const translated = selected.map(v => reverseMap[v]);
 
   const correctSet = new Set(correctAnswers);
   const selectedSet = new Set(translated);
 
-  const isCorrect = selectedSet.size === correctSet.size &&
-                    [...correctSet].every(a => selectedSet.has(a));
+  const isCorrect =
+    selectedSet.size === correctSet.size &&
+    [...correctSet].every(a => selectedSet.has(a));
 
-  if (isCorrect) {
-    result.textContent = "✅ Correct!";
-    result.className = 'result correct';
-    block.classList.remove('highlight-missed');
-  } else {
-    result.textContent = `❌ Incorrect. Correct answer${correctAnswers.length > 1 ? 's are' : ' is'}: ${correctAnswers.join(', ')}`;
-    result.className = 'result incorrect';
-    block.classList.add('highlight-missed');
-  }
+  result.textContent = isCorrect
+    ? "✅ Correct!"
+    : `❌ Incorrect. Correct answer${correctAnswers.length > 1 ? 's' : ''}: ${correctAnswers.join(', ')}`;
+
+  result.className = 'result ' + (isCorrect ? 'correct' : 'incorrect');
+
+  if (!isCorrect) block.classList.add('highlight-missed');
+  else block.classList.remove('highlight-missed');
 
   explanationDiv.textContent = explanation;
-  if (markAsSubmitted) window.userAnswers[index] = isCorrect;
 
+  if (markAsSubmitted) window.userAnswers[index] = isCorrect;
   return isCorrect;
 }
 
 function showQuestion(index) {
   if (!window.quizData) return;
-  const total = quizData.length;
-  if (index < 0 || index >= total) return;
+  if (index < 0 || index >= quizData.length) return;
 
-  document.querySelectorAll('.question-block').forEach(q => q.classList.remove('active'));
+  document.querySelectorAll('.question-block')
+    .forEach(q => q.classList.remove('active'));
+
   const block = document.getElementById(`question-${index}`);
   block.classList.add('active');
   block.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
   currentQuestionIndex = index;
   document.getElementById('prevBtn').disabled = index === 0;
-  document.getElementById('nextBtn').disabled = index === total - 1;
+  document.getElementById('nextBtn').disabled = index === quizData.length - 1;
+
+  speakQuestion(index);    // <-- voice integration hook
 }
 
 function finishQuiz() {
@@ -255,33 +260,22 @@ function finishQuiz() {
   list.innerHTML = '';
 
   for (let i = 0; i < total; i++) {
-    const question = window.quizData[i];
-    const inputType = question.answers.length > 1 ? 'checkbox' : 'radio';
+    const q = window.quizData[i];
+    const inputType = q.answers.length > 1 ? 'checkbox' : 'radio';
     const wasAnswered = window.userAnswers[i] !== undefined;
 
-    let isCorrect = false;
+    let isCorrect = wasAnswered
+      ? window.userAnswers[i]
+      : checkAnswer(i, q.answers, inputType, q.explanation, true);
 
-    if (!wasAnswered) {
-      isCorrect = checkAnswer(i, question.answers, inputType, question.explanation, true);
-    } else {
-      isCorrect = window.userAnswers[i];
-    }
+    if (isCorrect) correct++;
 
     const li = document.createElement('li');
-    const questionNum = i + 1;
+    li.textContent =
+      `Question ${i + 1} – ` +
+      (wasAnswered ? (isCorrect ? "✅ Correct" : "❌ Incorrect") : "⚠️ Missed");
 
-    if (!wasAnswered) {
-      li.textContent = `Question ${questionNum} – ⚠️ Missed`;
-    } else if (isCorrect) {
-      li.textContent = `Question ${questionNum} – ✅ Correct`;
-      correct++;
-    } else {
-      li.textContent = `Question ${questionNum} – ❌ Incorrect`;
-    }
-
-    // ✅ Click summary → focus & flash
     li.style.cursor = 'pointer';
-    li.title = "Click to view question";
     li.addEventListener('click', () => {
       showQuestion(i);
       const block = document.getElementById(`question-${i}`);
@@ -294,75 +288,98 @@ function finishQuiz() {
 
   const percent = Math.round((correct / total) * 100);
   document.getElementById('finalScore').textContent =
-    `✅ Final Score: ${percent}% (${correct} out of ${total})`;
+    `Final Score: ${percent}% (${correct}/${total})`;
 }
 
-/////// Voice recognition ////////
-// ==== Web Speech API Integration ====
-// Adds voice interaction: reads question and choices aloud, then listens for user answer
+/* ---------------------------------------------------------
+   VOICE RECOGNITION + SPEECH
+--------------------------------------------------------- */
 
 function speak(text) {
   if (!window.speechSynthesis) return;
-  const utterance = new window.SpeechSynthesisUtterance(text);
-  window.speechSynthesis.speak(utterance);
+  window.speechSynthesis.cancel();
+
+  const utter = new SpeechSynthesisUtterance(text);
+  window.speechSynthesis.speak(utter);
 }
 
-function listenForAnswer(onResultCallback) {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+function listenOnce(callback) {
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+
   if (!SpeechRecognition) {
-    alert('Speech Recognition API not supported in this browser.');
+    alert("Voice recognition not supported");
     return;
   }
-  const recognition = new SpeechRecognition();
-  recognition.lang = 'en-US';
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 1;
-  recognition.onresult = (event) => {
-    const transcript = event.results[0][0].transcript.trim();
-    onResultCallback(transcript);
+
+  const rec = new SpeechRecognition();
+  rec.lang = "en-US";
+  rec.interimResults = false;
+  rec.maxAlternatives = 1;
+
+  rec.onresult = evt => {
+    const text = evt.results[0][0].transcript.trim();
+    callback(text);
   };
-  recognition.onerror = (event) => {
-    console.error('Speech recognition error', event.error);
-  };
-  recognition.start();
+
+  rec.onerror = e => console.error("Speech error:", e.error);
+  rec.start();
 }
 
-// Enhance showQuestion to trigger speak() and listenForAnswer after question display
-const originalShowQuestion = showQuestion;
-showQuestion = function(index) {
-  originalShowQuestion.call(this, index);
-  const questionObj = window.quizData ? window.quizData[index] : null;
-  if (!questionObj) return;
-  // Prepare text: "Question: ... Possible answers: A. ..., B. ..."
-  let qText = `${questionObj.questionText}. Possible answers: `;
-  const choiceEntries = Object.entries(questionObj.choices).map(([label, txt]) => `${label}: ${txt}`);
-  qText += choiceEntries.join(', ');
-  speak(qText);
-  // Start listening after speech is done (approximate, as API does not give true end event)
-  setTimeout(() => {
-    listenForAnswer((spoken) => {
-      // Match spoken response to available answers (accept letter or text)
-      let selectedKey = null;
-      for (const [key, opt] of Object.entries(questionObj.choices)) {
-        // Accept label (A, B, C) or option text
-        if (
-          spoken.toLowerCase() === key.toLowerCase() ||
-          spoken.toLowerCase().includes(opt.toLowerCase())
-        ) {
-          selectedKey = key;
-          break;
-        }
-      }
-      if (selectedKey) {
-        // Check answer and mark as submitted
-        checkAnswer(index, questionObj.answers, questionObj.answers.length > 1 ? 'checkbox' : 'radio', questionObj.explanation, true);
-        speak('Your answer is submitted.');
-      } else {
-        speak('Could not match to any answer. Please try again or select manually.');
-      }
-    });
-  }, Math.max(2500, qText.length * 45)); // Wait by text length (approx.)
+function speakQuestion(index) {
+  const q = quizData[index];
+
+  let txt = `${q.questionText}. Options: `;
+  for (const [label, choice] of Object.entries(q.choiceMap)) {
+    const orig = q.choices[q.choiceMap[label]];
+    txt += `${label}: ${orig}. `;
+  }
+
+  speak(txt);
+
+  // Start listening 1.5–3 seconds after speech (approx)
+  setTimeout(() => listenForVoiceAnswer(index), 2200);
 }
-// ==== End Web Speech API Integration ====
 
+function listenForVoiceAnswer(index) {
+  const q = quizData[index];
+  listenOnce(spoken => {
+    spoken = spoken.toLowerCase();
 
+    let chosenLabel = null;
+
+    for (const [newLabel, origLabel] of Object.entries(q.choiceMap)) {
+      const choiceText = q.choices[origLabel].toLowerCase();
+
+      if (
+        spoken === newLabel.toLowerCase() ||
+        spoken.includes(choiceText)
+      ) {
+        chosenLabel = newLabel;
+        break;
+      }
+    }
+
+    if (!chosenLabel) {
+      speak("I did not recognize that. Please try again.");
+      return;
+    }
+
+    // Mark answer in UI
+    const input = document.querySelector(
+      `input[name="q${index}"][value="${chosenLabel}"]`
+    );
+    if (input) input.checked = true;
+
+    // Submit
+    const isCorrect = checkAnswer(
+      index,
+      q.answers,
+      q.answers.length > 1 ? "checkbox" : "radio",
+      q.explanation,
+      true
+    );
+
+    speak(isCorrect ? "Correct." : "Submitted.");
+  });
+}
