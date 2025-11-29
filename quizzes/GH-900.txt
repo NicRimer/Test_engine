@@ -1040,13 +1040,11 @@ Option E is incorrect because GitHub Desktop is not a self-hosted version of Git
 
 10. Which of the following steps are part of the Codespaces lifecycle? (Each answer presents a complete solution. Choose three.)
 A. Commit
-B. Clone
+B. Create
 C. Rebuild
-D. Rollback
+D. Clone
 E. Delete
-F. Create
-G. Install
-Answer: C,E,F
+Answer: B,C,E
 Explanation:
 The Codespaces lifecycle on GitHub includes several key steps:
 Create: This is the step where a new Codespace is initiated.
@@ -1165,32 +1163,23 @@ matching associated text with syntax, where only the comment option is correct.
 Reference: GitHub Flavored Markdown (GFM)
 GitHub Docs: Basic writing and formatting syntax
 
-
 6. Which of the following is an Innersource development practice?
 A. Adopting open source code into the organization
-B. Sharing code between teams within the organization
+B. Sharing code between teams within the organization
 C. Removing open source code from the organization
 D. Making all repositories publicly accessible
 Answer: B
 Explanation:
-Innersource is a development practice where an organization adopts open-source development
-methodologies within its own internal environment. The primary goal of innersource is to break
-down silos and encourage collaboration across different teams within the organization.
+Innersource is a development practice where an organization adopts open-source development methodologies within its own internal environment. The primary goal of innersource is to break down silos and encourage collaboration across different teams within the organization.
 Sharing Code Between Teams:
-Option B is correct because innersource involves sharing code between teams within the
-organization, similar to how open-source communities share code across the public domain.
-This practice fosters collaboration, improves code quality, and allows for reuse of code,
-reducing duplication of efforts.
+Option B is correct because innersource involves sharing code between teams within the organization, similar to how open-source communities share code across the public domain.
+This practice fosters collaboration, improves code quality, and allows for reuse of code, reducing duplication of efforts.
 Incorrect Options:
-Option A is incorrect because adopting open-source code into the organization is related to
-using open-source software, not specifically to innersource practices.
-Option C is incorrect because removing open-source code from the organization is contrary to
-the principles of both open source and innersource.
-Option D is incorrect because making all repositories publicly accessible refers to open source,
-not innersource. Innersource typically involves keeping code internal to the organization.
+Option A is incorrect because adopting open-source code into the organization is related to using open-source software, not specifically to innersource practices.
+Option C is incorrect because removing open-source code from the organization is contrary to the principles of both open source and innersource.
+Option D is incorrect because making all repositories publicly accessible refers to open source, not innersource. Innersource typically involves keeping code internal to the organization.
 Reference: GitHub Docs: What is Innersource?
 Innersource Commons: The Basics
-
 
 7. Which of the following options is available as a default Discussion category?
 A. Bug report
@@ -1199,33 +1188,22 @@ C. Show and tell
 D. Security concern
 Answer: C
 Explanation:
-In GitHub Discussions, several default categories are provided to help organize conversations
-within a project. One of the default categories is Show and tell. This category is designed for
-users to showcase their work, share progress, or discuss achievements with the community.
-The other options listed (Bug report, Daily check-in, Security concern) are not default categories
-but could be custom categories created by the repository maintainers.
+In GitHub Discussions, several default categories are provided to help organize conversations within a project. One of the default categories is Show and tell. This category is designed for users to showcase their work, share progress, or discuss achievements with the community. The other options listed (Bug report, Daily check-in, Security concern) are not default categories but could be custom categories created by the repository maintainers.
 
 8. How can a user create a repository template, and what permissions are required?
 A. With Admin permissions, navigate to Repository settings and select Template Repository.
-B. With Maintain permissions, navigate to Organization settings, select the repository, and
-choose Template Repository.
-C. With Admin permissions, navigate to Organization settings, select the repository, and choose
-Template Repository.
+B. With Maintain permissions, navigate to Organization settings, select the repository, and choose Template Repository.
+C. With Admin permissions, navigate to Organization settings, select the repository, and choose Template Repository.
 D. With Maintain permissions, navigate to Repository settings and select Template Repository.
 Answer: A
 Explanation:
-Creating a repository template in GitHub requires specific steps and permissions:
-Creating a Repository Template:
-Option A is correct because a user with Admin permissions can navigate to the repository's
-settings and enable the "Template Repository" option. This allows other users to generate new
+Creating a repository template in GitHub requires specific steps and permissions: Creating a Repository Template:
+Option A is correct because a user with Admin permissions can navigate to the repository's settings and enable the "Template Repository" option. This allows other users to generate new
 repositories from this template, which includes all branches, tags, and file history.
-Other Options:
-Option B is incorrect because "Maintain" permissions do not allow the creation of repository
-templates, and the option is not found in Organization settings but in the repository settings.
-Option C is incorrect because the "Template Repository" option is in the repository settings, not
-in Organization settings.
-Option D is incorrect because "Maintain" permissions do not grant the ability to create a
-repository template.
+Other Options: 
+Option B is incorrect because "Maintain" permissions do not allow the creation of repository templates, and the option is not found in Organization settings but in the repository settings.
+Option C is incorrect because the "Template Repository" option is in the repository settings, not in Organization settings.
+Option D is incorrect because "Maintain" permissions do not grant the ability to create a repository template.
 Reference: GitHub Docs: Creating a Template Repository
 
 
@@ -1236,25 +1214,15 @@ C. A separate, isolated copy of the project's codebase
 D. A new repository that shares code with the original "upstream" repository
 Answer: C
 Explanation:
-In Git, a branch is a fundamental concept that represents an independent line of development
-within a project. Here's a more detailed explanation:
-Branch in Git:
-Option C is correct because a branch in Git is essentially a separate, isolated copy of the
-project's codebase where you can make changes without affecting the main codebase.
-Branches allow developers to work on features, fixes, or experiments in parallel to the main
-project.
+In Git, a branch is a fundamental concept that represents an independent line of development within a project. Here's a more detailed explanation: Branch in Git:
+Option C is correct because a branch in Git is essentially a separate, isolated copy of the project's codebase where you can make changes without affecting the main codebase.
+Branches allow developers to work on features, fixes, or experiments in parallel to the main project.
 Other Options:
-Option A is incorrect because while a branch does point to a specific commit (which represents
-a snapshot of the project), the description lacks the emphasis on the isolated and parallel
-development aspect that is critical to the understanding of branches.
-Option B is incorrect because a branch is not a physical copy stored on disk; it is a logical
-reference within the repository.
-Option D is incorrect because that description better fits the concept of a fork, not a branch. A
-fork is a new repository that is a copy of another repository, usually used to contribute back to
-the original ("upstream") repository.
+Option A is incorrect because while a branch does point to a specific commit (which represents a snapshot of the project), the description lacks the emphasis on the isolated and parallel development aspect that is critical to the understanding of branches.
+Option B is incorrect because a branch is not a physical copy stored on disk; it is a logical reference within the repository.
+Option D is incorrect because that description better fits the concept of a fork, not a branch. A fork is a new repository that is a copy of another repository, usually used to contribute back to the original ("upstream") repository.
 Reference: Git Documentation: Branches in a Nutshell
 GitHub Docs: Understanding the GitHub Flow
-
 
 10. GitHub Actions workflows can be directly triggered by which of the following events?(Each answer presents a complete solution. Choose three.)
 A. Adding a comment to a discussion post
@@ -1265,25 +1233,16 @@ E. Disabling a GitHub runner
 F. Creating an Issue
 Answer: A,D,F
 Explanation:
-GitHub Actions are automated workflows that can be triggered by various events on GitHub.
-Some common events that trigger workflows include pushes to a repository, creation of issues,
-and comments on discussion posts.
+GitHub Actions are automated workflows that can be triggered by various events on GitHub. Some common events that trigger workflows include pushes to a repository, creation of issues, and comments on discussion posts.
 Triggering GitHub Actions:
-Option D (Pushing to a GitHub repository) is correct because this is one of the most common
-triggers for CI/CD workflows.
-Option F (Creating an Issue) is correct because issues are commonly used as triggers for
-workflows, such as automatically assigning a label or notifying a team.
-Option A (Adding a comment to a discussion post) is correct because actions can be triggered
-by activity on discussion posts, including comments.
+Option D (Pushing to a GitHub repository) is correct because this is one of the most common triggers for CI/CD workflows.
+Option F (Creating an Issue) is correct because issues are commonly used as triggers for workflows, such as automatically assigning a label or notifying a team.
+Option A (Adding a comment to a discussion post) is correct because actions can be triggered by activity on discussion posts, including comments.
 Incorrect Options:
-Option B (Creating a new repository) is incorrect because this action typically does not trigger
-workflows within a specific repository.
-Option C (Committing a change to a local git repository) is incorrect because GitHub Actions are
-triggered by events on the GitHub platform, not by local commits.
-Option E (Disabling a GitHub runner) is incorrect because it is related to the environment where
-actions are executed, not a trigger for workflows.
+Option B (Creating a new repository) is incorrect because this action typically does not trigger workflows within a specific repository.
+Option C (Committing a change to a local git repository) is incorrect because GitHub Actions are triggered by events on the GitHub platform, not by local commits.
+Option E (Disabling a GitHub runner) is incorrect because it is related to the environment where actions are executed, not a trigger for workflows.
 Reference: GitHub Docs: Events That Trigger Workflows
-
 
 11. Workflows can reference actions in: (Each correct answer presents a complete solution. Choose three.)
 A. Any public repository.
@@ -1293,20 +1252,12 @@ D. An enterprise marketplace.
 E. A published Docker container image on Docker Hub.
 Answer: A,B,E
 Explanation:
-As mentioned in the answer to Question no. 66, GitHub Actions workflows can reference actions
-from a variety of sources:
-Any Public Repository:
-Option A is correct. Actions can be sourced from any public GitHub repository.
-The Same Repository as Your Workflow File:
-Option B is correct. Actions within the same repository as the workflow file can be referenced
-directly.
-A Published Docker Container Image on Docker Hub:
-Option E is correct. Workflows can also use actions provided as Docker container images from
-Docker Hub.
-Incorrect Options:
-Option C and D are not relevant for directly referencing actions in workflows.
+As mentioned in the answer to Question no. 66, GitHub Actions workflows can reference actions from a variety of sources: Any Public Repository:
+Option A is correct. Actions can be sourced from any public GitHub repository. The Same Repository as Your Workflow File:
+Option B is correct. Actions within the same repository as the workflow file can be referenced directly. A Published Docker Container Image on Docker Hub:
+Option E is correct. Workflows can also use actions provided as Docker container images from Docker Hub.
+Incorrect Options: Option C and D are not relevant for directly referencing actions in workflows.
 Reference: GitHub Docs: Reusing Workflows
-
 
 12. New open source contributors can receive funding from GitHub sponsors:
 A. Using PayPal as a payment processor.
