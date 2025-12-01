@@ -85,15 +85,22 @@ const VoiceManager = {
     this.recognition.start();
   },
 
-  speakQuestion(question) {
-    if (!this.autoRead || !this.enabled) return;
-    let txt = `${question.text}. Options: `;
-    for (const [label, origLabel] of Object.entries(question.choiceMap)) {
-      txt += `${label}: ${question.choices[origLabel]}. `;
-    }
-    this.speak(txt);
-    setTimeout(() => this.listenForAnswer(question), 2200);
-  },
+function speakQuestion(index) {
+  const autoReadEnabled = document.getElementById('autoReadToggle').checked;
+  if (!autoReadEnabled) return; // Do nothing if auto-reading is off
+
+  const q = quizData[index];
+  let txt = `${q.questionText}. Options: `;
+  for (const [label, choice] of Object.entries(q.choiceMap)) {
+    const orig = q.choices[choice];
+    txt += `${label}: ${orig}. `;
+  }
+
+  speak(txt);
+
+  // Start listening 1.5–3 seconds after speech
+  setTimeout(() => listenForVoiceAnswer(index), 2200);
+},
 
   listenForAnswer(questionIndex) {
     const question = window.quizData[questionIndex];
