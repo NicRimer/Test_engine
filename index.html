@@ -11,12 +11,13 @@
 <div id="quizSetupBlock">
   <h3>Check your knowledge</h3>
   <div><b>Note:</b> please select shuffle option before loading quiz</div>
-  <table border=0>
+  <table border="0">
     <tr>
       <th><label><input type="checkbox" id="shuffleToggle"> Shuffle questions</label></th>
       <th><label><input type="checkbox" id="shuffleAnswersToggle"> Shuffle answers</label></th>
     </tr>
   </table>
+
   <div style="margin-top:10px;">
     <label for="quizFileSelect">Choose quiz from project:</label>
     <select id="quizFileSelect">
@@ -27,11 +28,12 @@
     <button id="loadQuizFileBtn">Load</button> or
     <input type="file" id="fileInput" accept=".txt" title="Upload a Quiz File (.txt)">
   </div>
-  <br>
-  <div style="display:flex; gap:20px; align-items:center;">
+
+  <div style="display:flex; gap:20px; align-items:center; margin-top:10px;">
     <label><input type="checkbox" id="voiceToggle"> Enable Voice Recognition</label>
     <label><input type="checkbox" id="autoReadToggle" checked> Enable Auto Reading</label>
   </div>
+
   <button id="voiceBtn" style="margin-top:10px;">🎤 Answer by Voice</button>
 </div>
 
@@ -58,6 +60,47 @@
 
 <div id="voiceOutput" style="margin-top:1em; font-style: italic;"></div>
 
-<script src="quiz.js"></script>
+<!-- Modular JS Files -->
+<script type="module">
+  import { QuizEngine } from './quizEngine.js';
+  import { FileManager } from './fileManager.js';
+  import { VoiceManager } from './voiceManager.js';
+
+  // Initialize engine
+  document.addEventListener('DOMContentLoaded', () => {
+    // Set initial autoRead from checkbox
+    VoiceManager.autoRead = document.getElementById('autoReadToggle').checked;
+
+    // Initialize Quiz Engine
+    QuizEngine.init({ VoiceManager, FileManager });
+
+    // Voice toggle listeners
+    document.getElementById('voiceToggle').addEventListener('change', (e) => {
+      VoiceManager.enabled = e.target.checked;
+      document.getElementById('voiceBtn').disabled = !VoiceManager.enabled;
+      document.getElementById('voiceOutput').textContent = VoiceManager.enabled ? "🎤 Voice enabled" : "🔇 Voice disabled";
+    });
+
+    document.getElementById('autoReadToggle').addEventListener('change', (e) => {
+      VoiceManager.autoRead = e.target.checked;
+      document.getElementById('voiceOutput').textContent = VoiceManager.autoRead ? "📝 Auto-read enabled" : "📝 Auto-read disabled";
+    });
+
+    // Voice button
+    document.getElementById('voiceBtn').addEventListener('click', () => {
+      if (!VoiceManager.enabled) {
+        document.getElementById('voiceOutput').textContent = "⚠️ Voice recognition is off";
+        return;
+      }
+      if (!VoiceManager.recognition) {
+        document.getElementById('voiceOutput').textContent = "❌ Not supported";
+        return;
+      }
+      document.getElementById('voiceOutput').textContent = "🎙️ Listening...";
+      VoiceManager.recognition.start();
+    });
+  });
+</script>
+
 </body>
 </html>
