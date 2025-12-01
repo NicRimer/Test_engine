@@ -294,6 +294,68 @@ function finishQuiz() {
 /* ---------------------------------------------------------
    VOICE RECOGNITION + SPEECH
 --------------------------------------------------------- */
+// ----- Voice Recognition Toggle -----
+const voiceToggle = document.getElementById('voiceToggle');
+const voiceBtn = document.getElementById('voiceBtn');
+const voiceOutput = document.getElementById('voiceOutput');
+
+let recognition;
+if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+} else {
+    console.warn("Speech recognition not supported in this browser.");
+}
+
+// Enable/Disable button depending on toggle
+voiceToggle.addEventListener('change', () => {
+    if (voiceToggle.checked) {
+        voiceBtn.disabled = false;
+        voiceOutput.innerHTML = "🎤 Voice recognition enabled.";
+    } else {
+        voiceBtn.disabled = true;
+        voiceOutput.innerHTML = "🔇 Voice recognition disabled.";
+    }
+});
+
+// Disable voice button on page load
+voiceBtn.disabled = true;
+
+
+// ----- Voice Answer Button -----
+voiceBtn.addEventListener('click', () => {
+    if (!voiceToggle.checked) {
+        voiceOutput.innerHTML = "⚠️ Voice recognition is turned off.";
+        return;
+    }
+
+    if (!recognition) {
+        voiceOutput.innerHTML = "❌ Speech recognition not supported.";
+        return;
+    }
+
+    voiceOutput.innerHTML = "🎙️ Listening...";
+    recognition.start();
+});
+
+// When recognition gets a result
+if (recognition) {
+    recognition.addEventListener('result', (event) => {
+        const text = event.results[0][0].transcript;
+        voiceOutput.innerHTML = `🗣️ You said: <b>${text}</b>`;
+
+        // TODO: Insert logic here to auto-select or validate an answer
+        // example: checkAnswerByVoice(text);
+    });
+
+    recognition.addEventListener('end', () => {
+        if (voiceToggle.checked) {
+            // Stop safely
+        }
+    });
+}
 
 function speak(text) {
   if (!window.speechSynthesis) return;
