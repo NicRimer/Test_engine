@@ -326,8 +326,13 @@ function listenOnce(callback) {
   rec.start();
 }
 
+const autoReadToggle = document.getElementById('autoReadToggle');
+
+// When showing a question, only read if auto reading is enabled
 function speakQuestion(index) {
   const q = quizData[index];
+
+  if (!autoReadToggle.checked) return; // skip auto reading
 
   let txt = `${q.questionText}. Options: `;
   for (const [label, choice] of Object.entries(q.choiceMap)) {
@@ -337,9 +342,23 @@ function speakQuestion(index) {
 
   speak(txt);
 
-  // Start listening 1.5–3 seconds after speech (approx)
-  setTimeout(() => listenForVoiceAnswer(index), 2200);
+  // If voice recognition is also enabled, listen after speaking
+  if (voiceToggle.checked) {
+    setTimeout(() => listenForVoiceAnswer(index), 2200);
+  }
 }
+
+// Optionally, start/stop voice button depending on toggle
+voiceToggle.addEventListener('change', () => {
+    voiceBtn.disabled = !voiceToggle.checked;
+    voiceOutput.innerHTML = voiceToggle.checked ? "🎤 Voice recognition enabled." : "🔇 Voice recognition disabled.";
+});
+
+autoReadToggle.addEventListener('change', () => {
+    voiceOutput.innerHTML = autoReadToggle.checked
+      ? "🗣️ Auto reading enabled."
+      : "🔇 Auto reading disabled.";
+});
 
 function listenForVoiceAnswer(index) {
   const q = quizData[index];
