@@ -294,7 +294,6 @@ function finishQuiz() {
 /* ---------------------------------------------------------
    VOICE RECOGNITION + SPEECH
 --------------------------------------------------------- */
-// ----- Voice Recognition Toggle -----
 const voiceToggle = document.getElementById('voiceToggle');
 const voiceBtn = document.getElementById('voiceBtn');
 const voiceOutput = document.getElementById('voiceOutput');
@@ -309,7 +308,6 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
     console.warn("Speech recognition not supported in this browser.");
 }
 
-// Enable/Disable button depending on toggle
 voiceToggle.addEventListener('change', () => {
     if (voiceToggle.checked) {
         voiceBtn.disabled = false;
@@ -320,11 +318,8 @@ voiceToggle.addEventListener('change', () => {
     }
 });
 
-// Disable voice button on page load
 voiceBtn.disabled = true;
 
-
-// ----- Voice Answer Button -----
 voiceBtn.addEventListener('click', () => {
     if (!voiceToggle.checked) {
         voiceOutput.innerHTML = "⚠️ Voice recognition is turned off.";
@@ -340,19 +335,79 @@ voiceBtn.addEventListener('click', () => {
     recognition.start();
 });
 
-// When recognition gets a result
+// --- Aggressive AI Hybrid Parser ---
+function parseVoiceAnswerAggressive(spoken, q) {
+    spoken = spoken.toLowerCase().replace(/[^\w\s]/g, '').trim();
+    let bestMatch = null;
+    let bestScore = -1;
+
+    for (const [newLabel, origLabel] of Object.entries(q.choiceMap)) {
+        const text = q.choices[origLabel].toLowerCase().replace(/[^\w\s]/g, '');
+        let score = 0;
+
+        if (spoken === newLabel.toLowerCase()) score += 100;
+        if (spoken.includes(text)) score += 80;
+
+        // fuzzy match: common words
+        const words = text.split(/\s+/);
+        for (const w of words) {
+            if (spoken.includes(w)) score += 5;
+        }
+
+        if (score > bestScore) {
+            bestScore = score;
+            bestMatch = newLabel;
+        }
+    }
+
+    return bestMatch; // can be null if nothing matches
+}
+
+// --- Voice Recognition Result ---
 if (recognition) {
     recognition.addEventListener('result', (event) => {
-        const text = event.results[0][0].transcript;
+        const text = event.results[0][0].transcript.trim();
         voiceOutput.innerHTML = `🗣️ You said: <b>${text}</b>`;
 
-        // TODO: Insert logic here to auto-select or validate an answer
-        // example: checkAnswerByVoice(text);
+        // --- Try normal parser first ---
+        const q = quizData[currentQuestionIndex];
+        let chosenLabel = null;
+
+        for (const [newLabel, origLabel] of Object.entries(q.choiceMap)) {
+            const choiceText = q.choices[origLabel].toLowerCase();
+            if (text.toLowerCase() === newLabel.toLowerCase() || text.toLowerCase().includes(choiceText)) {
+                chosenLabel = newLabel;
+                break;
+            }
+        }
+
+        // --- Aggressive AI fallback ---
+        if (!chosenLabel) {
+            chosenLabel = parseVoiceAnswerAggressive(text, q);
+        }
+
+        if (!chosenLabel) {
+            speak("I did not recognize that. Please try again.");
+            return;
+        }
+
+        const input = document.querySelector(`input[name="q${currentQuestionIndex}"][value="${chosenLabel}"]`);
+        if (input) input.checked = true;
+
+        const isCorrect = checkAnswer(
+            currentQuestionIndex,
+            q.answers,
+            q.answers.length > 1 ? "checkbox" : "radio",
+            q.explanation,
+            true
+        );
+
+        speak(isCorrect ? "Correct." : "Submitted.");
     });
 
     recognition.addEventListener('end', () => {
         if (voiceToggle.checked) {
-            // Stop safely
+            // safely end
         }
     });
 }
@@ -399,7 +454,6 @@ function speakQuestion(index) {
 
   speak(txt);
 
-  // Start listening 1.5–3 seconds after speech (approx)
   setTimeout(() => listenForVoiceAnswer(index), 2200);
 }
 
@@ -408,18 +462,19 @@ function listenForVoiceAnswer(index) {
   listenOnce(spoken => {
     spoken = spoken.toLowerCase();
 
+    // --- Normal parser ---
     let chosenLabel = null;
-
     for (const [newLabel, origLabel] of Object.entries(q.choiceMap)) {
       const choiceText = q.choices[origLabel].toLowerCase();
-
-      if (
-        spoken === newLabel.toLowerCase() ||
-        spoken.includes(choiceText)
-      ) {
+      if (spoken === newLabel.toLowerCase() || spoken.includes(choiceText)) {
         chosenLabel = newLabel;
         break;
       }
+    }
+
+    // --- Aggressive AI fallback ---
+    if (!chosenLabel) {
+      chosenLabel = parseVoiceAnswerAggressive(spoken, q);
     }
 
     if (!chosenLabel) {
@@ -427,13 +482,9 @@ function listenForVoiceAnswer(index) {
       return;
     }
 
-    // Mark answer in UI
-    const input = document.querySelector(
-      `input[name="q${index}"][value="${chosenLabel}"]`
-    );
+    const input = document.querySelector(`input[name="q${index}"][value="${chosenLabel}"]`);
     if (input) input.checked = true;
 
-    // Submit
     const isCorrect = checkAnswer(
       index,
       q.answers,
