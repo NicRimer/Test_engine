@@ -1,7 +1,8 @@
 // QuizEngine.js
-import { QuizQuestion } from './QuizQuestion.js';
-import { VoiceManager } from './VoiceManager.js';
-import { FileManager } from './FileManager.js';
+import { QuizQuestion } from 'QuizQuestion.js';
+import { shuffleArray, isAnswerCorrect } from 'helpers.js';
+import { VoiceManager } from 'VoiceManager.js';
+import { FileManager } from 'FileManager.js';
 
 export const QuizEngine = {
   currentIndex: 0,
