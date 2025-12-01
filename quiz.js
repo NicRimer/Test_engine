@@ -249,7 +249,8 @@ function showQuestion(index) {
   document.getElementById('prevBtn').disabled = index === 0;
   document.getElementById('nextBtn').disabled = index === quizData.length - 1;
 
-  speakQuestion(index);    // <-- voice integration hook
+  // Voice integration: speak question only if auto read enabled
+  speakQuestion(index);
 }
 
 function finishQuiz() {
@@ -294,7 +295,9 @@ function finishQuiz() {
 /* ---------------------------------------------------------
    VOICE RECOGNITION + SPEECH
 --------------------------------------------------------- */
+
 const voiceToggle = document.getElementById('voiceToggle');
+const autoReadToggle = document.getElementById('autoReadToggle');
 const voiceBtn = document.getElementById('voiceBtn');
 const voiceOutput = document.getElementById('voiceOutput');
 
@@ -308,106 +311,47 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
     console.warn("Speech recognition not supported in this browser.");
 }
 
+// Toggle voice recognition button
 voiceToggle.addEventListener('change', () => {
-    if (voiceToggle.checked) {
-        voiceBtn.disabled = false;
-        voiceOutput.innerHTML = "🎤 Voice recognition enabled.";
-    } else {
-        voiceBtn.disabled = true;
-        voiceOutput.innerHTML = "🔇 Voice recognition disabled.";
-    }
+    voiceBtn.disabled = !voiceToggle.checked;
+    voiceOutput.innerHTML = voiceToggle.checked
+      ? "🎤 Voice recognition enabled."
+      : "🔇 Voice recognition disabled.";
 });
 
+// Toggle auto read
+autoReadToggle.addEventListener('change', () => {
+    voiceOutput.innerHTML = autoReadToggle.checked
+      ? "🗣️ Auto reading enabled."
+      : "🔇 Auto reading disabled.";
+});
+
+// Disable voice button initially
 voiceBtn.disabled = true;
 
+// Voice answer button
 voiceBtn.addEventListener('click', () => {
     if (!voiceToggle.checked) {
         voiceOutput.innerHTML = "⚠️ Voice recognition is turned off.";
         return;
     }
-
     if (!recognition) {
         voiceOutput.innerHTML = "❌ Speech recognition not supported.";
         return;
     }
-
     voiceOutput.innerHTML = "🎙️ Listening...";
     recognition.start();
 });
 
-// --- Aggressive AI Hybrid Parser ---
-function parseVoiceAnswerAggressive(spoken, q) {
-    spoken = spoken.toLowerCase().replace(/[^\w\s]/g, '').trim();
-    let bestMatch = null;
-    let bestScore = -1;
-
-    for (const [newLabel, origLabel] of Object.entries(q.choiceMap)) {
-        const text = q.choices[origLabel].toLowerCase().replace(/[^\w\s]/g, '');
-        let score = 0;
-
-        if (spoken === newLabel.toLowerCase()) score += 100;
-        if (spoken.includes(text)) score += 80;
-
-        // fuzzy match: common words
-        const words = text.split(/\s+/);
-        for (const w of words) {
-            if (spoken.includes(w)) score += 5;
-        }
-
-        if (score > bestScore) {
-            bestScore = score;
-            bestMatch = newLabel;
-        }
-    }
-
-    return bestMatch; // can be null if nothing matches
-}
-
-// --- Voice Recognition Result ---
 if (recognition) {
     recognition.addEventListener('result', (event) => {
-        const text = event.results[0][0].transcript.trim();
+        const text = event.results[0][0].transcript;
         voiceOutput.innerHTML = `🗣️ You said: <b>${text}</b>`;
-
-        // --- Try normal parser first ---
-        const q = quizData[currentQuestionIndex];
-        let chosenLabel = null;
-
-        for (const [newLabel, origLabel] of Object.entries(q.choiceMap)) {
-            const choiceText = q.choices[origLabel].toLowerCase();
-            if (text.toLowerCase() === newLabel.toLowerCase() || text.toLowerCase().includes(choiceText)) {
-                chosenLabel = newLabel;
-                break;
-            }
-        }
-
-        // --- Aggressive AI fallback ---
-        if (!chosenLabel) {
-            chosenLabel = parseVoiceAnswerAggressive(text, q);
-        }
-
-        if (!chosenLabel) {
-            speak("I did not recognize that. Please try again.");
-            return;
-        }
-
-        const input = document.querySelector(`input[name="q${currentQuestionIndex}"][value="${chosenLabel}"]`);
-        if (input) input.checked = true;
-
-        const isCorrect = checkAnswer(
-            currentQuestionIndex,
-            q.answers,
-            q.answers.length > 1 ? "checkbox" : "radio",
-            q.explanation,
-            true
-        );
-
-        speak(isCorrect ? "Correct." : "Submitted.");
     });
 
     recognition.addEventListener('end', () => {
         if (voiceToggle.checked) {
-            // safely end
+            // safe stop
         }
     });
 }
@@ -415,7 +359,6 @@ if (recognition) {
 function speak(text) {
   if (!window.speechSynthesis) return;
   window.speechSynthesis.cancel();
-
   const utter = new SpeechSynthesisUtterance(text);
   window.speechSynthesis.speak(utter);
 }
@@ -446,6 +389,8 @@ function listenOnce(callback) {
 function speakQuestion(index) {
   const q = quizData[index];
 
+  if (!autoReadToggle.checked) return; // Skip reading if auto read disabled
+
   let txt = `${q.questionText}. Options: `;
   for (const [label, choice] of Object.entries(q.choiceMap)) {
     const orig = q.choices[q.choiceMap[label]];
@@ -454,7 +399,9 @@ function speakQuestion(index) {
 
   speak(txt);
 
-  setTimeout(() => listenForVoiceAnswer(index), 2200);
+  if (voiceToggle.checked) {
+    setTimeout(() => listenForVoiceAnswer(index), 2200);
+  }
 }
 
 function listenForVoiceAnswer(index) {
@@ -462,19 +409,14 @@ function listenForVoiceAnswer(index) {
   listenOnce(spoken => {
     spoken = spoken.toLowerCase();
 
-    // --- Normal parser ---
     let chosenLabel = null;
+
     for (const [newLabel, origLabel] of Object.entries(q.choiceMap)) {
       const choiceText = q.choices[origLabel].toLowerCase();
       if (spoken === newLabel.toLowerCase() || spoken.includes(choiceText)) {
         chosenLabel = newLabel;
         break;
       }
-    }
-
-    // --- Aggressive AI fallback ---
-    if (!chosenLabel) {
-      chosenLabel = parseVoiceAnswerAggressive(spoken, q);
     }
 
     if (!chosenLabel) {
