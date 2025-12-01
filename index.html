@@ -17,60 +17,47 @@
       <th><label><input type="checkbox" id="shuffleAnswersToggle"> Shuffle answers</label></th>
     </tr>
   </table>
-  <div>
+  <div style="margin-top:10px;">
     <label for="quizFileSelect">Choose quiz from project:</label>
     <select id="quizFileSelect">
       <option value="quizzes/GH-900.txt">GH-900.txt</option>
       <option value="quizzes/GH-300.txt">GH-300.txt</option>
       <option value="quizzes/GH-000.txt">extra.txt</option>
-      <!-- Add more quiz files as needed -->
     </select>
     <button id="loadQuizFileBtn">Load</button> or
-    <input type="file" id="fileInput" accept=".txt" title="Upload a Quiz File (.txt)"><br>
+    <input type="file" id="fileInput" accept=".txt" title="Upload a Quiz File (.txt)">
   </div>
   <br>
+  <div style="display:flex; gap:20px; align-items:center;">
+    <label><input type="checkbox" id="voiceToggle"> Enable Voice Recognition</label>
+    <label><input type="checkbox" id="autoReadToggle" checked> Enable Auto Reading</label>
+  </div>
+  <button id="voiceBtn" style="margin-top:10px;">🎤 Answer by Voice</button>
 </div>
-   
-<label style="display:flex; align-items:center; gap:8px; margin-top:10px;">
-  <input type="checkbox" id="voiceToggle"> Enable Voice Recognition
-</label>
-<label>
-  <input type="checkbox" id="autoReadToggle"> Enable Auto Reading
-</label>
-  
-<button id="voiceBtn">🎤 Answer by Voice</button>
-  <div class="nav-buttons">
-    <button id="prevBtn">Previous</button>
-    <button id="nextBtn">Next</button>
-  </div>
 
-  <div id="quizContainer"></div>
-  
-  <div class="nav-buttons">
-    <button id="finishQuizBtn">Finish Quiz</button>
-    <button id="restart">Restart Quiz</button>
-  </div>
-  <div id="finalScore"></div>
+<div class="nav-buttons" style="margin-top:20px;">
+  <button id="prevBtn">Previous</button>
+  <button id="nextBtn">Next</button>
+</div>
 
-  <div id="quizSummary" style="margin-top: 20px; display: none;">
-    <details open>
-      <summary>🧾 Summary:</summary>
-      <ul id="summaryList" class="summary-columns"></ul>
-    </details>
-  </div>
-  <script src="quiz.js"></script>
-  <div id="voiceOutput" style="margin-top:1em; font-style: italic;"></div>
+<div id="quizContainer" style="margin-top:20px;"></div>
+
+<div class="nav-buttons" style="margin-top:20px;">
+  <button id="finishQuizBtn">Finish Quiz</button>
+  <button id="restart">Restart Quiz</button>
+</div>
+
+<div id="finalScore" style="margin-top:10px;"></div>
+
+<div id="quizSummary" style="margin-top:20px; display: none;">
+  <details open>
+    <summary>🧾 Summary:</summary>
+    <ul id="summaryList" class="summary-columns"></ul>
+  </details>
+</div>
+
+<div id="voiceOutput" style="margin-top:1em; font-style: italic;"></div>
+
+<script src="quiz.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
