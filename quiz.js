@@ -1,56 +1,9 @@
 /* ---------------------------------------------------------
-   QUIZ ENGINE CORE
+   QUIZ ENGINE CORE - REFACTORED
 --------------------------------------------------------- */
 
-let currentQuestionIndex = 0;
-
-document.getElementById('fileInput').addEventListener('change', function(event) {
-  resetQuiz();
-  handleFile(event);
-  document.getElementById("quizSetupBlock").style.display = "none";
-});
-document.getElementById('finishQuizBtn').addEventListener('click', finishQuiz);
-document.getElementById('prevBtn').addEventListener('click', () => showQuestion(currentQuestionIndex - 1));
-document.getElementById('nextBtn').addEventListener('click', () => showQuestion(currentQuestionIndex + 1));
-document.getElementById('restart').addEventListener('click', () => resetQuiz());
-document.getElementById("quizSetupBlock").style.display = "";
-document.getElementById('loadQuizFileBtn').addEventListener('click', function() {
-  resetQuiz();
-  const selectedFile = document.getElementById('quizFileSelect').value;
-
-  fetch(selectedFile)
-    .then(res => {
-      if (!res.ok) throw new Error('File not found');
-      return res.text();
-    })
-    .then(content => {
-      let questions = parseQuestions(content);
-
-      if (document.getElementById('shuffleToggle').checked)
-        shuffleArray(questions);
-
-      window.shuffleAnswersEnabled = document.getElementById('shuffleAnswersToggle').checked;
-
-      window.quizData = questions;
-      window.userAnswers = {};
-      renderQuiz(questions);
-      showQuestion(0);
-    })
-    .catch(err => alert('Could not load file: ' + err.message));
-
-  document.getElementById("quizSetupBlock").style.display = "none";
-});
-
-function resetQuiz() {
-  window.quizData = [];
-  window.userAnswers = {};
-  document.getElementById('quizContainer').innerHTML = '';
-  document.getElementById('finalScore').textContent = '';
-  document.getElementById('summaryList').innerHTML = '';
-  document.getElementById('quizSummary').style.display = 'none';
-  document.getElementById('finishQuizBtn').style.display = 'none';
-  document.getElementById("quizSetupBlock").style.display = "";
-}
+// ---------------------- Helpers ----------------------
+const $ = id => document.getElementById(id);
 
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -59,382 +12,364 @@ function shuffleArray(array) {
   }
 }
 
-function handleFile(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const content = e.target.result;
-    let questions = parseQuestions(content);
-
-    if (document.getElementById('shuffleToggle').checked)
-      shuffleArray(questions);
-
-    window.shuffleAnswersEnabled = document.getElementById('shuffleAnswersToggle').checked;
-
-    window.quizData = questions;
-    window.userAnswers = {};
-    renderQuiz(questions);
-    showQuestion(0);
-  };
-  reader.readAsText(file);
+function isAnswerCorrect(selected, correct) {
+  const selectedSet = new Set(selected);
+  const correctSet = new Set(correct);
+  return selectedSet.size === correctSet.size &&
+         [...correctSet].every(a => selectedSet.has(a));
 }
 
-function parseQuestions(text) {
-  const questionBlocks = text.split(/\n(?=\d+\.\s)/);
-  const questions = [];
-  const seen = new Set();
-
-  questionBlocks.forEach(block => {
-    const lines = block.trim().split('\n').filter(Boolean);
-    if (lines.length < 6) return;
-
-    const questionText = lines[0].replace(/^\d+\.\s*/, '').trim();
-
-    if (seen.has(questionText.toLowerCase())) return;
-    seen.add(questionText.toLowerCase());
-
-    const choices = {};
-    let i = 1;
-    while (i < lines.length && /^[A-E]\.\s/.test(lines[i])) {
-      const match = lines[i].match(/^([A-E])\.\s*(.*)/);
-      if (match) choices[match[1]] = match[2];
-      i++;
-    }
-
-    const answerLine = lines.find(l => l.startsWith("Answer:"));
-    const rawAnswer = answerLine?.split("Answer:")[1]?.trim();
-    const answers = rawAnswer?.split(',').map(a => a.trim().toUpperCase()) || [];
-
-    const expStart = lines.findIndex(l => l.startsWith("Explanation:"));
-    const explanation = expStart !== -1
-      ? lines.slice(expStart + 1).join(' ')
-      : "";
-
-    questions.push({
-      questionText,
-      choices,
-      answers,
-      explanation
-    });
-  });
-
-  return questions;
-}
-
-function renderQuiz(questions) {
-  const container = document.getElementById('quizContainer');
-  container.innerHTML = '';
-
-  questions.forEach((q, index) => {
-    const qDiv = document.createElement('div');
-    qDiv.className = 'question-block';
-    qDiv.id = `question-${index}`;
-
-    const qText = document.createElement('p');
-    qText.innerHTML = `<strong>${index + 1}. ${q.questionText}</strong>`;
-    qDiv.appendChild(qText);
-
-    const choiceDiv = document.createElement('div');
-    choiceDiv.className = 'choices';
-
-    const inputType = q.answers.length > 1 ? 'checkbox' : 'radio';
-
-    let choiceEntries = Object.entries(q.choices);
-    if (window.shuffleAnswersEnabled) shuffleArray(choiceEntries);
-
-    const newLabels = ['A', 'B', 'C', 'D', 'E'];
-    const choiceMap = {}; // new → original
-
-    choiceEntries.forEach(([origKey, txt], i) => {
-      const newKey = newLabels[i];
-      choiceMap[newKey] = origKey;
-    });
-
-    q.choiceMap = choiceMap;
-
-    choiceEntries.forEach(([origKey, txt], i) => {
-      const newKey = newLabels[i];
-      const label = document.createElement('label');
-      label.innerHTML = `<input type="${inputType}" name="q${index}" value="${newKey}"> ${newKey}. ${txt}`;
-      choiceDiv.appendChild(label);
-    });
-
-    qDiv.appendChild(choiceDiv);
-
-    const submit = document.createElement('button');
-    submit.textContent = 'Submit';
-    submit.onclick = () =>
-      checkAnswer(index, q.answers, inputType, q.explanation, true);
-
-    qDiv.appendChild(submit);
-
-    qDiv.appendChild(Object.assign(
-      document.createElement('div'),
-      { className: 'result', id: `result${index}` }
-    ));
-
-    qDiv.appendChild(Object.assign(
-      document.createElement('div'),
-      { className: 'explanation', id: `explanation${index}` }
-    ));
-
-    container.appendChild(qDiv);
-  });
-
-  document.getElementById('finishQuizBtn').style.display = 'block';
-  document.getElementById('quizSummary').style.display = 'block';
-  window.totalQuestions = questions.length;
-}
-
-function checkAnswer(index, correctAnswers, inputType, explanation, markAsSubmitted = false) {
-  const question = window.quizData[index];
-  const inputs = document.getElementsByName(`q${index}`);
-  const selected = [];
-
-  inputs.forEach(input => {
-    if (input.checked) selected.push(input.value);
-  });
-
-  const result = document.getElementById(`result${index}`);
-  const explanationDiv = document.getElementById(`explanation${index}`);
-  const block = document.getElementById(`question-${index}`);
-
-  if (selected.length === 0) {
-    result.textContent = "Please select at least one answer.";
-    result.className = 'result incorrect';
-    explanationDiv.textContent = '';
-    block.classList.add('highlight-missed');
-    return false;
+// ---------------------- Quiz Question ----------------------
+class QuizQuestion {
+  constructor({ questionText, choices, answers, explanation }) {
+    this.text = questionText;
+    this.choices = choices;
+    this.answers = answers;
+    this.explanation = explanation;
+    this.choiceMap = {};
   }
 
-  const reverseMap = question.choiceMap;
-  const translated = selected.map(v => reverseMap[v]);
-
-  const correctSet = new Set(correctAnswers);
-  const selectedSet = new Set(translated);
-
-  const isCorrect =
-    selectedSet.size === correctSet.size &&
-    [...correctSet].every(a => selectedSet.has(a));
-
-  result.textContent = isCorrect
-    ? "✅ Correct!"
-    : `❌ Incorrect. Correct answer${correctAnswers.length > 1 ? 's' : ''}: ${correctAnswers.join(', ')}`;
-
-  result.className = 'result ' + (isCorrect ? 'correct' : 'incorrect');
-
-  if (!isCorrect) block.classList.add('highlight-missed');
-  else block.classList.remove('highlight-missed');
-
-  explanationDiv.textContent = explanation;
-
-  if (markAsSubmitted) window.userAnswers[index] = isCorrect;
-  return isCorrect;
-}
-
-function showQuestion(index) {
-  if (!window.quizData) return;
-  if (index < 0 || index >= quizData.length) return;
-
-  document.querySelectorAll('.question-block')
-    .forEach(q => q.classList.remove('active'));
-
-  const block = document.getElementById(`question-${index}`);
-  block.classList.add('active');
-  block.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-  currentQuestionIndex = index;
-  document.getElementById('prevBtn').disabled = index === 0;
-  document.getElementById('nextBtn').disabled = index === quizData.length - 1;
-
-  // Voice integration: speak question only if auto read enabled
-  speakQuestion(index);
-}
-
-function finishQuiz() {
-  const total = window.totalQuestions || 0;
-  let correct = 0;
-
-  const list = document.getElementById('summaryList');
-  list.innerHTML = '';
-
-  for (let i = 0; i < total; i++) {
-    const q = window.quizData[i];
-    const inputType = q.answers.length > 1 ? 'checkbox' : 'radio';
-    const wasAnswered = window.userAnswers[i] !== undefined;
-
-    let isCorrect = wasAnswered
-      ? window.userAnswers[i]
-      : checkAnswer(i, q.answers, inputType, q.explanation, true);
-
-    if (isCorrect) correct++;
-
-    const li = document.createElement('li');
-    li.textContent =
-      `Question ${i + 1} – ` +
-      (wasAnswered ? (isCorrect ? "✅ Correct" : "❌ Incorrect") : "⚠️ Missed");
-
-    li.style.cursor = 'pointer';
-    li.addEventListener('click', () => {
-      showQuestion(i);
-      const block = document.getElementById(`question-${i}`);
-      block.classList.add('flash-highlight');
-      setTimeout(() => block.classList.remove('flash-highlight'), 1000);
-    });
-
-    list.appendChild(li);
+  shuffleChoices() {
+    const entries = Object.entries(this.choices);
+    shuffleArray(entries);
+    const labels = ['A', 'B', 'C', 'D', 'E'];
+    entries.forEach(([origKey], i) => this.choiceMap[labels[i]] = origKey);
+    this.shuffledChoices = entries.map(([_, val], i) => [labels[i], val]);
   }
 
-  const percent = Math.round((correct / total) * 100);
-  document.getElementById('finalScore').textContent =
-    `Final Score: ${percent}% (${correct}/${total})`;
+  check(selected) {
+    const mapped = selected.map(v => this.choiceMap[v]);
+    return isAnswerCorrect(mapped, this.answers);
+  }
 }
 
-/* ---------------------------------------------------------
-   VOICE RECOGNITION + SPEECH
---------------------------------------------------------- */
+// ---------------------- Voice Manager ----------------------
+const VoiceManager = {
+  recognition: null,
+  enabled: false,
+  autoRead: true,
 
-const voiceToggle = document.getElementById('voiceToggle');
-const autoReadToggle = document.getElementById('autoReadToggle');
-const voiceBtn = document.getElementById('voiceBtn');
-const voiceOutput = document.getElementById('voiceOutput');
-
-let recognition;
-if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+  init() {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    recognition = new SpeechRecognition();
-    recognition.lang = 'en-US';
-    recognition.interimResults = false;
-} else {
-    console.warn("Speech recognition not supported in this browser.");
-}
-
-// Toggle voice recognition button
-voiceToggle.addEventListener('change', () => {
-    voiceBtn.disabled = !voiceToggle.checked;
-    voiceOutput.innerHTML = voiceToggle.checked
-      ? "🎤 Voice recognition enabled."
-      : "🔇 Voice recognition disabled.";
-});
-
-// Toggle auto read
-autoReadToggle.addEventListener('change', () => {
-    voiceOutput.innerHTML = autoReadToggle.checked
-      ? "🗣️ Auto reading enabled."
-      : "🔇 Auto reading disabled.";
-});
-
-// Disable voice button initially
-voiceBtn.disabled = true;
-
-// Voice answer button
-voiceBtn.addEventListener('click', () => {
-    if (!voiceToggle.checked) {
-        voiceOutput.innerHTML = "⚠️ Voice recognition is turned off.";
-        return;
-    }
-    if (!recognition) {
-        voiceOutput.innerHTML = "❌ Speech recognition not supported.";
-        return;
-    }
-    voiceOutput.innerHTML = "🎙️ Listening...";
-    recognition.start();
-});
-
-if (recognition) {
-    recognition.addEventListener('result', (event) => {
-        const text = event.results[0][0].transcript;
-        voiceOutput.innerHTML = `🗣️ You said: <b>${text}</b>`;
-    });
-
-    recognition.addEventListener('end', () => {
-        if (voiceToggle.checked) {
-            // safe stop
-        }
-    });
-}
-
-function speak(text) {
-  if (!window.speechSynthesis) return;
-  window.speechSynthesis.cancel();
-  const utter = new SpeechSynthesisUtterance(text);
-  window.speechSynthesis.speak(utter);
-}
-
-function listenOnce(callback) {
-  const SpeechRecognition =
-    window.SpeechRecognition || window.webkitSpeechRecognition;
-
-  if (!SpeechRecognition) {
-    alert("Voice recognition not supported");
-    return;
-  }
-
-  const rec = new SpeechRecognition();
-  rec.lang = "en-US";
-  rec.interimResults = false;
-  rec.maxAlternatives = 1;
-
-  rec.onresult = evt => {
-    const text = evt.results[0][0].transcript.trim();
-    callback(text);
-  };
-
-  rec.onerror = e => console.error("Speech error:", e.error);
-  rec.start();
-}
-
-function speakQuestion(index) {
-  const q = quizData[index];
-
-  if (!autoReadToggle.checked) return; // Skip reading if auto read disabled
-
-  let txt = `${q.questionText}. Options: `;
-  for (const [label, choice] of Object.entries(q.choiceMap)) {
-    const orig = q.choices[q.choiceMap[label]];
-    txt += `${label}: ${orig}. `;
-  }
-
-  speak(txt);
-
-  if (voiceToggle.checked) {
-    setTimeout(() => listenForVoiceAnswer(index), 2200);
-  }
-}
-
-function listenForVoiceAnswer(index) {
-  const q = quizData[index];
-  listenOnce(spoken => {
-    spoken = spoken.toLowerCase();
-
-    let chosenLabel = null;
-
-    for (const [newLabel, origLabel] of Object.entries(q.choiceMap)) {
-      const choiceText = q.choices[origLabel].toLowerCase();
-      if (spoken === newLabel.toLowerCase() || spoken.includes(choiceText)) {
-        chosenLabel = newLabel;
-        break;
-      }
-    }
-
-    if (!chosenLabel) {
-      speak("I did not recognize that. Please try again.");
+    if (!SpeechRecognition) {
+      console.warn("Speech recognition not supported.");
       return;
     }
+    this.recognition = new SpeechRecognition();
+    this.recognition.lang = 'en-US';
+    this.recognition.interimResults = false;
 
-    const input = document.querySelector(`input[name="q${index}"][value="${chosenLabel}"]`);
-    if (input) input.checked = true;
+    this.recognition.addEventListener('result', (event) => {
+      const text = event.results[0][0].transcript.trim();
+      $('voiceOutput').innerHTML = `🗣️ You said: <b>${text}</b>`;
+      if (this.onResult) this.onResult(text);
+    });
 
-    const isCorrect = checkAnswer(
-      index,
-      q.answers,
-      q.answers.length > 1 ? "checkbox" : "radio",
-      q.explanation,
-      true
-    );
+    this.recognition.addEventListener('end', () => {
+      if (this.enabled && this.autoRead) {
+        // can restart if needed
+      }
+    });
+  },
 
-    speak(isCorrect ? "Correct." : "Submitted.");
-  });
-}
+  speak(text) {
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    window.speechSynthesis.speak(utter);
+  },
+
+  listenOnce(callback) {
+    if (!this.recognition) return;
+    this.onResult = callback;
+    this.recognition.start();
+  },
+
+  speakQuestion(question) {
+    if (!this.autoRead || !this.enabled) return;
+    let txt = `${question.text}. Options: `;
+    for (const [label, origLabel] of Object.entries(question.choiceMap)) {
+      txt += `${label}: ${question.choices[origLabel]}. `;
+    }
+    this.speak(txt);
+    setTimeout(() => this.listenForAnswer(question), 2200);
+  },
+
+  listenForAnswer(questionIndex) {
+    const question = window.quizData[questionIndex];
+    this.listenOnce(spoken => {
+      spoken = spoken.toLowerCase();
+      let chosenLabel = null;
+      for (const [newLabel, origLabel] of Object.entries(question.choiceMap)) {
+        const choiceText = question.choices[origLabel].toLowerCase();
+        if (spoken === newLabel.toLowerCase() || spoken.includes(choiceText)) {
+          chosenLabel = newLabel;
+          break;
+        }
+      }
+
+      if (!chosenLabel) {
+        this.speak("I did not recognize that. Please try again.");
+        return;
+      }
+
+      // Mark answer
+      const input = document.querySelector(`input[name="q${questionIndex}"][value="${chosenLabel}"]`);
+      if (input) input.checked = true;
+
+      // Submit
+      const isCorrect = QuizEngine.checkAnswer(questionIndex);
+      this.speak(isCorrect ? "Correct." : "Submitted.");
+    });
+  }
+};
+
+// ---------------------- Quiz Engine ----------------------
+const QuizEngine = {
+  currentIndex: 0,
+  quizData: [],
+  userAnswers: {},
+
+  init() {
+    // Event listeners
+    $('fileInput').addEventListener('change', e => {
+      this.reset();
+      FileManager.handleFile(e);
+      $('quizSetupBlock').style.display = 'none';
+    });
+
+    $('loadQuizFileBtn').addEventListener('click', () => {
+      this.reset();
+      FileManager.loadSelectedFile();
+      $('quizSetupBlock').style.display = 'none';
+    });
+
+    $('finishQuizBtn').addEventListener('click', () => this.finish());
+    $('prevBtn').addEventListener('click', () => this.showQuestion(this.currentIndex - 1));
+    $('nextBtn').addEventListener('click', () => this.showQuestion(this.currentIndex + 1));
+    $('restart').addEventListener('click', () => this.reset());
+
+    $('quizSetupBlock').style.display = '';
+    VoiceManager.init();
+  },
+
+  reset() {
+    this.quizData = [];
+    this.userAnswers = {};
+    $('quizContainer').innerHTML = '';
+    $('finalScore').textContent = '';
+    $('summaryList').innerHTML = '';
+    $('quizSummary').style.display = 'none';
+    $('finishQuizBtn').style.display = 'none';
+    $('quizSetupBlock').style.display = '';
+  },
+
+  parseQuestions(text) {
+    const blocks = text.split(/\n(?=\d+\.\s)/);
+    const questions = [];
+    const seen = new Set();
+
+    blocks.forEach(block => {
+      const lines = block.trim().split('\n').filter(Boolean);
+      if (lines.length < 6) return;
+
+      const questionText = lines[0].replace(/^\d+\.\s*/, '').trim();
+      if (seen.has(questionText.toLowerCase())) return;
+      seen.add(questionText.toLowerCase());
+
+      const choices = {};
+      let i = 1;
+      while (i < lines.length && /^[A-E]\.\s/.test(lines[i])) {
+        const match = lines[i].match(/^([A-E])\.\s*(.*)/);
+        if (match) choices[match[1]] = match[2];
+        i++;
+      }
+
+      const answerLine = lines.find(l => l.startsWith("Answer:"));
+      const rawAnswer = answerLine?.split("Answer:")[1]?.trim();
+      const answers = rawAnswer?.split(',').map(a => a.trim().toUpperCase()) || [];
+
+      const expStart = lines.findIndex(l => l.startsWith("Explanation:"));
+      const explanation = expStart !== -1
+        ? lines.slice(expStart + 1).join(' ')
+        : "";
+
+      questions.push(new QuizQuestion({ questionText, choices, answers, explanation }));
+    });
+
+    return questions;
+  },
+
+  render() {
+    const container = $('quizContainer');
+    container.innerHTML = '';
+
+    this.quizData.forEach((q, index) => {
+      q.shuffleChoices();
+
+      const qDiv = document.createElement('div');
+      qDiv.className = 'question-block';
+      qDiv.id = `question-${index}`;
+
+      const qText = document.createElement('p');
+      qText.innerHTML = `<strong>${index + 1}. ${q.text}</strong>`;
+      qDiv.appendChild(qText);
+
+      const choiceDiv = document.createElement('div');
+      choiceDiv.className = 'choices';
+
+      const inputType = q.answers.length > 1 ? 'checkbox' : 'radio';
+
+      q.shuffledChoices.forEach(([label, txt]) => {
+        const labelEl = document.createElement('label');
+        labelEl.innerHTML = `<input type="${inputType}" name="q${index}" value="${label}"> ${label}. ${txt}`;
+        choiceDiv.appendChild(labelEl);
+      });
+
+      qDiv.appendChild(choiceDiv);
+
+      const submitBtn = document.createElement('button');
+      submitBtn.textContent = 'Submit';
+      submitBtn.onclick = () => this.checkAnswer(index);
+      qDiv.appendChild(submitBtn);
+
+      qDiv.appendChild(Object.assign(document.createElement('div'), { className: 'result', id: `result${index}` }));
+      qDiv.appendChild(Object.assign(document.createElement('div'), { className: 'explanation', id: `explanation${index}` }));
+
+      container.appendChild(qDiv);
+    });
+
+    $('finishQuizBtn').style.display = 'block';
+    $('quizSummary').style.display = 'block';
+  },
+
+  checkAnswer(index) {
+    const question = this.quizData[index];
+    const inputs = document.getElementsByName(`q${index}`);
+    const selected = Array.from(inputs).filter(i => i.checked).map(i => i.value);
+
+    const resultDiv = $(`result${index}`);
+    const expDiv = $(`explanation${index}`);
+    const block = $(`question-${index}`);
+
+    if (!selected.length) {
+      resultDiv.textContent = "Please select at least one answer.";
+      resultDiv.className = 'result incorrect';
+      expDiv.textContent = '';
+      block.classList.add('highlight-missed');
+      return false;
+    }
+
+    const isCorrect = question.check(selected);
+
+    resultDiv.textContent = isCorrect
+      ? "✅ Correct!"
+      : `❌ Incorrect. Correct answer${question.answers.length > 1 ? 's' : ''}: ${question.answers.join(', ')}`;
+    resultDiv.className = 'result ' + (isCorrect ? 'correct' : 'incorrect');
+
+    if (!isCorrect) block.classList.add('highlight-missed');
+    else block.classList.remove('highlight-missed');
+
+    expDiv.textContent = question.explanation;
+
+    this.userAnswers[index] = isCorrect;
+    return isCorrect;
+  },
+
+  showQuestion(index) {
+    if (index < 0 || index >= this.quizData.length) return;
+    document.querySelectorAll('.question-block').forEach(q => q.classList.remove('active'));
+
+    const block = $(`question-${index}`);
+    block.classList.add('active');
+    block.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    this.currentIndex = index;
+    $('prevBtn').disabled = index === 0;
+    $('nextBtn').disabled = index === this.quizData.length - 1;
+
+    if (VoiceManager.autoRead && VoiceManager.enabled) VoiceManager.speakQuestion(this.quizData[index]);
+  },
+
+  finish() {
+    const total = this.quizData.length;
+    let correct = 0;
+    const summary = $('summaryList');
+    summary.innerHTML = '';
+
+    this.quizData.forEach((q, i) => {
+      const isCorrect = this.userAnswers[i] !== undefined
+        ? this.userAnswers[i]
+        : this.checkAnswer(i);
+
+      if (isCorrect) correct++;
+
+      const li = document.createElement('li');
+      li.textContent = `Question ${i + 1} – ${isCorrect ? "✅ Correct" : "❌ Incorrect"}`;
+      li.style.cursor = 'pointer';
+      li.addEventListener('click', () => {
+        this.showQuestion(i);
+        const block = $(`question-${i}`);
+        block.classList.add('flash-highlight');
+        setTimeout(() => block.classList.remove('flash-highlight'), 1000);
+      });
+
+      summary.appendChild(li);
+    });
+
+    $('finalScore').textContent = `Final Score: ${Math.round((correct / total) * 100)}% (${correct}/${total})`;
+  }
+};
+
+// ---------------------- File Manager ----------------------
+const FileManager = {
+  handleFile(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = e => {
+      const content = e.target.result;
+      QuizEngine.quizData = QuizEngine.parseQuestions(content);
+      if ($('shuffleToggle').checked) QuizEngine.quizData.forEach(q => q.shuffleChoices());
+      QuizEngine.render();
+      QuizEngine.showQuestion(0);
+    };
+    reader.readAsText(file);
+  },
+
+  loadSelectedFile() {
+    const selectedFile = $('quizFileSelect').value;
+    fetch(selectedFile)
+      .then(res => res.ok ? res.text() : Promise.reject('File not found'))
+      .then(content => {
+        QuizEngine.quizData = QuizEngine.parseQuestions(content);
+        if ($('shuffleToggle').checked) QuizEngine.quizData.forEach(q => q.shuffleChoices());
+        QuizEngine.render();
+        QuizEngine.showQuestion(0);
+      })
+      .catch(err => alert('Could not load file: ' + err));
+  }
+};
+
+// ---------------------- Voice Toggles ----------------------
+$('voiceToggle').addEventListener('change', () => {
+  VoiceManager.enabled = $('voiceToggle').checked;
+  $('voiceBtn').disabled = !VoiceManager.enabled;
+  $('voiceOutput').innerHTML = VoiceManager.enabled ? "🎤 Voice enabled" : "🔇 Voice disabled";
+});
+
+$('autoReadToggle').addEventListener('change', () => {
+  VoiceManager.autoRead = $('autoReadToggle').checked;
+  $('voiceOutput').innerHTML = VoiceManager.autoRead ? "📝 Auto-read enabled" : "📝 Auto-read disabled";
+});
+
+$('voiceBtn').addEventListener('click', () => {
+  if (!VoiceManager.enabled) return $('voiceOutput').innerHTML = "⚠️ Voice recognition is off";
+  if (!VoiceManager.recognition) return $('voiceOutput').innerHTML = "❌ Not supported";
+  $('voiceOutput').innerHTML = "🎙️ Listening...";
+  VoiceManager.recognition.start();
+});
+
+// ---------------------- Initialize ----------------------
+QuizEngine.init();
