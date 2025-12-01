@@ -33,8 +33,7 @@
     <label><input type="checkbox" id="voiceToggle"> Enable Voice Recognition</label>
     <label><input type="checkbox" id="autoReadToggle"> Enable Auto Reading</label>
   </div>
-
-  <button id="voiceBtn" style="margin-top:10px;">🎤 Answer by Voice</button>
+  
 </div>
 
 <div class="nav-buttons" style="margin-top:20px;">
@@ -62,51 +61,9 @@
 
 <script src="quiz.js"></script> <!-- Link to the modular JS file -->
 
-  
-<!-- Modular JS Files 
-<script type="module">
-  import { QuizEngine } from 'QuizEngine.js';
-  import { FileManager } from 'FileManager.js';
-  import { VoiceManager } from 'VoiceManager.js';
-
-  // Initialize engine
-  document.addEventListener('DOMContentLoaded', () => {
-    // Set initial autoRead from checkbox
-    VoiceManager.autoRead = document.getElementById('autoReadToggle').checked;
-
-    // Initialize Quiz Engine
-    QuizEngine.init({ VoiceManager, FileManager });
-
-    // Voice toggle listeners
-    document.getElementById('voiceToggle').addEventListener('change', (e) => {
-      VoiceManager.enabled = e.target.checked;
-      document.getElementById('voiceBtn').disabled = !VoiceManager.enabled;
-      document.getElementById('voiceOutput').textContent = VoiceManager.enabled ? "🎤 Voice enabled" : "🔇 Voice disabled";
-    });
-
-    document.getElementById('autoReadToggle').addEventListener('change', (e) => {
-      VoiceManager.autoRead = e.target.checked;
-      document.getElementById('voiceOutput').textContent = VoiceManager.autoRead ? "📝 Auto-read enabled" : "📝 Auto-read disabled";
-    });
-
-    // Voice button
-    document.getElementById('voiceBtn').addEventListener('click', () => {
-      if (!VoiceManager.enabled) {
-        document.getElementById('voiceOutput').textContent = "⚠️ Voice recognition is off";
-        return;
-      }
-      if (!VoiceManager.recognition) {
-        document.getElementById('voiceOutput').textContent = "❌ Not supported";
-        return;
-      }
-      document.getElementById('voiceOutput').textContent = "🎙️ Listening...";
-      VoiceManager.recognition.start();
-    });
-  });
-</script> -->
-
 </body>
 </html>
+
 
 
 
