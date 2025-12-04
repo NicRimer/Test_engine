@@ -1,3 +1,425 @@
+1. As a Pega Business Architect, you encourage stakeholders to use App Studio, Deployment Manager, and Predictive Diagnostic Cloud (PDC). Which Pega Express™ value are you applying?
+A. Design for great experiences
+B. Solve the business problem
+C. Leverage the power of Pega
+D. Accelerate time to value
+Answer: C
+Explanation:
+Using Pega tools leverages the power of the platform. Pega Academy, Pega Express: “Leverage Pega’s tools like App Studio and PDC.” 
+A: Incorrect. Focuses on UI design. 
+B: Incorrect. Focuses on requirements. 
+D: Incorrect. Focuses on time-to-value.
+
+2. In an online shopping application, the primary Case Type PurchaseOrder has two child Case Types: Payment and Packaging. For PurchaseOrder Case PO-11, the system creates Payment Case Pay-37 and Packaging Case Pac-56. Which statement is correct?
+A. Pac-56 must resolve before Pay-37 can resolve.
+B. PO-11 must resolve before Pay-37 and Pac-56 resolve.
+C. PO-11 can resolve when either Pay-37 or Pac-56 resolves.
+D. Both Pay-37 and Pac-56 must resolve before PO-11 can resolve.
+Answer: D
+Explanation:
+Parent cases cannot resolve until all child cases are resolved. Pega Academy, Case Management: “Parent resolution requires all child cases to resolve.”
+A: Incorrect. Children are independent unless specified.
+B: Incorrect. Parent resolves after children.
+C: Incorrect. Parent requires both children resolved.
+
+3. A manager has reviewed a case and has decided to increase the case urgency and escalate to HR. HR must review and respond within four business hours. Which three configuration options are needed to enable the manager to satisfy the requirements? (Choose three.)
+A. Provide a service level for the HR assignment
+B. Provide notification to HR requesting urgency be increased
+C. Provide a local action to transfer the assignment to another queue
+D. Provide a field for urgency adjustment
+E. Provide escalation action to HR and resolve the case
+Answer: C,D,E
+
+4. Consider the following scenario: A customer files a fraud complaint. The complaint is investigated by a customer service agent. The customer service agent may request additional information from the customer. The merchant is notified and given 15 days to dispute the fraud claim. If the fraud claim is approved, an affidavit is sent to the customer and a refund is posted. If the fraud claim is rejected, the customer is notified and given 15 days to respond. Select the case life cycle design that follows the guidelines for identifying and naming stages. 
+A. Primary: New Claim-Investigation-Settlement-Claim Denied
+B. Primary: Claim Filed-Claim Investigated-Claim Denied
+C. Primary: Notice of Loss-Policy Review-Investigation-Settlement; Alternate: Request Info - Claim Denied
+D. Primary: New Claim-Investigation-Resolution; Alternate: Claim Denied
+Answer: D
+
+5. You are designing a credit transaction case type and have the following requirement: Transaction disputes must be resolved within 3 days. To meet this requirement, you need to set the___________in the service level to 3 days.
+A. goal
+B. deadline
+C. passed deadline
+D. urgency
+Answer: B
+Explanation:
+The deadline in the SLA specifies the maximum time allowed to resolve the transaction disputes. Pega Academy - Service Level Agreements (SLAs): “Setting the deadline ensures the case meets the required resolution time frame.”
+
+6. Which two aspects of application delivery are improved by using Direct Capture of Objectives? (Choose two.)
+A. Speed
+B. Coding
+C. Accuracy
+D. Testing
+Answer: C,D
+
+7. Select and move the Business Architect tasks to the Journey Centric Delivery project order column and place them in the correct order: a. Prepare for project kickoff meeting; b. Capture sessions on descrete aspects of the case type; c. Refine backlog stories; d. Playback configurations
+A. a,c,b,d
+B. a,b,d,c
+C. a,d,b,c
+D. a,b,d,c
+Answer: C
+
+8. You are developing a car maintenance application for a car service center. Specific services are performed by different teams. Example services are oil changes, tire rotations, and windshield wiper inspections. Which two configuration options perform the correct assignment routing? (Choose two.)
+A. Configure routing to a skilled work group using the appropriate skill parameters for the selected service
+B. Configure single level approval routing to a supervisor who assigns the task to the specific team
+C. Configure routing to use business logic to assign tasks to the appropriate team using the type of service
+D. Configure all assignments to route to the service manager who then assigns the tasks to the specific team
+Answer: A,D
+
+9. In which two situations do you use a Data Transform? (Choose two.)
+A. Create properties after creating a Case.
+B. Create a Data Record.
+C. Reuse a property value in a different form.
+D. Copy data from one page to another.
+Answer: C,D
+Explanation:
+Data Transforms are used to copy data or reuse property values. Pega Academy, Data Management: “Data Transforms set property values for reuse.”
+A: Incorrect. Properties are created in Data Model.
+B: Incorrect. Data Records are managed in Data Objects.
+
+10. In which scenario is it appropriate to remove a landing page from an application?
+A. You are developing a landing page to replace an existing deprecated one.
+B. You are developing a landing page for people managers only.
+C. You are developing a new landing page for all users.
+D. You are developing a landing page not in the main menu by default.
+Answer: A
+Explanation:
+Deprecated pages are removed to prevent confusion and maintain UX consistency. Pega Academy, UI Configuration: “Remove deprecated landing pages.”
+B: Incorrect. Manager pages are restricted, not removed.
+C: Incorrect. New pages are added.
+D: Incorrect. Non-main menu pages are not removed.
+
+11. As a project nears the end of the Prepare phase, you prepare the project plan for review with your development team. Which two elements does the project plan include? (Choose Two)
+A. Governance structure
+B. Epic and user stories
+C. RAID log (Risks, Actions, Issues, and Decisions)
+D. Definition of Ready (DoR)
+E. Project team resourcing
+Answer: B,C
+Explanation:
+B. Epics and user stories: Define the work to be done in future sprints with detailed functionality descriptions.
+C. RAID log: Tracks risks, actions, issues, and decisions to keep the project on track.
+References: Pega Academy: Project Planning and Management; Pega Documentation: Prepare Phase Activities and Deliverables
+
+12. You configure a service level to adjust assignment urgency to 100 when the goal interval lapses. How does the assignment urgency impact the deadline and passed deadline intervals?
+A. Urgency value continues to increment as configured
+B. Service level processing is halted until the assignment is completed
+C. The user is notified that the maximum urgency value has been reached
+D. Urgency value remains at 100, but other service level processing continues
+Answer: D
+
+13. You can view and modify the Data Model from the 1 Response area. The 2 is a visualization tool that shows the relationships between data objects, Data Pages, and systems of record.
+A. 1: App Studio, 2: Data Relationship Diagram
+B. 1: Data Model, 2: Data Explorer
+C. 1: Case Manager, 2: Data Model
+D. 1: Data Explorer, 2: Data Relationship Diagram
+Answer: A
+Explanation:
+1: App Studio manages the Data Model.
+2: Data Relationship Diagram visualizes relationships between data objects.
+References: Pega Academy, Business Architect ‘23 Mission; CPBA Study Guide 8.8, Data Modeling; Pega Help, Data Model Tools
+
+14. A car rental company provides luxury cars in certain geographical locations. According to policy, the rental request for a luxury car must be processed by an agent who is trained to rent luxury cars. Which routing approach do you use?
+A. Route to a skilled member of a work group
+B. Route requests to a skilled work group
+C. Route the request to a manager who assigns the agent
+D. Route to a work group based on the location
+Answer: B
+
+15. A manager requests a report that contains the following columns: Create Date, Case ID, Create Operator, and Work Status. You must sort the cases so the case with the most recent create date appears at the top of the list. How do you design the report definition to support this requirement?
+A. Select Highest to Lowest sort type for Create Date.
+B. Make the Create Date the first column in the report.
+C. Select Lowest to Highest sort type for Create Date.
+D. Add a filter condition where Create Date is greater than the current date.
+Answer: A
+Explanation:
+Selecting Highest to Lowest sort type for Create Date ensures the most recent cases appear first.
+References: Pega Academy: Report Definitions; Pega Documentation: Sorting Data in Reports
+
+16. In an online banking application, a Transaction Inquiry Case creates a Fraud Investigation Case if the transaction is unauthorized. Transaction details are collected in the Transaction Inquiry Case and populated in the Fraud Investigation Case. What two actions achieve this configuration in App Studio? (Choose Two)
+A. Reference the transaction data from the parent Case in the child Case.
+B. Propagate the transaction data from the parent Case to the child Case.
+C. Configure Transaction Inquiry as a parent Case and Fraud Investigation as a child Case.
+D. Configure Fraud Investigation as a parent Case and Transaction Inquiry as a child Case.
+Answer: B,C
+Explanation:
+B: Correct. Propagation automatically copies data to child cases.
+C: Correct. Transaction Inquiry is the parent; Fraud Investigation is the child.
+References: Pega Academy, Case Management; CPBA Study Guide 8.8, Case Relationships; Pega Help, Configuring Case Relationships
+
+17. You want an application to process a new customer loyalty account that the store uses for marketing and customer retention. The customer enters their information. The data is stored in a data relationship with an external data source. Which type of data relationship do you create?
+A. An embedded data field
+B. A case reference field
+C. A data reference field
+D. A query field
+Answer: C
+Explanation:
+A data reference field allows the application to reference external data without embedding it directly within the case.
+References: Pega Academy: Data Management; Pega Documentation: Data Relationships and Integration
+
+18. An Assignment uses the following Service-Level Agreement: Initial Urgency: 5, Goal: 12 hours (increase Urgency by 10), Deadline: 24 hours (increase Urgency by 15), Passed Deadline: 4 hours (increase Urgency by 20, limit to 5 events). What is the Assignment Urgency 36 hours after the Case reaches the Assignment?
+A. 70
+B. 90
+C. 50
+D. 85
+Answer: B
+Explanation:
+Initial: 5
+Goal at 12h: +10 = 15
+Deadline at 24h: +15 = 30
+Passed Deadline 28h, 32h, 36h (3 events) = +20*3 = 60
+Total Urgency = 30 + 60 = 90
+References: Pega Academy, SLAs; CPBA Study Guide 8.8; Pega Help, Configuring SLAs
+
+19. What are two benefits of using Insights? (Choose Two)
+A. Insights allow you to modify application data to fit your business requirements.
+B. Insights allow you to share data queries between users to support collaboration.
+C. Insights allow you to transform data queries into tables or visualizations to make data analysis easier.
+D. Insights allow you to create new application data to improve your business outcomes.
+Answer: B,C
+Explanation:
+B: Correct. Insights support collaboration by sharing queries.
+C: Correct. Insights transform queries into tables/charts for analysis.
+References: Pega Academy, Business Architect ‘23 Mission; CPBA Study Guide 8.8, Insights; Pega Help, Using Insights
+
+20. Drag each report from the left to the corresponding report type on the right. 
+A. Average duration and timeliness per assignment: Process Report; Total customer inquiry cases per state per product line: Business Report
+B. Average duration and timeliness per assignment: Business Report; Total customer inquiry cases per state per product line: Process Report
+Answer: A
+Explanation:
+Average duration and timeliness per assignment: Process Report
+Total customer inquiry cases per state per product line: Business Report
+Process Reports: Focus on process metrics.
+Business Reports: Focus on business metrics.
+References: Pega Academy: Reporting and Analytics; Pega Documentation: Types of Reports
+
+21. When an auto accident claim is resolved in the Resolve stage, email notifications must be sent automatically to the adjuster who inspected the car, to the insured party, and to the insurance agent who verified the claim. How do you configure the resolve process to support this requirement?
+A. Route an Approval step to the required parties
+B. Route the email to all the recipients in a Collect Information step
+C. Add a Send Email step and include all required parties
+D. Add a Send Email step as an optional action
+Answer: C
+
+22. You configure a service level to adjust assignment urgency to 100 when the goal interval lapses. What does the assignment urgency impact the deadline and passed deadline intervals?
+A. Urgency value remains at 100, but other service level processing continues.
+B. Service level processing is halted until the assignment is completed.
+C. The user is notified that the maximum urgency has been reached.
+D. Urgency value continues to increment as configured.
+Answer: A
+Explanation:
+- Urgency value is set to 100, indicating maximum priority.
+- Other SLA processing (escalation, notifications) continues.
+- Setting urgency to 100 does not halt further SLA actions.
+References: Pega Academy: Service Level Agreements; Pega Documentation: SLA Urgency and Escalation Mechanisms
+
+23. Consider the following scenario: An employee submits a request to purchase equipment. The request is sent to the manager for review. If approved, the request is forwarded to the Fulfillment department. How do you name the step where the request is sent to the manager?
+A. Request Approval
+B. Review Request
+C. Manager Approves Request
+D. Approve Employee Request
+Answer: B
+Explanation:
+
+24. 1 provides a data virtualization layer, separating business logic from interface configurations. Developers use 2 to declare how data is mapped from external sources into your application’s 3 and properties. Developers use 4 to ensure Case data remains synchronized with systems of record.
+A. 1: Data Page, 2: Data Transform, 3: Data Model, 4: Integration
+B. 1: Data Model, 2: Integration, 3: Data Page, 4: Data Transform
+C. 1: Data Page, 2: Integration, 3: Data Model, 4: Data Transform
+D. 1: Integration, 2: Data Transform, 3: Data Page, 4: Data Model
+Answer: C
+Explanation:
+1: Data Page – virtualizes data
+2: Integration – maps external sources
+3: Data Model – stores properties
+4: Data Transform – synchronizes case data
+References: Pega Academy, Business Architect ‘23 Mission; CPBA Study Guide 8.8, Data Management; Pega Help, Data Integration
+
+25. Select three responsibilities that a Pega Business Architect has in an Agile project. (Choose Three)
+A. Manage the project team’s backlog.
+B. Develop scenarios to test application functionality.
+C. Plan current and future application needs.
+D. Assign IT team members user stories to work on.
+E. Execute the assigned work on schedule.
+Answer: B,C,E
+Explanation:
+B: Correct – BAs develop test scenarios.
+C: Correct – BAs plan application needs.
+E: Correct – BAs execute assigned work in collaboration.
+References: Pega Academy, Business Architect ‘23 Mission; CPBA Study Guide 8.8, BA Role; Pega Help, Agile Responsibilities
+
+26. You are designing a customer support request Case Type that must support customers with multiple addresses and multiple credit cards. What is the appropriate way to set up the data structure?
+A. Case Type: Customer Support, Data Object: Customer, Data Objects: Address, Credit Card (multiple instances).
+B. Case Type: Customer Support, Data Object: Address, Data Object: Credit Card.
+C. Case Type: Customer Support, Data Objects: Customer, Address, Credit Card (single instances).
+D. Case Type: Customer Support, Data Object: Customer, Data Object: Address (multiple), Credit Card (single).
+Answer: A
+Explanation:
+A: Correct. Customer Support Case Type references Customer data object with multiple Address and Credit Card instances.
+References: Pega Academy, Data Modeling; CPBA Study Guide 8.8, Data Modeling; Pega Help, Configuring Data Objects
+
+27. As part of a purchase order case, after someone completes a purchase, a confirmation email is sent. How do you design the case life cycle to send the email?
+A. As part of the case configuration
+B. As an alternate stage
+C. As a separate process step
+D. As part of the stage configuration
+Answer: A
+Explanation:
+
+28. Life insurance company has satellite offices in various countries. Each satellite office has a work queue. Company policy requires that life insurance underwriting be assigned to offices based on the policy owner's residential address. Which routing approach supports this requirement?
+A. Route the assignment to a specific underwriter based on business logic.
+B. Route the assignment to the correct work queue by using an authority matrix.
+C. Route the assignment to the correct work queue by using a reporting structure.
+D. Route the assignment to the correct work queue based on business logic.
+Answer: D
+Explanation:
+Routing uses business logic to map the policy owner's address to the correct satellite office work queue.
+References: Pega Academy: Assignments and Routing; Pega Documentation: Using Business Logic for Assignment Routing
+
+29. A sales manager must be able to approve sales quote proposals by email and from their mobile devices. How do you implement this requirement?
+A. Add an Approve/Reject step and a Send Email step.
+B. Add an Approve/Reject step and enable email notifications on the case type.
+C. Add an Approve/Reject step and enable approval from email and mobile.
+D. Add an Approve/Reject step with mobile approval enabled and add a Send Email step.
+Answer: C
+Explanation:
+Add an Approve/Reject step and enable email/mobile approvals so managers can respond directly from notifications.
+References: Pega Academy – Configuring Approvals
+
+30. A martial arts studio’s Class Registration Case Type allows students to change registration during Register Class and Confirm Registration Stages, but not in the Send Class Details Resolution Stage. Which configuration supports this?
+A. Create a Stage-only optional action for Confirm Registration, inherited by Register Class.
+B. Create Stage-only optional actions for Register Class and Confirm Registration Stages.
+C. Create a Case-wide optional action with a When Condition if the Stage is Register Class or Confirm Registration.
+D. Create a Case-wide optional action if an operator with the Student role is at Register Class Stage.
+Answer: C
+Explanation:
+C: Correct. Case-wide optional action with When condition ensures stage-specific availability.
+References: Pega Academy, Business Architect ‘23 Mission; CPBA Study Guide 8.8, Optional Actions; Pega Help, Optional Action Configuration
+
+31. You are preparing to delegate a number of business rules. What three prerequisite actions must be taken before preparing to delegate a number you can delegate the business rules? (Choose Three)
+A. Ensure an access group exists for the users who will manage the delegated rules
+B. Ensure the delegated ruleset exists in the Production rulesets list
+C. Ensure the delegated rules are added to a locked ruleset
+D. Ensure a ruleset that will contain the delegated rules exists
+E. Ensure a ruleset exists for the users who will manage the delegated rules
+Answer: A,B,E
+
+32. A survey is sent to a customer via email. Who do you configure a solution to ensure the email includes the case ID for the survey?
+A. Call a data transform to copy the case ID from pyWorkPage to the email.
+B. Create a process using the Send email step allowing representatives to quickly add the case ID to the email.
+C. Create a required field for the case ID that must be entered by a user during the case process prior to sending the email.
+D. Use the Insert Property feature of a Send email step to add the case ID when composing the custom message.
+Answer: D
+Explanation:
+- Insert Property in the Send Email step allows dynamic inclusion of case properties, such as case ID, directly in the email body.
+Reference: Pega Academy – Sending emails from a case
+
+33. How do you adjust the urgency value of an aging assignment to increase the likelihood that the assignment is completed before the deadline?
+A. Apply an urgency value to the deadline interval
+B. Add an escalation action to the goal interval
+C. Adjust the default assignment urgency value
+D. Apply an urgency value to the goal interval
+Answer: A
+
+34. A purchase request case is created by an employee. After submitting, the case is assigned to the manager for review. If approved, the case is assigned to the Accounts Payable department where an agent will review and, pending audit, will approve payment. To determine what type of routing to apply to each assignment, what question do you ask yourself?
+A. Who should do the work?
+B. Is any special correspondence needed?
+C. How long does the work take to complete?
+D. Can the work be delegated to other users?
+Answer: C
+
+35. Which two actions can you perform from the Explore Data landing page? (Choose Two)
+A. Filter, sort, or group data for product inventory.
+B. Edit medical facility data for a health insurance application.
+C. Create a new Sales data field to reference an Insight Rule.
+D. Create a pie chart for customer satisfaction data.
+Answer: A,D
+Explanation:
+- A: Correct – filtering, sorting, grouping are supported in Explore Data.
+- D: Correct – visualizations like pie charts can be created from Explore Data.
+Reference: Pega Academy, Business Architect ‘23 Mission; CPBA Study Guide 8.8, Explore Data
+
+36. Which two statements about data records are true? (Choose Two)
+A. Data records require external storage.
+B. Data records are displayed in a drop-down list by default.
+C. Data records need unique, user-generated IDs.
+D. Data records define permissible values for data fields.
+Answer: B,D
+Explanation:
+- B: Correct – Data records appear in drop-down lists by default.
+- D: Correct – Data records define permissible values for properties.
+Reference: Pega Academy, Data Management, Data Records
+
+37. A promotion is available when a shopper spends USD100. Which attribute applies?
+A. Visibility: When condition (cart total >= 100)
+B. Required: True
+C. Default Value: USD100
+D. Read-only: True
+Answer: A
+Explanation:
+- Visibility condition ensures promotion appears only when criteria are met.
+Reference: Pega Academy, UI Configuration; CPBA Study Guide 8.8, Field Attributes
+
+38. A requirement allows modifying the shipping address at any time without interrupting the primary case path. Which design is best?
+A. Add a Process in a Stage.
+B. Add an Optional action to the Case Type.
+C. Add a Process to an Alternate Stage.
+D. Add a Step in a Process.
+Answer: B
+Explanation:
+- Optional actions enable changes without interrupting the primary case lifecycle.
+Reference: Pega Academy, Case Management; CPBA Study Guide 8.8, Optional Actions
+
+39. Identify three principles of Pega’s Center-out™ business architecture. (Choose Three)
+A. Manage intelligence centrally.
+B. Complicate data access, keep logic complex.
+C. Focus on outcomes, align your process.
+D. Manage variations to be scale-ready.
+E. Drive business logic with Channels.
+Answer: A,C,D
+Explanation:
+- A: Correct – centralize intelligence for consistency.
+- C: Correct – focus on outcomes to align processes.
+- D: Correct – manage variations for scalability.
+Reference: Pega Academy, Center-out Architecture; CPBA Study Guide 8.8
+
+40. Consider the following user story: As a customer, I want to be able to cancel an open service request at any time. Select the configuration option that satisfies the user story.
+A. Add a case-wide action to the case workflow
+B. Configure the Cancel button on the user views to resolve the case
+C. Add an alternate stage to the case life cycle
+D. Add a stage-only action to each stage in the case workflow
+Answer: A
+
+41. Identify each of the choices as a value or best practice of Pega Express™.
+A. Client-focused delivery: Value
+B. Iterative development: Best practice
+C. Outcome-driven approach: Value
+D. Continuous testing: Best practice
+Answer: A,B,C,D
+Explanation:
+- A: Correct – Client-focused delivery is a core value.
+- B: Correct – Iterative development is a best practice.
+- C: Correct – Outcome-driven approach is a value.
+- D: Correct – Continuous testing is a best practice.
+Reference: Pega Academy, Pega Express; CPBA Study Guide 8.8
+
+42. Which two of the following use cases do you implement by using one or more calculated fields? (Choose Two)
+A. A certification manager wants to determine the number of exams conducted at each testing facility in the current quarter.
+B. An accountant wants to list the largest order for the last month, for each customer account.
+C. A sales representative wants to quote the cost of an insurance policy based on selected coverage options.
+D. A project manager wants to estimate the cost of painting a banquet hall based on labor and materials required.
+Answer: C,D
+Explanation:
+- C: Correct – Calculated fields dynamically determine cost based on selected options.
+- D: Correct – Calculated fields estimate total cost based on inputs for labor and materials.
+Reference: Pega Academy, Calculations and Formulas in Pega; CPBA Study Guide 8.8
+
+43. An application allows consultants to enter their hours on a project on a weekly basis. Consultant hours must be approved by both their manager and the project supervisor. The approvals can be performed in any order. How do you configure the approvals in the application?
+A. Add the manager approval to an alternative stage in the case life cycle
+B. Add an optional process to each approval in the appropriate stage
+C. Configure a single cascading approval based on an authority matrix
+D. Configure a parallel process for each of the required approvals
+Answer: C
+
 1. What is the primary purpose of a Stage in a Pega case type?
 A. To store data
 B. To represent a major phase of the case
