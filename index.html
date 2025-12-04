@@ -16,6 +16,10 @@
       <th><label><input type="checkbox" id="shuffleToggle"> Shuffle questions</label></th>
       <th><label><input type="checkbox" id="shuffleAnswersToggle"> Shuffle answers</label></th>
     </tr>
+    <tr>
+      <th><label><input type="checkbox" id="autoReadToggle"> Auto Reading</label></th>
+      <th><label><input type="checkbox" id="voiceToggle"> Voice Recognition</label></th>
+    </tr>
   </table>
 
   <div style="margin-top:10px;">
@@ -25,14 +29,11 @@
       <option value="quizzes/GH-300.txt">GH-300.txt</option>
       <option value="quizzes/PEGACPBA24V1.txt">PegaCPBA</option>
     </select>
-    <button id="loadQuizFileBtn">Load</button> or
+    <button id="loadQuizFileBtn" style="width: 100px;">Load</button> or
     <input type="file" id="fileInput" accept=".txt" title="Upload a Quiz File (.txt)">
   </div>
 
-  <div style="display:flex; gap:20px; align-items:center; margin-top:10px;">
-    <label><input type="checkbox" id="voiceToggle"> Enable Voice Recognition</label>
-    <label><input type="checkbox" id="autoReadToggle"> Enable Auto Reading</label>
-  </div>
+
   
 </div>
 
@@ -63,6 +64,7 @@
 
 </body>
 </html>
+
 
 
 
