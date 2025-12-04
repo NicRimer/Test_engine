@@ -112,7 +112,6 @@ select {
   button, input[type="file"], select {
     font-size: 1em;
     padding: 10px 8px;
-    min-width: 48vw;
     margin-bottom: 4px;
   }
   .nav-buttons {
