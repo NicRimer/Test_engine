@@ -1,0 +1,899 @@
+1. What is the primary purpose of a Stage in a Pega case type?
+A. To store data
+B. To represent a major phase of the case
+C. To control user access
+D. To configure UI layouts
+Answer: B
+Explanation:
+Stages represent high-level milestones that break the case lifecycle into business-recognizable phases.
+
+2. What is the smallest unit of work performed in a process?
+A. Step
+B. Stage
+C. Case
+D. Data object
+Answer: A
+Explanation:
+Steps represent individual user or system actions within a process.
+
+3. A cancellation path that can be triggered at any time should be modeled as a:
+A. Process
+B. Optional action
+C. Alternate stage
+D. Child case
+Answer: C
+Explanation:
+Alternate stages allow exception or interrupt flows accessible from any point.
+
+4. A BA designs a process where a user enters data, then the system validates the information automatically. How many steps are required?
+A. 1
+B. 2
+C. 3
+D. 0
+Answer: B
+Explanation:
+One step for user input, one automated step for validation.
+
+5. Conditional stage transitions can be configured using:
+A. Decision table
+B. When conditions
+C. SLAs
+D. Section rules
+Answer: B
+Explanation:
+When conditions control if/when the case moves to another stage automatically.
+
+6. Which routing option sends work automatically to a user’s manager?
+A. Route to operator
+B. Route to work queue
+C. Route to reporting manager
+D. Route using Decision Table
+Answer: C
+Explanation:
+Pega includes a preconfigured option to route to the operator’s reporting manager.
+
+7. Dynamic routing to different queues based on user-selected region requires:
+A. SLA escalation
+B. Data transform
+C. Property-based queue reference
+D. Decision tree
+Answer: C
+Explanation:
+Queue names can be set dynamically using property references.
+
+8. Which rule determines who receives an assignment?
+A. SLA
+B. Routing rule
+C. Data page
+D. Subprocess
+Answer: B
+Explanation:
+Routing rules are the designated mechanism for assignment distribution.
+
+9. A BA must route work based on a risk level (High/Low). Which rule is MOST appropriate?
+A. Data transform
+B. Decision table
+C. Declare expression
+D. Activity
+Answer: B
+Explanation:
+Decision tables evaluate multiple conditions and return routing targets.
+
+10. Work should route to a queue if the case priority exceeds 50. What should be used?
+A. When rule
+B. SLA
+C. UI condition
+D. Data page
+Answer: A
+Explanation:
+When rules evaluate simple Boolean conditions like priority > 50.
+
+11. A field group list is primarily used to store:
+A. A single value
+B. A list of related structured items
+C. Operator credentials
+D. External API configurations
+Answer: B
+Explanation:
+Field group lists store multiple structured objects of the same type (e.g., multiple addresses).
+
+12. A single customer profile is reused in multiple case types. You should create:
+A. Embedded data fields
+B. A data class + data object
+C. A local data storage record
+D. A declare expression
+Answer: B
+Explanation:
+Data classes + data objects promote reuse and separation of concerns.
+
+13. A data page with scope “Thread” means the page:
+A. Is shared by everyone
+B. Is unique to each user
+C. Is unique per case
+D. Refreshes only when the requestor logs out
+Answer: C
+Explanation:
+Thread scope means data is tied to a single case or thread.
+
+14. A screen must load the latest customer data from an external service each time it opens. Which refresh strategy applies?
+A. Reload once per interaction
+B. Reload once per day
+C. Do not reload
+D. System-managed caching
+Answer: A
+Explanation:
+This ensures fresh data is loaded every time a user interacts with the step.
+
+15. Which rule type is used to transform data from one format to another?
+A. Activity
+B. Data transform
+C. Declare expression
+D. Case type
+Answer: B
+Explanation:
+Data transforms map and manipulate data in predictable ways.
+
+16. Which UI rule defines the structure of fields on a form?
+A. Section
+B. Layout group
+C. Flow action
+D. Control
+Answer: A
+Explanation:
+Sections contain fields, layouts, and UI structure.
+
+17. A form field should appear only to users with the “Manager” persona. You should use:
+A. Access group
+B. Privilege
+C. Visibility condition
+D. SLA
+Answer: C
+Explanation:
+Visibility conditions can check the user’s role or persona.
+
+18. Which UI component provides collapsible panels?
+A. Dynamic layout
+B. Layout group – Accordion
+C. Repeating grid
+D. Control rule
+Answer: B
+Explanation:
+Accordion layout groups support expandable/collapsible sections.
+
+19. You want to allow users to complete a task with a single click from the UI. Use a(n):
+A. Data transform
+B. Flow action
+C. Button control
+D. Navigation rule
+Answer: C
+Explanation:
+Buttons trigger actions such as submit, run activity, etc.
+
+20. A BA wants to standardize the UI across multiple case types. Which feature helps best?
+A. Data pages
+B. Design templates
+C. Activities
+D. SLA levels
+Answer: B
+Explanation:
+Templates ensure UI consistency across screens.
+
+21. A business rule must return Yes/No based on multiple conditions. Best rule type?
+A. Decision table
+B. Declare expression
+C. When rule
+D. Activity
+Answer: C
+Explanation:
+When rules return Boolean results.
+
+22. A rule evaluates many conditions and branches into nested logic. Which rule type?
+A. Decision table
+B. Decision tree
+C. Data transform
+D. Validate rule
+Answer: B
+Explanation:
+Decision trees handle multi-level, hierarchical branching.
+
+23. Tiered fee structures based on ranges of values are best implemented with a:
+A. When rule
+B. Decision table
+C. Declare expression
+D. Report definition
+Answer: B
+Explanation:
+Decision tables handle “range → result” logic well.
+
+24. Which rule automatically recalculates a value when referenced fields change?
+A. Declare expression
+B. Data transform
+C. Activity
+D. Field value
+Answer: A
+Explanation:
+Declare expressions enable declarative, auto-updating logic.
+
+25. A case should skip a step when a condition is met. How should this be configured?
+A. SLA with goal time
+B. Optional action
+C. When condition on the step
+D. Routing rule
+Answer: C
+Explanation:
+Step-level “Skip when” logic controls conditional execution.
+
+26. Which reporting tool is recommended for building both list and summary reports?
+A. List View
+B. Summary View
+C. Report Definition
+D. Data Transform
+Answer: C
+Explanation:
+Report Definitions support both list and summary reporting.
+
+27. A manager wants a dashboard gadget showing active cases by urgency. Which feature provides this?
+A. SLA rule
+B. Report definition + widget
+C. Case type rule
+D. Decision table
+Answer: B
+Explanation:
+Report definition widgets allow real-time dashboard insights.
+
+28. Users must filter report results at runtime. What should be configured?
+A. Parameters
+B. Subreport
+C. Report filter controls
+D. Declare expression
+Answer: C
+Explanation:
+Runtime filters allow end-users to refine results dynamically.
+
+29. A drill-down report is typically used for:
+A. Exporting data
+B. Showing child report results
+C. Defining UI layouts
+D. Routing work
+Answer: B
+Explanation:
+Drill-downs display more detailed data related to a summary value.
+
+30. A manager wants a report that shows average resolution time per region. What type of report is needed?
+A. List
+B. Summary
+C. Dashboard gadget
+D. Email digest
+Answer: B
+Explanation:
+Summary reports aggregate values like averages.
+
+31. Which Pega feature controls what parts of the application a user can access?
+A. Access groups
+B. Skins
+C. Data pages
+D. SLAs
+Answer: A
+Explanation:
+Access groups determine roles, rulesets, and portals available to a user.
+
+32. Privileges in Pega are used to:
+A. Control UI styling
+B. Restrict or allow specific rule actions
+C. Assign work
+D. Launch child cases
+Answer: B
+Explanation:
+Privileges restrict access to flow actions or sensitive rules.
+
+33. A manager should see an “Approve” button but an employee should not. What enforces this?
+A. SLA
+B. Visibility condition
+C. Privilege on action
+D. Data transform
+Answer: C
+Explanation:
+Privileges control access to flow actions.
+
+34. Which defines the user’s portal, roles, and available applications?
+A. Access Role
+B. Access Group
+C. Operator ID
+D. Authentication Profile
+Answer: B
+Explanation:
+Access groups control portals, roles, and applications.
+
+35. You need to restrict a report so only supervisors can view it. What should you apply?
+A. Declare expression
+B. Access role
+C. SLA
+D. Data page
+Answer: B
+Explanation:
+Access roles define report access permissions.
+
+36. Which integration rule is used to consume REST APIs?
+A. Service-REST
+B. Connect-REST
+C. Service-SOAP
+D. Data Transform
+Answer: B
+Explanation:
+Connect-REST is used to call external REST services.
+
+37. A third-party service must call Pega to create a new case. Which rule is needed?
+A. Connect-SOAP
+B. Data Page
+C. Service-REST
+D. Declare expression
+Answer: C
+Explanation:
+Service-REST exposes Pega endpoints to external systems.
+
+38. A data page must refresh only when its data becomes outdated. Which configuration applies?
+A. Thread scope
+B. Reload if older than
+C. Do not reload
+D. Activity refresh
+Answer: B
+Explanation:
+“Reload if older than X minutes” manages intelligent refresh.
+
+39. Which data source automatically maps database table columns to Pega properties?
+A. Data Transform
+B. Connector
+C. Savable Data Page
+D. Report Definition
+Answer: C
+Explanation:
+Savable data pages support both read and write operations to databases.
+
+40. A BA must display a list of products from an external API. Which data source is appropriate?
+A. Data page → Connector
+B. Case type
+C. SLA
+D. Access role
+Answer: A
+Explanation:
+Data pages can source data from connectors for display.
+
+41. When the SLA goal time is reached, what happens?
+A. Assignment is cancelled
+B. Escalation action runs
+C. Case transitions stages
+D. User is locked out
+Answer: B
+Explanation:
+SLA goal and deadline both trigger escalation actions.
+
+42. Urgency values primarily influence:
+A. SLA times
+B. Routing decisions
+C. Worklist ordering
+D. Access roles
+Answer: C
+Explanation:
+Worklists sort assignments by urgency.
+
+43. An assignment should escalate to a manager if incomplete after 4 hours. What is required?
+A. SLA → Goal action
+B. SLA → Deadline action
+C. Stage SLA
+D. Validate rule
+Answer: B
+Explanation:
+Deadline triggers escalation for late work.
+
+44. A case needs a different SLA for a particular stage. What should be created?
+A. Modified case SLA
+B. Stage SLA
+C. Declare expression
+D. Custom activity
+Answer: B
+Explanation:
+Stage-level SLAs override the case-level SLA.
+
+45. A case must instantly increase urgency when a specific field changes. Which feature applies?
+A. SLA goal time
+B. Immediate urgency adjustment
+C. Declare expression
+D. Data transform
+Answer: B
+Explanation:
+Urgency can be adjusted programmatically at runtime.
+
+46. A parent case must pause until three child cases finish. How is this modeled?
+A. Split Join
+B. Wait step → All
+C. Wait step → Any
+D. Decision table
+Answer: B
+Explanation:
+“Wait for all” pauses until all dependent cases complete.
+
+47. A process must launch multiple tasks in parallel for each item in a list. Use:
+A. Split Join
+B. Split For Each
+C. Optional action
+D. Child case
+Answer: B
+Explanation:
+Split For Each creates parallel processes for list items.
+
+48. Data must flow from the parent to the child upon creation. What should be used?
+A. Data transform
+B. Report definition
+C. Declare expression
+D. SLA
+Answer: A
+Explanation:
+Data transforms map data between cases.
+
+49. A child case should resolve only when a supervisor approves it. What should be used?
+A. Assignment SLA
+B. Case resolution rule
+C. Approval shape
+D. Routing rule
+Answer: C
+Explanation:
+Approval shapes handle approve/reject workflows.
+
+50. The parent case should not close until at least one child case finishes. Which setting applies?
+A. Wait → All
+B. Wait → Any
+C. SLA
+D. Escalation step
+Answer: B
+Explanation:
+“Wait for any” releases after any dependent case completes.
+
+51. Directly Capture Objectives (DCO) helps teams to:
+A. Write SQL queries
+B. Capture requirements inside Pega
+C. Train operators
+D. Improve UI performance
+Answer: B
+Explanation:
+DCO supports capturing user stories and requirements directly within Pega.
+
+52. Which Pega studio visualizes stages, personas, data, and processes?
+A. Dev Studio
+B. App Studio Case Designer
+C. Admin Studio
+D. Prediction Studio
+Answer: B
+Explanation:
+App Studio provides the primary design environment for BAs to model cases.
+
+53. A BA needs to capture acceptance criteria for a user story. Where does it go?
+A. Stage rule
+B. Story record
+C. Data page
+D. Flow action
+Answer: B
+Explanation:
+User stories include acceptance criteria for validation during development.
+
+54. A design session with stakeholders builds a runnable prototype. This aligns with:
+A. Regression design
+B. DCO
+C. DevOps
+D. SLA setup
+Answer: B
+Explanation:
+DCO promotes real-time prototyping and stakeholder collaboration.
+
+55. Which Pega feature accelerates requirement-to-solution mapping?
+A. Deployment Manager
+B. DCO tools
+C. Skins
+D. Validation rules
+Answer: B
+Explanation:
+DCO connects requirements with working system features, reducing time-to-value.
+
+56. A case type defines:
+A. Screens only
+B. Database tables
+C. Case lifecycle and behavior
+D. Access groups
+Answer: C
+Explanation:
+Case types define stages, data, and workflows for a business process.
+
+57. A reusable group of fields like “Address” should be created as a:
+A. Field value
+B. Data object
+C. Case type
+D. Flow action
+Answer: B
+Explanation:
+Data objects represent reusable business structures that can be embedded in cases.
+
+58. Several case types need the same SLA. How should this be implemented?
+A. Copy the SLA
+B. Reference a shared SLA
+C. Create individual SLAs
+D. Use stage overrides
+Answer: B
+Explanation:
+One SLA can be referenced by multiple case types for consistency.
+
+59. When should a child case be used?
+A. To control access
+B. To reuse UI
+C. To model independent, trackable work
+D. To build reports
+Answer: C
+Explanation:
+Child cases represent independent work that needs separate tracking and resolution.
+
+60. Optional actions are best used when:
+A. A step must always run
+B. Work is required for resolution
+C. A user can perform additional optional tasks
+D. SLA escalations are needed
+Answer: C
+Explanation:
+Optional actions allow non-mandatory, user-triggered work.
+
+61. A screen flow is best used for:
+A. Complex routing
+B. Multi-step guided UI navigation
+C. Parallel processing
+D. Background automation
+Answer: B
+Explanation:
+Screen flows guide the user through sequential screens in a case.
+
+62. A utility shape in a process is used for:
+A. Collecting user data
+B. Running automated actions
+C. Routing assignments
+D. Designing dashboards
+Answer: B
+Explanation:
+Utility shapes perform automated actions without requiring user interaction.
+
+63. What happens when a case reaches an end shape?
+A. It loops
+B. The process ends
+C. The case automatically resolves
+D. The stage restarts
+Answer: B
+Explanation:
+End shapes stop the current process flow.
+
+64. A process must run repeatedly until a condition is met. This is modeled using:
+A. Decision table
+B. Looping flow
+C. Split join
+D. SLA escalation
+Answer: B
+Explanation:
+Looping flows repeat the process until a specific condition is satisfied.
+
+65. To pause case processing until an external document arrives, use a:
+A. Subprocess
+B. Wait shape
+C. Utility
+D. Optional action
+Answer: B
+Explanation:
+Wait shapes pause the case until an external dependency is met.
+
+66. A dynamic layout adjusts the UI based on:
+A. SLA
+B. Case type
+C. Screen size
+D. Access group
+Answer: C
+Explanation:
+Dynamic layouts enable responsive UI that adapts to different screen sizes.
+
+67. Which control is most appropriate for selecting from a large list?
+A. Checkbox
+B. Text field
+C. Autocomplete
+D. Radio button
+Answer: C
+Explanation:
+Autocomplete efficiently handles large datasets by filtering results as the user types.
+
+68. Skins in Pega are used to:
+A. Build dashboards
+B. Apply styling and themes
+C. Configure routing
+D. Manage data pages
+Answer: B
+Explanation:
+Skins provide global styling and theming across the application.
+
+69. A BA wants to reuse a common header on multiple screens. They should create a:
+A. Flow action
+B. Data page
+C. Section
+D. Declare expression
+Answer: C
+Explanation:
+Sections allow for reusable UI components like headers or footers.
+
+70. Which UI rule displays content in tab form?
+A. Dynamic layout
+B. Layout group – Tab
+C. Container
+D. Flow action
+Answer: B
+Explanation:
+Tab layout groups provide a tabbed navigation experience.
+
+71. A user story describes:
+A. Technical design
+B. A function from the user's perspective
+C. Routing logic
+D. A database table
+Answer: B
+Explanation:
+User stories follow the “As a…, I want…, so that…” pattern.
+
+72. Backlog grooming ensures:
+A. Stories meet acceptance criteria
+B. Cases resolve
+C. UI is complete
+D. Security roles are updated
+Answer: A
+Explanation:
+Grooming prepares stories for development by clarifying requirements.
+
+73. Sprint reviews are used to:
+A. Assign tasks
+B. Demonstrate completed work
+C. Build integrations
+D. Design SLAs
+Answer: B
+Explanation:
+Sprint reviews showcase completed increments to stakeholders.
+
+74. Which artifact defines a group of related features?
+A. Story
+B. Epic
+C. Task
+D. Data page
+Answer: B
+Explanation:
+Epics are large bodies of work composed of features and stories.
+
+75. The purpose of sprint retrospectives is to:
+A. Demo work
+B. Estimate tasks
+C. Improve team processes
+D. Assign access roles
+Answer: C
+Explanation:
+Retrospectives focus on continuous improvement of team processes.
+
+76. Which rule type is used to validate data entered by a user?
+A. When rule
+B. Validate rule
+C. Declare expression
+D. Data transform
+Answer: B
+Explanation:
+Validate rules enforce conditions on user inputs in a form.
+
+77. A case requires approval from multiple managers sequentially. Which flow shape applies?
+A. Split Join
+B. Assignment shape with routing
+C. Utility shape
+D. Approval shape
+Answer: D
+Explanation:
+Approval shapes manage approve/reject workflows for multiple approvers.
+
+78. How can a BA enforce that a field is mandatory only for certain conditions?
+A. SLA
+B. Visibility condition
+C. Field properties with “Required When”
+D. Access group
+Answer: C
+Explanation:
+“Required When” conditions allow dynamic mandatory behavior.
+
+79. Which rule type stores a list of pre-defined values for a field?
+A. Data transform
+B. Field value
+C. Declare expression
+D. Section
+Answer: B
+Explanation:
+Field values provide static or dynamic choices for dropdowns or selections.
+
+80. A parent case should aggregate data from multiple child cases. Which approach is recommended?
+A. Data transform
+B. Summary report
+C. Aggregate report definition
+D. Case type rule
+Answer: C
+Explanation:
+Summary or aggregate reports can pull data from multiple child cases.
+
+81. A case step must execute only if a customer is VIP. How is this achieved?
+A. SLA
+B. When condition
+C. Decision table
+D. Assignment rule
+Answer: B
+Explanation:
+When rules can control conditional execution of steps.
+
+82. A field should be visible only to HR users. Which feature ensures this?
+A. Access group
+B. Visibility condition
+C. Flow action
+D. SLA
+Answer: B
+Explanation:
+Visibility conditions can check user roles or access rights.
+
+83. An external system needs to update a Pega case. Which integration type is needed?
+A. Connect-REST
+B. Service-REST
+C. Data page
+D. Activity
+Answer: B
+Explanation:
+Service-REST exposes endpoints to allow external systems to send data.
+
+84. Which rule type is used for data mapping between case types?
+A. Data transform
+B. Declare expression
+C. Assignment shape
+D. SLA
+Answer: A
+Explanation:
+Data transforms map and transfer data between cases or objects.
+
+85. A BA wants to create a case that automatically starts a child case. What shape is used?
+A. Split Join
+B. Subcase / Case creation shape
+C. Wait shape
+D. Assignment shape
+Answer: B
+Explanation:
+Case creation shapes launch child cases automatically.
+
+86. Which Pega feature allows caching external data for reuse across cases?
+A. Data page
+B. Report definition
+C. Field value
+D. SLA
+Answer: A
+Explanation:
+Data pages cache external or internal data for efficiency.
+
+87. A manager wants to see open cases with high urgency at the top. Which property influences this?
+A. SLA
+B. Worklist ordering
+C. Access group
+D. Flow action
+Answer: B
+Explanation:
+Worklists sort assignments using urgency and other properties.
+
+88. Which tool allows creating dashboards with multiple reports?
+A. App Studio
+B. Dev Studio
+C. Admin Studio
+D. Prediction Studio
+Answer: B
+Explanation:
+Dev Studio provides dashboard and report builder capabilities.
+
+89. Which feature is best for creating reusable UI templates across multiple cases?
+A. Section
+B. Layout group
+C. Design template
+D. Flow action
+Answer: C
+Explanation:
+Design templates provide consistent layouts and styling.
+
+90. How can a BA enforce SLA escalation after 2 hours if work is not completed?
+A. Deadline configuration in SLA
+B. Goal configuration in SLA
+C. When condition
+D. Data transform
+Answer: A
+Explanation:
+Deadlines in SLAs trigger escalation actions when time limits are reached.
+
+91. A case needs to perform actions on a list of items simultaneously. Which shape applies?
+A. Split For Each
+B. Split Join
+C. Assignment
+D. Utility
+Answer: A
+Explanation:
+Split For Each executes steps in parallel for each item in a list.
+
+92. A child case must resolve only after supervisor approval. Which flow shape is used?
+A. Utility
+B. Approval
+C. Assignment
+D. Decision table
+Answer: B
+Explanation:
+Approval shapes handle conditional resolution based on approval outcomes.
+
+93. Which rule type automatically recalculates a value when its dependent properties change?
+A. Declare expression
+B. Data transform
+C. Assignment
+D. Field value
+Answer: A
+Explanation:
+Declare expressions support declarative, auto-updating calculations.
+
+94. Which integration type retrieves data from an external REST service?
+A. Service-REST
+B. Connect-REST
+C. Data transform
+D. SLA
+Answer: B
+Explanation:
+Connect-REST calls external REST services to fetch data.
+
+95. Which rule type defines workflow and routing logic in a case?
+A. Flow rule
+B. Assignment
+C. Data transform
+D. SLA
+Answer: A
+Explanation:
+Flow rules define the process and routing for cases.
+
+96. How can a BA ensure a field is read-only for non-managers?
+A. Access group
+B. Visibility condition
+C. Field editability property
+D. SLA
+Answer: C
+Explanation:
+Editability conditions can make fields read-only based on roles.
+
+97. Which feature allows capturing business rules declaratively without coding?
+A. Data transform
+B. Decision rules
+C. Flow action
+D. SLA
+Answer: B
+Explanation:
+Decision rules (decision table/tree/when) allow declarative business logic.
+
+98. Which rule type is used to define a sequence of automated steps?
+A. Flow rule
+B. Data transform
+C. Activity
+D. SLA
+Answer: C
+Explanation:
+Activities define step-by-step procedural logic for automation.
+
+99. Which feature enables a Pega application to be responsive across devices?
+A. Skin
+B. Dynamic layout
+C. Section
+D. Layout group
+Answer: B
+Explanation:
+Dynamic layouts adapt UI automatically for desktop, tablet, and mobile devices.
+
+100. A parent case must wait until at least two child cases complete before proceeding. Which configuration is used?
+A. Wait → All
+B. Wait → Any
+C. Wait with condition count
+D. Split Join
+Answer: C
+Explanation:
+Wait shapes with a count condition allow pausing until a specific number of child cases complete.
