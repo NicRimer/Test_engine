@@ -1,0 +1,380 @@
+1. Which two features does Pega GenAI Autopilot provide to help developers with data management? (Choose two.)
+A. Deleting unused data objects in the application permanently.
+B. Suggesting choices for picklist fields in the Data Model of the Case Type.
+C. Migrating data models from legacy systems automatically.
+D. Generating sample records for a Data Object to make testing easier.
+Answer: B, D
+Explanation:
+
+2. A business analyst needs to quickly design a facilities management application with multiple stakeholders. How can Pega Blueprint help accelerate the development process?
+A. By summarizing notes for stakeholders to remove the need for meetings.
+B. By generating tailored suggestions for Case Types, Stages, and Steps.
+C. By replacing the Pega Platform development environment entirely.
+D. By automatically coding the entire application without human intervention.
+Answer: B
+Explanation:
+
+3. What two types of escalation actions can you configure with Service-Level Agreements in Pega Platform? (Choose two.)
+A. Increasing the urgency of the work item.
+B. Automatically resolving the Case without human intervention.
+C. Sending notifications to managers.
+D. Extending the deadline automatically by 24 hours.
+Answer: A, C
+Explanation:
+
+4. A music studio allows clients to upload audio recordings before they begin consultation. The studio wants to pause Case processing after the Client Intake Stage and give clients 72 hours to upload recordings, if they choose, before beginning the Client Consultation Process. Which configuration meets this requirement?
+A. Configure a validate rule on the Client Intake Stage and set the elapsed time to 72 hours.
+B. Configure a Case wide optional action to allow uploads. After the Client Intake Stage, add a Wait shape with a timer set to 72 hours.
+C. Configure a service level agreement on the Stage that contains the Client Consultation Process with a deadline of 72 hours.
+D. Configure a child Case after the Client Intake Stage to upload recordings. Add a Wait shape with a Case dependency until the child Case is resolved.
+Answer: B
+Explanation:
+
+5. You are building a customer service application where each customer request is handled as a separate Case. To manage these Cases, you need to configure workflows and assign them to different service teams. Which Class type should you use to define these Case Types and workflows?
+A. Work class
+B. Rule class
+C. Base class
+D. Data class
+Answer: A
+Explanation:
+
+6. In a Case Lifecycle for an online order, which Stage typically handles exceptions such as order cancellations or returns?
+A. Create Stage
+B. Primary Stage
+C. Alternate Stage
+D. Resolution Stage
+Answer: C
+Explanation:
+
+7. A museum ticketing case has an option for students or seniors to enter identifying information. If the customer information identifies the user as a student or senior, they do not need to enter payment information and they receive their ticket. How do you implement this requirement?
+A. Add an Approve/Reject step to the process for a manager to review and assess if the customer is a senior or student.
+B. Configure the Enter payment information process to start if the Customer is not a student or senior.
+C. Configure a decision shape. If the customer is a student, the process advances, otherwise the process ends.
+D. Configure the Ticket Confirmation stage to be skipped if the Customer is not a student or a senior.
+Answer: B
+Explanation:
+
+8. A developer is designing a Case Type in Pega Blueprint. What two actions should the developer perform to ensure the Data Model is optimized? (Choose two.)
+A. Duplicate fields across Case Types and Data Objects to ensure data availability.
+B. Reference accurate Data Objects and specify sources or systems of record.
+C. Minimize the number of fields for each Data Object to improve application performance.
+D. Optimize the Case Data Model with the correct fields, types, and descriptions.
+Answer: A, D
+Explanation:
+
+9. What are Insights on the Explore Data landing page?
+A. Static data entries that can be shared.
+B. Rules that transform data queries into visualizations.
+C. User-defined permissions for data access.
+D. Predefined reports that can only be modified for private use.
+Answer: B
+Explanation:
+
+10. What is the primary purpose of Pega GenAI Knowledge Buddy?
+A. To generate code snippets for developers.
+B. To help find and manage information efficiently.
+C. To connect Pega applications to large language models.
+D. To create automated test Cases for Pega applications.
+Answer: B
+Explanation:
+
+11. What two types of escalation actions can you configure with Service-Level Agreements in Pega Platform? (Choose two.)
+A. Increasing the urgency of the work item.
+B. Automatically resolving the Case without human intervention.
+C. Sending notifications to managers.
+D. Extending the deadline automatically by 24 hours.
+Answer: A, C
+Explanation:
+
+12. A financial services company is implementing a new Pega application alongside their existing customer portal and document management system. The IT department wants users to access all three systems without repeatedly entering credentials.
+When configuring single sign-on (SSO) in the Pega application, what does this primarily achieve?
+A. Grants access to specific UI elements in the application based on user roles.
+B. Sets consistent session timeout rules for all authenticated user.
+C. Confirms the identity of the user during the initial login process.
+D. Assigns appropriate roles for access control automatically across systems.
+Answer: C
+Explanation:
+
+13. You are assigned to a Pega implementation project as a Pega Business Architect. Which task are you expected to perform?
+A. Organize the project kickoff meeting.
+B. Help to refine ahead of a sprint.
+C. Identify the initial Case Types.
+D. Identify the scope of the initial release.
+Answer: D
+Explanation:
+
+14. Consider the following user story: As an account owner, I want to be able to add a member to my account so I can give the member temporary access. Which two questions help you define the fields for the user view? (Choose two.)
+A. Will field information about the temporary member be stored in an external database?
+B. What fields does the account owner need to see to be able to add a temporary member?
+C. How do the fields for the temporary member need to be displayed?
+D. Do the fields about the temporary member need to be displayed in multiple languages?
+Answer: B
+Explanation:
+
+15. In a purchase order case the vendor assigned might not respond to a customer's query in the desired amount of time required by policy. The vendor must respond within the time required according to policy. Both the vendor and customer should be notified at each milestone. To satisfy this requirement, create a service level that specifies two of the following options. (Choose Two)
+A. Set the goal to be the required response time based on policy and send notifications to both parties.
+B. Set the deadline to be the desired response time based on policy and sends notifications to both parties.
+C. Set the deadline to be the required response time based on policy and send notifications to both parties.
+D. Set the goal to be the desired response time based on policy and send notifications to both parties.
+Answer: C, D
+Explanation:
+
+16. Select two ways you use Agile Workbench to add detail to bugs and feedback items. (Choose Two)
+A. Use the integrated video recording tool.
+B. Use the integrated audio recording tool.
+C. Record the bugs and feedback in the Case Life Cycle step descriptions.
+D. Use the integrated screen capture tool.
+Answer: A, D
+Explanation:
+
+17. What are the two uses of Agile Workbench in product development? (Choose Two)
+A. Backlog storage
+B. Capturing user story refining
+C. Progress tracking
+D. Feature updates
+Answer: B, C
+Explanation:
+
+18. An application lets customers book airline reservations online. What would you expect to be defined as the Case Type in the application?
+A. A reservation
+B. A reviewed reservation
+C. An airline ticket
+D. A confirmation email
+Answer: A
+Explanation:
+
+19. You are helping to implement the technical components of a new application. Before you can begin work, you must obtain definitions of the business processes and service-level agreements. Which members of the development team would you go to for this information?
+A. Business architects
+B. Stakeholders
+C. Case participants
+D. Subject Matter Experts (SMEs)
+Answer: A
+Explanation:
+
+20. You want to engage business and IT resources to review the working models. What two best practices accomplish this objective? (Choose Two)
+A. Direct Capture of Objectives (DCO)
+B. Approval process
+C. Iterative delivery
+D. Guardrail compliance
+Answer: A, C
+Explanation:
+
+21. You use Agile Workbench to update the status of a bug or feedback item. Where can you view the resulting impact of project completion?
+A. Case Life Cycle Design
+B. Development Life Cycle
+C. Case Management
+D. The Application Overview landing page
+Answer: D
+Explanation:
+
+22. When preparing a backlog item for tracking in the Application Overview dashboard, what tasks do you perform?
+A. Associate a feature with the item, update the work status if necessary, and specify an owner and due date.
+B. An optional user action is a single task and typically returns to the primary path of a case, whereas an optional process is a series of steps that may or may not return to the primary path of a case.
+Answer: A
+Explanation:
+
+23. A __________ delivers a meaningful business outcome to a customer, partner, or internal stakeholder.
+A. Stage
+B. Status
+C. Case
+D. Step
+Answer: C
+Explanation:
+
+24. The modeling technique used to describe in business terms how a business application should work is called __________.
+A. Case Life Cycle Design
+B. Development Life Cycle
+C. Case Management
+D. The Application Overview landing page
+Answer: A
+Explanation:
+
+25. A __________ is used as a first level of organizing work in a case.
+A. Stage
+B. Status
+C. Case
+D. Step
+Answer: A
+Explanation:
+
+26. When modeling the life cycle of a case, stages typically represent a __________ or __________. (Choose Two)
+A. Single actor performing a single action
+B. Transfer of authority
+C. Subset of data used to resolve the case
+D. Significant change in the status of a case
+Answer: B, D
+Explanation:
+
+27. When modeling the life cycle of a case, alternate stages typically represent __________ and can __________. (Choose Two)
+A. Only be accessed manually
+B. Be sequenced into the primary stages
+C. A separate, but related business transaction
+D. Exceptions to the normal course of events
+Answer: B, E
+Explanation:
+
+28. What are the main differences between an optional user action and an optional process?
+A. Associate a feature with the item, update the work status if necessary, and specify an owner and due date.
+B. An optional user action is a single task and typically returns to the primary path of a case, whereas an optional process is a series of steps that may or may not return to the primary path of a case.
+Answer: B
+Explanation:
+
+29. A business process requirement states that users should be able to modify the shipping address at any time and not interrupt the primary case. Which of the following options is the best way to design for this requirement?
+A. Add a step in a process.
+B. Add a process in a stage.
+C. Add an optional process to any stage in the case type.
+D. Add a local action to the case type.
+Answer: D
+Explanation:
+
+30. In a dispute-handling application, the business states that a dispute assignment should ideally be worked within 2 business days, must be completed within 5 business days, and after 5 days should escalate with steadily increasing urgency until it is resolved. How should the Business Architect map these requirements onto a service-level agreement?
+A. Set only a deadline of 5 business days, leaving the goal and passed-deadline intervals unset because they are not needed here.
+B. Set the goal to 2 business days, the deadline to 5 business days, and let the passed-deadline interval drive escalating urgency after the deadline.
+C. Set the goal to 5 business days and the deadline to 2 business days, using the passed-deadline interval to escalate afterward.
+D. Add a Wait step of 5 business days to the flow to enforce the completion limit instead of configuring an SLA.
+Answer: B
+Explanation: The goal is the ideal target, the deadline is the firm commitment, and the passed-deadline interval raises urgency after the deadline, which matches all three statements.
+
+31. To which principle does the UI layer of the Pega Constellation architecture subscribe?
+A. Separation of Concerns
+B. User Control and Consistency
+C. Architecture Hierarchy
+D. Single Responsibility
+Answer: A
+Explanation: Constellation separates the UI (client) from application logic (server), following the separation-of-concerns principle.
+
+32. An employee-onboarding application must handle three workstreams for each new hire: IT provisioning, facilities and desk setup, and payroll enrollment. Each is owned by a different team, must be able to progress independently, and the onboarding case should not resolve until all three are complete. Which case-design approach best fits these requirements?
+A. Add three optional actions so each team launches its own workstream task on demand when it is ready.
+B. Add three parallel processes inside a single stage of the onboarding case, one for each workstream.
+C. Create three separate top-level cases with no parent link back to the onboarding case, so each team runs its own workstream entirely on its own.
+D. Spin off a child case for each of the three workstreams and have the parent onboarding case wait on the children before it resolves.
+Answer: D
+Explanation: Child cases give each workstream independent ownership and progression, and the parent can wait on all three to complete before resolving, matching every requirement.
+
+33. A Business Architect is hardening the data entry on an employee-onboarding case. They want the application to reject bad input at the point of capture and show the user a message to correct it. Which two situations are best handled by a validation rule (business-logic validation)? (Choose Two)
+A. Reject an expected start date that falls before today's date and prompt the user to fix it.
+B. Pre-fill the department field with a default value from a data transform when the onboarding form first opens.
+C. Require that an entered annual salary falls within an allowed minimum-to-maximum band before the case can proceed.
+D. Automatically compute the total onboarding cost by summing several entered amounts into a derived field.
+Answer: A, C
+Explanation: Validation enforces a business condition on entered data and returns a corrective message. A date constraint and a salary range are business validations, while default values and calculated fields are handled differently.
+
+34. A Business Architect is designing the intake screen for a citizen permit-request application. The screen currently shows a long, unstructured list of fields, and reviewers find it hard to scan. What is the primary purpose of grouping fields into views on this screen?
+A. To route the completed intake form to the correct work queue so that a reviewer can approve it.
+B. To automatically compute each field's value from the other fields using a calculated-value expression.
+C. To encrypt the underlying field values so that only authorized operators in the right access group can read them.
+D. To organize related fields into reusable, logically arranged sections that improve readability across the application.
+Answer: D
+Explanation: Views group related fields into coherent, reusable sections, making forms easier to scan and consistent across the app.
+
+35. During a security review, a stakeholder says: "When a user signs in with their corporate SSO credentials, the system confirms it is really them. Separately, once inside, the system decides that this user can open claims but cannot approve payouts." Which pairing correctly labels these two behaviors?
+A. Confirming it is really them is authentication; deciding what they can open or approve is authorization.
+B. Both behaviors are authorization, because both control system access.
+C. Both behaviors are authentication, because both happen at sign-in.
+D. Confirming it is really them is authorization; deciding what they can open or approve is authentication.
+Answer: A
+Explanation: Authentication verifies identity (who you are), while authorization determines what an authenticated user is permitted to do.
+
+36. UCom wants its shopping website to share an update about order acceptance and the expected delivery time of the product. Which Automation Step is most suitable to achieve this objective?
+A. Post to Pulse
+B. Send Notification
+C. Push Notification
+D. Update Case
+Answer: B
+Explanation: The Send Notification automation step sends the order-acceptance and delivery-time message to the intended recipient.
+
+37. A hospital's Pega application serves two groups: intake coordinators who register patients, and billing specialists who process invoices. Each group needs a different portal and different permissions, and dozens of individual staff belong to each group. How should the Business Architect structure this so the right people get the right access?
+A. Create one shared persona for all staff and route each user to a different work queue to control their portal and access.
+B. Give every staff operator the same shared access group and rely on validation rules to hide the wrong portals and screens from each group of users.
+C. Define an intake-coordinator persona and a billing-specialist persona, map each to its own access group, then place each operator in its access group.
+D. Assign portal access and permissions directly to each individual operator record without using personas or access groups.
+Answer: C
+Explanation: Modeling each group as a persona mapped to an access group, then placing operators in the access group, cleanly grants the correct portal and permissions to each group of users.
+
+38. A Business Architect new to Pega Platform asks what the Insights feature in App Studio is for. Which statement best describes it?
+A. It defines which operators can sign in to the application and controls what actions and data each role is permitted to access.
+B. It stores the system-of-record data that the application reads and writes through its data objects and data pages.
+C. It routes each open assignment to the correct operator or work queue based on the routing rules you configure.
+D. It presents case and data as visualizations, such as tables and charts, that you configure with columns, filters, and sorting to analyze the data.
+Answer: D
+Explanation: Insights turns case data into configurable table and chart visualizations, controlled through columns, filters, and sorting, so the business can analyze results.
+
+39. A BA is identifying Pega tools that support Agile collaboration — managing backlogs, sprints, and in-application feedback — rather than authoring or deploying the application. Which two are Pega Agile/collaboration tools? (Choose Two)
+A. Add several always-visible fields to the form so users can see every possible option up front.
+B. Replace a radio-button group that lists many mutually exclusive options with a dropdown (or autocomplete) control.
+C. Use visibility conditions so fields that only apply in certain situations appear only when relevant.
+D. Convert every dropdown into a full set of checkboxes so that all of its values are shown at once.
+Answer: B, C
+Explanation:
+
+40. A Business Architect is designing the intake screen for a citizen permit-request application. The screen currently shows a long, unstructured list of fields, and reviewers find it hard to scan. What is the primary purpose of grouping fields into views on this screen?
+A. To route the completed intake form to the correct work queue so that a reviewer can approve it.
+B. To automatically compute each field's value from the other fields using a calculated-value expression.
+C. To organize related fields into reusable, logically arranged sections that improve readability across the application.
+D. To encrypt the underlying field values so that only authorized operators in the right access group can read them.
+Answer: C
+Explanation:
+
+41. A Business Architect is hardening the data entry on an employee-onboarding case. They want the application to reject bad input at the point of capture and show the user a message to correct it. Which two situations are best handled by a validation rule (business-logic validation)? (Choose Two)
+A. Pre-fill the department field with a default value from a data transform when the onboarding form first opens.
+B. Reject an expected start date that falls before today's date and prompt the user to fix it.
+C. Require that an entered annual salary falls within an allowed minimum-to-maximum band before the case can proceed.
+D. Automatically compute the total onboarding cost by summing several entered amounts into a derived field.
+Answer: B, C
+Explanation:
+
+42. A Business Architect is writing plain-language definitions for a training deck. Which statement best defines authentication?
+A. The process of computing a field value from other fields on the case.
+B. The process of deciding which cases and actions a signed-in user is allowed to perform.
+C. The process of verifying who a user is, such as validating their login credentials.
+D. The process of routing an assignment to the correct work queue.
+Answer: C
+Explanation:
+
+43. A Business Architect new to Pega Platform asks what the Insights feature in App Studio is for. Which statement best describes it?
+A. It defines which operators can sign in to the application and controls what actions and data each role is permitted to access.
+B. It presents case and data as visualizations, such as tables and charts, that you configure with columns, filters, and sorting to analyze the data.
+C. It routes each open assignment to the correct operator or work queue based on the routing rules you configure.
+D. It stores the system-of-record data that the application reads and writes through its data objects and data pages.
+Answer: B
+Explanation:
+
+44. A procurement application routes approval assignments. Requests below a stated amount should go to whichever buyer on the purchasing team picks them up first, while requests at or above that amount must go to one named senior-approver operator. Which routing approach should the Business Architect configure on the approval assignment?
+A. Route every approval to a single shared work queue for the entire purchasing team to pick up, treating small and large requests identically regardless of amount.
+B. Route every approval directly to the named senior-approver operator as the single assignee, regardless of whether the request is below or above the amount.
+C. Route every approval to the purchasing work group so that every member shares the assignments regardless of amount, with no separate handling for the larger requests.
+D. Use business-logic routing on the amount that sends smaller requests to the purchasing work queue and larger requests to the named senior-approver operator.
+Answer: D
+Explanation:
+
+45. A procurement team is modeling their application in App Studio. They need to represent each supplier the company works with, storing attributes such as supplier name, tax ID, and country, and reusing that structure across several case types. Which App Studio construct should the Business Architect create to represent a supplier?
+A. A data object
+B. A work queue
+C. A stage
+D. An SLA rule
+Answer: A
+Explanation:
+
+46. An operations manager asks the Business Architect to make sure that on the reimbursement case form, the "manager approval reason" field appears only when the requested amount exceeds a threshold the form captures as ApprovalLimit; otherwise the field should stay hidden. Which App Studio feature implements this behavior?
+A. A validation rule that blocks case submission unless the manager approval reason field is filled in.
+B. A visibility condition on the field that shows it only when the requested amount is greater than ApprovalLimit.
+C. A data transform that deletes the approval-reason field from the case when it is not needed.
+D. A separate access group that hides the approval-reason field from some categories of operators.
+Answer: B
+Explanation:
+
+47. For a loan-origination application, the Business Architect must build an insight (table) that shows only loan cases whose amount exceeds a review threshold (for this application, greater than $500,000), with the largest loans listed first. Which combination of insight configuration achieves this?
+A. Create a child case for every loan whose amount exceeds the threshold and list those child cases in the insight.
+B. Sort the amount column in ascending order and apply no filter, so every loan case still appears in the insight.
+C. Remove the amount column and add a loan-status column in its place, then sort the insight by that status column.
+D. Apply a filter on loan amount greater than the threshold, keep the amount column, and sort that column descending.
+Answer: D
+Explanation:
+
+48. On a travel-booking case, the Business Architect must let the traveler pick their departure country. There are roughly 190 possible countries, all mutually exclusive, and the team wants to keep the form uncluttered while making it fast to find a value. Which UI control is the best fit for the country field?
+A. A radio-button group that lists all 190 country options on the form at once.
+B. An autocomplete control, so the user types a few letters to narrow a very long list.
+C. A set of checkboxes with one checkbox rendered per country in the list.
+D. A free-text single-line field where the traveler types the country name.
+Answer: B
+Explanation:
