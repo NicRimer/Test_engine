@@ -1,0 +1,584 @@
+1. What is a benefit of Pega low-code development?
+A. The Pega low-code development tools create the code for you.
+B. Developers must manually write every screen.
+C. All business rules require custom Java code.
+D. Low-code removes the need to define business requirements.
+Answer: A
+Explanation: Pega low-code development uses platform tooling to generate much of the implementation so teams can focus on the business solution.
+
+2. Case life cycle design is a model to ______________ and _______________.
+A. define a structure to create, process, and resolve work
+B. define how work is completed for each specific customer request
+C. define database tables and integration endpoints
+D. define only the user interface of an application
+Answer: A, B
+Explanation: Case life cycle design provides the structure for creating, processing, and resolving work and describes how work is completed for a customer request.
+
+3. Which of the following scenarios leverages case life cycle design?
+A. A travel booking application with a Booking case type and Reservation request, Validation, and Confirmation stages.
+B. A database administrator creates a new database table without defining a case.
+C. A developer changes an application's color palette without changing its workflow.
+D. An administrator resets an operator password.
+Answer: A
+Explanation: The travel-booking example explicitly models a business request as a case type with stages that represent the case life cycle.
+
+4. Which two of the following methods can configure one stage in the case life cycle to advance to the next? (Choose Two)
+A. Add a Change Stage step.
+B. Configure automatic stage transitioning in the stage contextual property panel.
+C. Add a new data object to the case.
+D. Change the application's theme.
+Answer: A, B
+Explanation: A stage can advance using a Change Stage step or automatic stage transition configuration.
+
+5. When modeling the life cycle of a case, stages represent a _______________ or a _________________.
+A. transfer of authority
+B. significant change in the status of a case
+C. database table
+D. user's access group
+Answer: A, B
+Explanation: Stages represent business-recognizable phases, including a transfer of authority or a significant change in case status.
+
+6. When modeling the life cycle of a case, alternate stages _______ and ____________.
+A. represent exceptions to the normal course of events
+B. can be sequenced into primary stages
+C. must always be the first stage
+D. replace every primary stage
+Answer: A, B
+Explanation: Alternate stages represent exceptions to the normal course of events and can be sequenced into primary stages.
+
+7. Adding instructions to a step _____________________________.
+A. describes to users the action to take in a step.
+B. changes the SLA deadline automatically.
+C. creates a new data object.
+D. routes the assignment to a work queue.
+Answer: A
+Explanation: Instructions provide contextual guidance that describes the action users should take in the step.
+
+8. A Collect Information step in the case life cycle sets the status to Pending-Approval. When does the case status automatically update?
+A. At the beginning of the step.
+B. Only after the case resolves.
+C. When the SLA deadline expires.
+D. When the next stage starts.
+Answer: A
+Explanation: The reference states that the case status updates at the beginning of the Collect Information step.
+
+9. What type of step typically requires contextual instructions?
+A. Collect Information
+B. Wait
+C. End
+D. Change Stage
+Answer: A
+Explanation: Collect Information steps typically require contextual instructions so users know what information or action is expected.
+
+10. The primary purpose of a service level is to __________.
+A. help ensure timely completion of work
+B. replace all routing rules
+C. define the application's visual theme
+D. store external system data
+Answer: A
+Explanation: Service levels help ensure that work is completed within the required time frame.
+
+11. The goal milestone in a service level defines that amount of time ___________.
+A. in which the case or step should be completed
+B. after which the case must always be resolved
+C. before an operator can sign in
+D. used to refresh a data page
+Answer: A
+Explanation: The goal defines the target amount of time in which the case or step should be completed.
+
+12. You want users to choose their delivery preferences. The options are Standard, Premium, and Next Day. Which field type do you use to define the delivery options list?
+A. Picklist
+B. Field group list
+C. Paragraph text
+D. Calculated field
+Answer: A
+Explanation: A Picklist is used when users select one value from a defined list of delivery options.
+
+13. An Applicant case captures the language skills of a candidate. What type of field do you configure for users to enter language skills?
+A. Text (single line or paragraph)
+B. Picklist
+C. Field group list
+D. Boolean
+Answer: A
+Explanation: Text is appropriate for users to enter language skills as free-form information.
+
+14. To configure user views, you can add existing fields to the user view and _________________.
+A. reuse saved views
+B. create a new ruleset for every field
+C. replace all fields with data records
+D. disable the case life cycle
+Answer: A
+Explanation: Existing fields can be added to a user view and saved views can be reused.
+
+15. In a loan request application, candidates must enter their addresses from the past 10 years. What field type do you configure to collect this information?
+A. Field group list
+B. Single text field
+C. Picklist
+D. Calculated field
+Answer: A
+Explanation: A field group list stores multiple grouped sets of related values, such as multiple historical addresses.
+
+16. What is the difference between a field group and a field group list?
+A. A field group stores related properties, while a field group list stores a list of grouped values.
+B. A field group is for external APIs, while a field group list is for SLAs.
+C. A field group stores only one text value, while a field group list stores a Boolean.
+D. There is no difference.
+Answer: A
+Explanation: A field group stores the values of related properties; a field group list stores multiple grouped values.
+
+17. What two items describe the function of a calculation network? (Choose Two)
+A. Update all relevant fields whenever a value changes.
+B. Identify the relationship between fields.
+C. Route assignments to work queues.
+D. Authenticate application users.
+Answer: A, B
+Explanation: A calculation network identifies relationships between fields and updates relevant fields when values change.
+
+18. A ticket seller requires a calculated field to find the total cost of tickets purchased, sales tax, and processing fee. Complete the calculation configuration by entering the missing operations.
+A. SubTotal (+) Tax (+) ProcessingFee
+B. SubTotal (×) Tax (×) ProcessingFee
+C. SubTotal (-) Tax (-) ProcessingFee
+D. SubTotal (÷) Tax (÷) ProcessingFee
+Answer: A
+Explanation: The total is calculated by adding the subtotal, tax, and processing fee.
+
+19. Which two of the following are use cases for calculated fields configured with functions? (Choose Two)
+A. A roofing supervisor totals durations stored in a field group list.
+B. A testing facility calculates average scores for each test.
+C. A manager assigns work to a work queue based on geography.
+D. An administrator changes an operator's access group.
+Answer: A, B
+Explanation: The reference examples use calculated fields to total durations and generate average scores from lists.
+
+20. How is a data record different from a data type?
+A. A new data record generally does not impact the business process whereas a change to a data type generally does impact the business process.
+B. A data record always changes the business process while a data type never does.
+C. Data records are only used for UI styling.
+D. Data types are only used for operator authentication.
+Answer: A
+Explanation: The reference distinguishes relatively low-impact changes to data records from changes to the structure represented by a data type.
+
+21. What is the role of data records in an application?
+A. Data records provide access to data used to process cases but are not part of an application.
+B. Data records define every case stage.
+C. Data records replace all data types.
+D. Data records authenticate users.
+Answer: A
+Explanation: Data records provide access to business data used by cases without being the application's process itself.
+
+22. A _________ organizes related data in an application and a _________ links the data to the system of record.
+A. data type; data view
+B. data view; data type
+C. work queue; stage
+D. case type; SLA
+Answer: A
+Explanation: A data type organizes related data, while a data view links application data to the system of record.
+
+23. Which two statements are true about Pega Robotic Automation - RPA? (Choose Two)
+A. It opens and updates information by using the system of record's user interface.
+B. It allows integration with a system of record that does not support an API.
+C. It replaces every Pega case type.
+D. It is used only to style application screens.
+Answer: A, B
+Explanation: RPA can interact with systems through their user interfaces and can integrate with systems that do not expose an API.
+
+24. An external SOR supports an API for reading but not updating candidate work experience. Returning candidates must retrieve, change, and push the changes back. Which integration option do you use?
+A. Pega Robotic Process Automation
+B. A report definition
+C. A Picklist
+D. A theme
+Answer: A
+Explanation: RPA can interact with the external system through its user interface when the required update API is unavailable.
+
+25. Expense report processes require you to route travel expense assignments to a specific auditor. Auditors are members of an auditing work group. How do you route the assignment to a specific user?
+A. Route the assignment to the user.
+B. Route the assignment to the entire work group.
+C. Route the assignment to the reporting manager.
+D. Use a Wait step.
+Answer: A
+Explanation: When a specific auditor must receive the assignment, route the assignment directly to that user.
+
+26. A home loan company has appraisal offices in various regions and requires assignments based on home location. Which routing approach supports this requirement?
+A. Route the assignment to the correct work queue based on business logic.
+B. Route every assignment to one named operator.
+C. Route every assignment to the manager.
+D. Use an SLA to select the queue.
+Answer: A
+Explanation: Business logic can evaluate the home location and route the assignment to the appropriate regional work queue.
+
+27. Which scenario describes the appropriate use of an Approve/Reject step?
+A. Employees submit self-evaluations to managers, who either approve them or send them back for elaboration.
+B. A user enters a mailing address.
+C. A system waits 72 hours for a document.
+D. A report is grouped by region.
+Answer: A
+Explanation: Approve/Reject is appropriate when a decision maker can approve work or send it back for additional information or changes.
+
+28. In a job application case, a hiring manager and recruiter must receive automatic email notifications when assignments are routed to their worklists. How do you configure this?
+A. Enable assignment notifications for the case type.
+B. Create a new child case for each notification.
+C. Add a Wait step to every assignment.
+D. Change the application theme.
+Answer: A
+Explanation: Assignment notifications can be enabled for the case type so recipients are notified when work is routed.
+
+29. Which two statements identify why you should automate correspondence? (Choose Two)
+A. Automating correspondence allows for sending consistent information to users.
+B. Automating correspondence allows you to send timely communication.
+C. Automation removes the need for all case participants.
+D. Automation replaces the case life cycle.
+Answer: A, B
+Explanation: Automated correspondence improves consistency and timeliness of communication.
+
+30. You configure a case to automatically send an approval email containing the applicant's name, loan office, and loan amount. How do you configure the email?
+A. Add the applicant's name, loan office, and loan amount properties.
+B. Hard-code a different value for each case.
+C. Create a new work queue for every applicant.
+D. Use an SLA to calculate the applicant's name.
+Answer: A
+Explanation: Case properties can be inserted into the email so the message contains the required case-specific values.
+
+31. Select two ways you use Agile Workbench to add details to bug and feedback items. (Choose Two)
+A. Use the integrated screen capture tool.
+B. Use the integrated video recording tool.
+C. Use an SLA to document the bug.
+D. Create a new access group for each feedback item.
+Answer: A, B
+Explanation: Agile Workbench provides integrated screen capture and video recording tools for documenting bugs and feedback.
+
+32. Select two use cases supported by Agile Workbench. (Choose Two)
+A. Adjust the due date for several user stories.
+B. Record an application bug discovered during peer review.
+C. Configure an application's SSO provider.
+D. Define a service-level deadline.
+Answer: A, B
+Explanation: Agile Workbench supports managing user stories and recording bugs and feedback during development.
+
+33. Select the two correct statements about work items in Agile Workbench. (Choose Two)
+A. Feedback items are feature enhancement requests.
+B. User stories are the primary work items.
+C. SLAs are the primary work items.
+D. Access groups are feedback items.
+Answer: A, B
+Explanation: Agile Workbench uses user stories as primary work items and feedback items for enhancement requests.
+
+34. You want to evaluate cases as potential duplicates when the existing cases and current case have the same create operator. How can you ensure that only cases with the same create operator are evaluated?
+A. Add a basic condition where the create operator in an existing case is the same as in the current case.
+B. Increase the SLA deadline.
+C. Create a separate case type for every operator.
+D. Add a theme condition.
+Answer: A
+Explanation: A basic duplicate-search condition can compare the create operator in the existing case with the current case.
+
+35. Management reports too many false duplicate cases. Which two approaches can reduce invalid duplicates? (Choose Two)
+A. Adjust the condition weights.
+B. Increase the threshold value.
+C. Remove all duplicate detection conditions.
+D. Create a new access group.
+Answer: A, B
+Explanation: Adjusting condition weights and increasing the threshold makes duplicate detection more selective.
+
+36. Which scenario might benefit from using a temporary case?
+A. Airline customers view their travel itinerary or submit a request to modify their itinerary, subject to fees.
+B. A case must be permanently stored for audit.
+C. A user needs a new access group.
+D. A dashboard needs a new widget.
+Answer: A
+Explanation: A temporary case is appropriate for short-lived interactions such as viewing or modifying an itinerary before persistence is required.
+
+37. When a process is configured to create temporary cases, what occurs when a user creates a case?
+A. The case is stored in memory.
+B. The case is immediately persisted to the database.
+C. The case is automatically resolved.
+D. The case is converted into a data record.
+Answer: A
+Explanation: A temporary case is held in memory until the process explicitly persists it.
+
+38. What task must you perform to persist a temporary case?
+A. Add a Persist Case step to the process.
+B. Add a Wait step.
+C. Add an alternate stage.
+D. Add a new work queue.
+Answer: A
+Explanation: The Persist Case step explicitly saves a temporary case.
+
+39. A business process requirement states that users should be able to modify the shipping address at any time without interrupting the primary path. What is the best design?
+A. Add an optional action to the case type.
+B. Add a mandatory step to every stage.
+C. Create a new top-level case type for every address change.
+D. Use an SLA to interrupt the primary path.
+Answer: A
+Explanation: An optional action allows a user to perform additional work without interrupting the primary case path.
+
+40. Which requirement could be satisfied with an optional user action?
+A. Allow a user to transfer a case to another employee at any stage of the case.
+B. Require every case to pass a mandatory approval.
+C. Automatically calculate a field.
+D. Pause a case until an external dependency is met.
+Answer: A
+Explanation: An optional user action is appropriate for an additional user-triggered task available during the case.
+
+41. Automating decisions based on business logic enables ____________________.
+A. application users to focus on more nuanced decisions that require business expertise
+B. all users to bypass authorization
+C. the application to eliminate every human task
+D. all cases to resolve automatically
+Answer: A
+Explanation: Automating routine decisions allows users to focus on decisions that require business expertise.
+
+42. On a (______), you define a condition with comparators to determine when the (______) is skipped. On a (______), you define a condition with comparators to determine when the (______) is executed.
+A. stage; stage; process; process
+B. process; stage; stage; process
+C. case; case; stage; process
+D. data type; field; process; stage
+Answer: A
+Explanation: The reference states that stage conditions determine when a stage is skipped, while process conditions determine when a process is executed.
+
+43. In a customer service case, customers can choose whether to complete a survey. If they do not, the case resolves automatically. How do you configure this behavior?
+A. Configure the Customer Survey stage with a custom condition to skip when the customer does not indicate interest.
+B. Add an SLA that always skips the survey.
+C. Create a new access group for customers who decline.
+D. Use a data transform to delete the stage.
+Answer: A
+Explanation: A custom condition on the Customer Survey stage can skip that stage when the customer does not indicate interest.
+
+44. In a mortgage application, the user creates a loan request. Before approving it, the loan officer must receive appraisal results. How do you configure the case relationship?
+A. Make loan request a parent case type and appraisal a child case type.
+B. Make appraisal the parent and loan request the child.
+C. Create two unrelated top-level cases.
+D. Use a data record instead of a case.
+Answer: A
+Explanation: The loan request is the primary case and the appraisal is a related child case whose results are needed by the parent.
+
+45. In an online shopping application, PurchaseOrder has Payment and Packaging child cases. Which statement is correct?
+A. Both Payment and Packaging must be resolved before PurchaseOrder can be resolved.
+B. Payment must resolve before Packaging can resolve.
+C. PurchaseOrder must resolve before either child case.
+D. Either child can resolve the parent immediately.
+Answer: A
+Explanation: The reference states that both child cases must be resolved before the parent case can resolve.
+
+46. In an online banking application, Transaction Inquiry creates a Fraud Investigation case and transaction details must be populated in the child. How do you configure this in App Studio? (Choose Two)
+A. Configure Transaction Inquiry as the parent case and Fraud Investigation as the child case.
+B. Propagate the transaction data from the parent case to the child case.
+C. Configure Fraud Investigation as the parent case.
+D. Use a dashboard widget to copy the data.
+Answer: A, B
+Explanation: The parent-child relationship and data propagation ensure that transaction details are available in the Fraud Investigation case.
+
+47. Which requirement is best implemented by using a Wait step in a case?
+A. A purchase case cannot continue until a new account subcase is completed.
+B. A user needs to change an address without interrupting the primary path.
+C. A manager needs to approve a quote.
+D. A report needs to group cases by cost center.
+Answer: A
+Explanation: A Wait step pauses case processing until the required dependency is met.
+
+48. You can view and modify the data model from the (______). The (______) is a visualization tool that shows relationships between data objects, data views, and systems of record.
+A. App Studio; Data Relationship Diagram
+B. Integration Designer; Visual Data Model
+C. Dev Studio; Report Definition
+D. Admin Studio; Dashboard
+Answer: A
+Explanation: The reference identifies App Studio as the place to view and modify the data model and the Data Relationship Diagram as the visualization tool.
+
+49. In a mortgage loan case, the system determines from financial information that no loans are available and the case should not enter the Loan stage. How should this be configured?
+A. Configure business logic validation on the Loan stage.
+B. Add a theme condition.
+C. Create a new access group.
+D. Use a report definition to skip the stage.
+Answer: A
+Explanation: Business logic validation on the Loan stage can prevent entry when the financial-information condition is not satisfied.
+
+50. A manager wants purchase requests grouped by regional cost center, with each cost center appearing only once. How should the report be configured?
+A. Use the cost center column to group the results.
+B. Sort only by case ID.
+C. Filter out all cost centers except one.
+D. Create a new work queue for each cost center.
+Answer: A
+Explanation: Grouping the cost center column organizes the report so requests appear under each cost center.
+
+51. A manager requests a report with Create Date, Case ID, Create Operator, and Work Status, with newest cases first. How should the report be designed?
+A. For Create Date, select Highest to Lowest sort type.
+B. For Create Date, select Lowest to Highest sort type.
+C. Filter Create Date to a future date.
+D. Make Create Date a hidden field.
+Answer: A
+Explanation: Highest to Lowest sorting puts the most recently created cases at the top.
+
+52. The payroll manager requests a report on the average length of time required to obtain approvals. What type of metric will the report provide?
+A. Process metric
+B. Business metric
+C. Security metric
+D. Data-model metric
+Answer: A
+Explanation: Average approval duration measures process performance, so it is a process metric.
+
+53. What are two reasons for using a theme to style your application? (Choose Two)
+A. A theme applies consistent colors and typography throughout the application.
+B. A theme makes user-interface maintenance easier.
+C. A theme replaces all case types.
+D. A theme controls SLA escalation.
+Answer: A, B
+Explanation: Themes provide consistent styling and simplify maintenance of the application's visual design.
+
+54. The legal department wants all legal references styled differently across the HR application. How do you implement this?
+A. Open the application theme and add a new theme text that maps to a text element for legal references.
+B. Create a new SLA for legal references.
+C. Create a separate work queue for legal references.
+D. Add an alternate stage for every legal reference.
+Answer: A
+Explanation: The application theme can define reusable text styling for the legal-reference elements.
+
+55. Which two statements are true about the dashboard? (Choose Two)
+A. The dashboard displays KPIs and operational information about the application.
+B. Each role-based interface includes a dashboard tailored to the role.
+C. Dashboards can only display raw database tables.
+D. Dashboards replace the case life cycle.
+Answer: A, B
+Explanation: Dashboards present KPIs and operational information and can be tailored to the role-based interface.
+
+56. Various (______) allow you to organize your (______) differently. Add or remove widgets from different (______) to personalize your (______).
+A. templates; widgets; slots; dashboard
+B. dashboard; templates; widgets; slots
+C. slots; dashboard; templates; widgets
+D. widgets; templates; dashboard; slots
+Answer: A
+Explanation: The reference wording is: templates organize widgets; widgets can be placed in slots; the result personalizes the dashboard.
+
+57. Identify the use case that requires creating a new role.
+A. An additional combination of channel interface and permissions is necessary.
+B. A user needs to change a case field.
+C. A report needs to be sorted by date.
+D. A case needs to wait for a child case.
+Answer: A
+Explanation: A new role is appropriate when an additional combination of channel interface and permissions is required.
+
+58. Which three design concepts help achieve a better user experience? (Choose Three)
+A. Design systems
+B. Interaction design
+C. Goal alignment
+D. SLA escalation
+Answer: A, B, C
+Explanation: The reference identifies design systems, interaction design, and goal alignment as design concepts that support a better user experience.
+
+59. Drag the scenario on the right to the correct UX design concept on the left. Which mapping is correct?
+A. User research → observing an end user; Prototyping → building an interactive model; Ideation → collaborative generation of solution ideas.
+B. User research → configuring an SLA; Prototyping → routing work; Ideation → creating a data page.
+C. User research → deploying an application; Prototyping → creating a work queue; Ideation → resolving a case.
+D. User research → styling a theme; Prototyping → creating an access group; Ideation → sorting a report.
+Answer: A
+Explanation: The reference maps observation of users to User research, interactive case modeling to Prototyping, and collaborative idea generation to Ideation.
+
+60. Which two scenarios are examples of design for change? (Choose Two)
+A. A service-level rule is delegated to a business owner who anticipates frequent changes to accommodate market conditions.
+B. A project includes a dedicated page for changing Pega environment settings.
+C. A report is sorted newest to oldest.
+D. A field is made read-only for managers.
+Answer: A, B
+Explanation: Design for change anticipates likely change and provides appropriate mechanisms for business or environment changes.
+
+61. To design for (______), start by (______) and exploring the potential for change in the solution that you are working on.
+A. change; anticipating
+B. data; calculating
+C. security; routing
+D. performance; testing
+Answer: A
+Explanation: The reference wording is to design for change by anticipating and exploring the potential for change.
+
+62. Which scenario best illustrates a project team that identifies business insight needs and addresses the impact?
+A. The team adds a real-time operations dashboard to the backlog and modifies the data model to support it.
+B. The team changes the application's theme without considering reporting.
+C. The team removes all case data from the application.
+D. The team disables Agile Workbench.
+Answer: A
+Explanation: The example identifies a business insight need and changes both the backlog and data model to support the required dashboard.
+
+63. Which scenario is least consistent with the intent of DCO?
+A. The team must manually copy user-story and time-tracking details every day from Agile Studio to a required third-party tool.
+B. The team captures requirements collaboratively with stakeholders.
+C. The team uses working models to refine requirements.
+D. The team uses Agile Workbench to capture feedback.
+Answer: A
+Explanation: Manual daily copying between tools undermines DCO's goal of maintaining collaborative, connected requirements and solution information.
+
+64. Which two scenarios may negatively impact valuable business insight about auto-claim resolution time? (Choose Two)
+A. Policyholder address information is stored only in an external system of record instead of in the case.
+B. The case waits up to five business days for an optional survey before resolving.
+C. A report groups cases by home city.
+D. A dashboard displays resolution-time trends.
+Answer: A, B
+Explanation: Both externalizing needed analysis data and delaying case resolution with an optional survey can negatively affect the ability to analyze resolution-time data.
+
+65. Which of the following describes why Pega bases project delivery on Scrum methodology?
+A. Customer feedback is constant, testing begins almost immediately, change can be accommodated, and partners and clients can both implement.
+B. Change is intentionally made difficult so requirements cannot evolve.
+C. Only developers can participate in implementation.
+D. Testing begins only after the project is completely finished.
+Answer: A
+Explanation: The reference associates Scrum with continuous customer feedback, early testing, adaptability to change, and collaborative implementation.
+
+66. How can you get a head start in delivering a Pega project?
+A. Choose a strategic application, deliver with App Studio, and use Pega's out-of-the-box test and development enablers.
+B. Write all application code manually before using Pega.
+C. Avoid App Studio until the project is complete.
+D. Replace all Pega testing tools with manual testing.
+Answer: A
+Explanation: The reference identifies strategic application selection, App Studio, and Pega's built-in test/development enablers as ways to get a head start.
+
+67. Which of the following are NOT included in the Three Pillars?
+A. User stories
+B. Channels
+C. Microjourneys™
+D. Data
+Answer: A
+Explanation: The reference identifies User stories as implementation artifacts rather than one of the Three Pillars.
+
+68. Which statement about microjourneys is true?
+A. A Microjourney™ represents one customer goal for a single persona through a single channel.
+B. A Microjourney™ represents every possible goal for every persona.
+C. A Microjourney™ is a database table.
+D. A Microjourney™ is an SLA escalation rule.
+Answer: A
+Explanation: A Microjourney focuses on one customer goal, one persona, and one channel.
+
+69. Which of the following is NOT a Prepare phase activity?
+A. Build and Unit Test
+B. Enablement Planning
+C. Create the Product Backlog
+D. Establish Governance
+Answer: A
+Explanation: Build and Unit Test begins in Sprint 1; the other listed activities belong to the Prepare phase.
+
+70. Which objects are represented as Features in Agile Workbench?
+A. Microjourney™
+B. Data pages
+C. Access groups
+D. SLAs
+Answer: A
+Explanation: The reference identifies Microjourney™ as the object represented as a Feature in Agile Workbench.
+
+71. A Microjourney™ delivers _____________________.
+A. A single customer goal, a single persona, a single channel
+B. Multiple unrelated goals across all personas and channels
+C. Only a database integration
+D. Only a user interface theme
+Answer: A
+Explanation: The reference defines a Microjourney as delivering a single customer goal for a single persona through a single channel.
+
+72. Pega's low-code ________________ allows users to build integrations using a drag and drop interface.
+A. Integration Designer
+B. Report Definition
+C. Case Type Designer
+D. Admin Studio
+Answer: A
+Explanation: Integration Designer is the Pega low-code tool identified in the reference for building integrations with a drag-and-drop interface.
+
+73. Which of the following is the function of the Deployment Manager?
+A. Support continuous integration and continuous delivery, schedule/control automated test scripts, and provide consistency for branch migration and promotion.
+B. Only create dashboard widgets.
+C. Only manage operator passwords.
+D. Only define case stages.
+Answer: A
+Explanation: The reference identifies Deployment Manager with continuous integration/continuous delivery, automated test scheduling and control, and consistent branch migration and promotion.
+
