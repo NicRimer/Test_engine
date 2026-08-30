@@ -209,8 +209,9 @@ A. Only be accessed manually
 B. Be sequenced into the primary stages
 C. A separate, but related business transaction
 D. Exceptions to the normal course of events
-Answer: B, E
+Answer: B, D
 Explanation:
+
 
 28. What are the main differences between an optional user action and an optional process?
 A. Associate a feature with the item, update the work status if necessary, and specify an owner and due date.
