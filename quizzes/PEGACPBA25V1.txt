@@ -400,24 +400,25 @@ B. Copy items from a previous order to the current case.
 C. Validate the format of a property value.
 D. Display data from the system of record on multiple steps of a case.
 Answer: A, B
+Explanation: Data transforms can convert data and copy or map values between properties. Validation and displaying system-of-record data are handled by other Pega features. 
 
-52. Explanation: Data transforms can convert data and copy or map values between properties. Validation and displaying system-of-record data are handled by other Pega features. In a Case Lifecycle for an online order, which Stage typically handles exceptions such as order cancellations or returns?
+52. In a Case Lifecycle for an online order, which Stage typically handles exceptions such as order cancellations or returns?
 A. Create Stage
 B. Primary Stage
 C. Alternate Stage
 D. Resolution Stage
 Answer: C
+Explanation: Alternate Stages handle exceptions or alternative paths in the normal Case Lifecycle. 
 
-53. Explanation: Alternate Stages handle exceptions or alternative paths in the normal Case Lifecycle. What is the primary purpose of the Pega GenAI Connect Step in a workflow?
+53. What is the primary purpose of the Pega GenAI Connect Step in a workflow?
 A. To train large language models on existing application data.
 B. To create a new Case Type based on AI-generated recommendations.
 C. To replace human decision-making in approval processes.
 D. To automate tasks such as summarizing Case details.
 Answer: D
 Explanation: The Pega GenAI Connect Step can use generative AI capabilities to automate tasks such as summarizing Case details.
-A museum ticketing case has an option for students or seniors to enter identifying information. If the customer information identifies the user as a student or senior, they do not need to enter payment information and they receive their ticket.
 
-54. How do you implement this requirement?
+54. A museum ticketing case has an option for students or seniors to enter identifying information. If the customer information identifies the user as a student or senior, they do not need to enter payment information and they receive their ticket. How do you implement this requirement?
 A. Add an Approve/Reject step to the process for a manager to review and assess if the customer is a senior or student.
 B. Configure the Enter payment information process to start if the Customer is not a student or senior.
 C. Configure a decision shape. If the customer is a student, the process advances, otherwise the process ends.
@@ -473,9 +474,8 @@ C. To connect Pega applications to large language models.
 D. To create automated test Cases for Pega applications.
 Answer: B
 Explanation: Pega GenAI Knowledge Buddy helps users find and manage information efficiently.
-An insurance company wants to prevent duplicate claims for the same incident. The system must check the Customer name field first, followed by the Incident details field group.
 
-61. Which two configurations should you apply together in the Search duplicate Cases Step to achieve this goal? (Choose two.)
+61. An insurance company wants to prevent duplicate claims for the same incident. The system must check the Customer name field first, followed by the Incident details field group. Which two configurations should you apply together in the Search duplicate Cases Step to achieve this goal? (Choose two.)
 A. Incident details as weighted conditions.
 B. Incident details as basic conditions.
 C. Customer name as a basic condition.
@@ -483,7 +483,7 @@ D. Customer name as a weighted condition.
 Answer: A, C
 Explanation: Customer name is used as a basic condition, while Incident details is configured as a weighted condition to refine duplicate matching.
 
-62. Data source type: Pega system of record (A Meal type radio button to request a vegetarian meal); External system of record (A Services data type to enter services requested at a car mechanic); No system of record (A Weather data type to retrieve weather data from a national weather service);
+62. A Meal type radio button to request a vegetarian meal; A Services data type to enter services requested at a car mechanic; A Weather data type to retrieve weather data from a national weather service; What are correct data types?
 A. No system of record; External system of record; Pega system of record
 B. No system of record; Pega system of record; External system of record
 C. Pega system of record; No system of record; External system of record
@@ -513,9 +513,9 @@ B. Automatically resolving the Case without human intervention.
 C. Sending notifications to managers.
 D. Extending the deadline automatically by 24 hours.
 Answer: A, C
-Explanation: SLA escalation actions can increase the urgency of work and send notifications to appropriate parties. A music studio allows clients to upload audio recordings before they begin consultation. The studio wants to pause Case processing after the Client Intake Stage and give clients 72 hours to upload recordings, if they choose, before beginning the Client Consultation Process.
+Explanation: SLA escalation actions can increase the urgency of work and send notifications to appropriate parties. 
 
-66. Which configuration meets this requirement?
+66. A music studio allows clients to upload audio recordings before they begin consultation. The studio wants to pause Case processing after the Client. Intake Stage and give clients 72 hours to upload recordings, if they choose, before beginning the Client Consultation Process. Which configuration meets this requirement?
 A. Configure a validate rule on the Client Intake Stage and set the elapsed time to 72 hours.
 B. Configure a Case wide optional action to allow uploads. After the Client Intake Stage, add a Wait shape with a timer set to 72 hours.
 C. Configure a service level agreement on the Stage that contains the Client Consultation Process with a deadline of 72 hours.
