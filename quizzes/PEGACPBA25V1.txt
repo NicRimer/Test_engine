@@ -86,8 +86,7 @@ D. Extending the deadline automatically by 24 hours.
 Answer: A, C
 Explanation:
 
-12. A financial services company is implementing a new Pega application alongside their existing customer portal and document management system. The IT department wants users to access all three systems without repeatedly entering credentials.
-When configuring single sign-on (SSO) in the Pega application, what does this primarily achieve?
+12. A financial services company is implementing a new Pega application alongside their existing customer portal and document management system. The IT department wants users to access all three systems without repeatedly entering credentials. When configuring single sign-on (SSO) in the Pega application, what does this primarily achieve?
 A. Grants access to specific UI elements in the application based on user roles.
 B. Sets consistent session timeout rules for all authenticated user.
 C. Confirms the identity of the user during the initial login process.
@@ -103,7 +102,7 @@ D. Identify the scope of the initial release.
 Answer: D
 Explanation:
 
-14. Consider the following user story: As an account owner, I want to be able to add a member to my account so I can give the member temporary access. Which two questions help you define the fields for the user view? (Choose two.)
+14. Consider the following user story: As an account owner, I want to be able to add a member to my account so I can give the member temporary access. Which two questions help you define the fields for the user view?
 A. Will field information about the temporary member be stored in an external database?
 B. What fields does the account owner need to see to be able to add a temporary member?
 C. How do the fields for the temporary member need to be displayed?
