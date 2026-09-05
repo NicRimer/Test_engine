@@ -69,83 +69,115 @@ function initializeUI() {
    ========================================================= */
 
 async function initializeProfiles() {
-  const profileSelect = document.getElementById("profileSelect");
-  const profileStatus = document.getElementById("profileStatus");
+  const profileSelect =
+    document.getElementById("profileSelect");
+
+  const profileStatus =
+    document.getElementById("profileStatus");
 
   if (!profileSelect) {
+    console.error(
+      "profileSelect element was not found."
+    );
+
     return;
   }
 
   try {
+    profileSelect.innerHTML =
+      '<option value="">Loading profiles...</option>';
+
     if (profileStatus) {
-      profileStatus.textContent = "Loading profiles...";
+      profileStatus.textContent =
+        "Connecting to GitHub...";
     }
 
-    const profiles = await getAvailableProfiles();
+    const profiles =
+      await getAvailableProfiles();
+
+    console.log(
+      "Profiles received:",
+      profiles
+    );
 
     profileSelect.innerHTML = "";
 
-    if (!profiles || profiles.length === 0) {
+    if (!profiles.length) {
       profileSelect.innerHTML =
-        '<option value="">No profiles available</option>';
+        '<option value="">No profiles found</option>';
 
       if (profileStatus) {
         profileStatus.textContent =
-          "No profile JSON files were found in profiles/.";
+          "No .json files found in profiles/.";
       }
 
       return;
     }
 
+    /*
+     * Add every JSON file to the dropdown.
+     */
     profiles.forEach(file => {
-      const option = document.createElement("option");
+      const option =
+        document.createElement("option");
 
       option.value = file.name;
 
-      // Show filename without .json
-      option.textContent = file.name.replace(/\.json$/i, "");
+      option.textContent =
+        file.name.replace(
+          /\.json$/i,
+          ""
+        );
 
       profileSelect.appendChild(option);
     });
 
     /*
-     * Profile selection priority:
+     * DEFAULT PROFILE
      *
-     * 1. Previously selected profile, if it still exists.
-     * 2. default.json.
-     * 3. First available profile.
+     * default.json is selected automatically.
      */
+    const defaultProfile =
+      profiles.find(
+        file =>
+          file.name.toLowerCase() ===
+          "default.json"
+      );
 
-    const savedProfile = localStorage.getItem("quizEngineProfile");
+    if (defaultProfile) {
+      profileSelect.value =
+        defaultProfile.name;
 
-    const savedProfileExists = savedProfile &&
-      profiles.some(file => file.name === savedProfile);
-
-    const defaultProfile = profiles.find(
-      file => file.name.toLowerCase() === "default.json"
-    );
-
-    if (savedProfileExists) {
-      profileSelect.value = savedProfile;
-    } else if (defaultProfile) {
-      profileSelect.value = defaultProfile.name;
+      console.log(
+        "Default profile selected:",
+        defaultProfile.name
+      );
     } else {
-      profileSelect.value = profiles[0].name;
+      /*
+       * If default.json does not exist,
+       * select the first profile.
+       */
+      profileSelect.value =
+        profiles[0].name;
     }
-
-    if (profileStatus) {
-      profileStatus.textContent = "Select a profile and click Load Profile.";
-    }
-
-  } catch (error) {
-    console.error("Failed to load profiles:", error);
-
-    profileSelect.innerHTML =
-      '<option value="">Unable to load profiles</option>';
 
     if (profileStatus) {
       profileStatus.textContent =
-        "Failed to load profiles: " + error.message;
+        `${profiles.length} profile(s) available.`;
+    }
+
+  } catch (error) {
+    console.error(
+      "Failed to load profiles:",
+      error
+    );
+
+    profileSelect.innerHTML =
+      '<option value="">Error loading profiles</option>';
+
+    if (profileStatus) {
+      profileStatus.textContent =
+        "Error: " + error.message;
     }
   }
 }
