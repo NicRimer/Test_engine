@@ -26,6 +26,7 @@ async function githubRequest(url, options = {}) {
 
     try {
       const errorData = await response.json();
+
       message =
         errorData.message ||
         JSON.stringify(errorData);
@@ -85,13 +86,13 @@ async function getAvailableProfiles() {
 
 async function loadProfile(profileFile) {
   if (!profileFile) {
-    throw new Error("No profile file was selected.");
+    throw new Error(
+      "No profile file was selected."
+    );
   }
 
-  /*
-   * Encode each path segment safely.
-   */
-  const encodedPath = PROFILES_PATH +
+  const encodedPath =
+    PROFILES_PATH +
     "/" +
     encodeURIComponent(profileFile);
 
@@ -99,9 +100,13 @@ async function loadProfile(profileFile) {
     `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}` +
     `/contents/${encodedPath}?ref=${GITHUB_BRANCH}`;
 
-  console.log("Loading profile:", profileFile);
+  console.log(
+    "Loading profile:",
+    profileFile
+  );
 
-  const file = await githubRequest(url);
+  const file =
+    await githubRequest(url);
 
   if (!file.content) {
     throw new Error(
@@ -115,7 +120,8 @@ async function loadProfile(profileFile) {
   let profile;
 
   try {
-    profile = JSON.parse(jsonText);
+    profile =
+      JSON.parse(jsonText);
   } catch (error) {
     throw new Error(
       `Invalid JSON in ${profileFile}: ${error.message}`
@@ -123,12 +129,14 @@ async function loadProfile(profileFile) {
   }
 
   /*
-   * Keep the current GitHub file SHA.
-   * It is required when updating an existing file.
+   * SHA is required when updating the
+   * existing GitHub file.
    */
-  activeProfileFileSha = file.sha;
+  activeProfileFileSha =
+    file.sha;
 
-  activeProfile = profile;
+  activeProfile =
+    profile;
 
   console.log(
     "Profile loaded:",
@@ -143,7 +151,10 @@ async function loadProfile(profileFile) {
    SAVE EXISTING PROFILE
    ========================================================= */
 
-async function saveProfile(profileFile, profile) {
+async function saveProfile(
+  profileFile,
+  profile
+) {
   if (!profileFile) {
     throw new Error(
       "No profile file was selected."
@@ -172,43 +183,52 @@ async function saveProfile(profileFile, profile) {
     `/contents/${encodedPath}`;
 
   const jsonText =
-    JSON.stringify(profile, null, 2);
+    JSON.stringify(
+      profile,
+      null,
+      2
+    );
 
   const content =
     encodeBase64(jsonText);
 
   const response =
-    await githubRequest(url, {
-      method: "PUT",
+    await githubRequest(
+      url,
+      {
+        method: "PUT",
 
-      headers: {
-        "Content-Type":
-          "application/json"
-      },
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
 
-      body: JSON.stringify({
-        message:
-          `Update profile ${profile.id || profileFile}`,
+        body: JSON.stringify({
+          message:
+            `Update profile ${profile.id || profileFile}`,
 
-        content,
+          content,
 
-        /*
-         * IMPORTANT:
-         * Supplying SHA means GitHub updates
-         * an existing file instead of creating one.
-         */
-        sha: activeProfileFileSha,
+          /*
+           * Supplying SHA ensures that we update
+           * the existing profile file.
+           */
+          sha:
+            activeProfileFileSha,
 
-        branch: GITHUB_BRANCH
-      })
-    });
+          branch:
+            GITHUB_BRANCH
+        })
+      }
+    );
 
   if (response.content?.sha) {
     activeProfileFileSha =
       response.content.sha;
   }
 
-  activeProfile = profile;
+  activeProfile =
+    profile;
 
   return response;
 }
@@ -235,19 +255,22 @@ async function saveQuizResult(
   }
 
   /*
-   * Reload the latest version first.
-   *
-   * This gives us the current SHA and prevents
-   * accidentally overwriting an older version.
+   * Always reload the latest profile first.
+   * This gives us the current SHA and avoids
+   * overwriting a stale version.
    */
   const latestProfile =
-    await loadProfile(profileFile);
+    await loadProfile(
+      profileFile
+    );
 
   if (!Array.isArray(latestProfile.results)) {
     latestProfile.results = [];
   }
 
-  latestProfile.results.push(result);
+  latestProfile.results.push(
+    result
+  );
 
   await saveProfile(
     profileFile,
@@ -290,23 +313,27 @@ function decodeBase64(base64) {
 
 function encodeBase64(text) {
   const bytes =
-    new TextEncoder().encode(text);
+    new TextEncoder().encode(
+      text
+    );
 
   let binary = "";
 
-  const chunkSize = 0x8000;
+  const chunkSize =
+    0x8000;
 
   for (
     let i = 0;
     i < bytes.length;
     i += chunkSize
   ) {
-    binary += String.fromCharCode(
-      ...bytes.subarray(
-        i,
-        i + chunkSize
-      )
-    );
+    binary +=
+      String.fromCharCode(
+        ...bytes.subarray(
+          i,
+          i + chunkSize
+        )
+      );
   }
 
   return btoa(binary);
