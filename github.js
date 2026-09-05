@@ -1,442 +1,152 @@
-/* ---------------------------------------------------------
-   GITHUB PROFILE STORAGE
---------------------------------------------------------- */
-
-const GITHUB_CONFIG = {
-
-  owner: 'NicRimer',
-
-  repo: 'Test_engine',
-
-  branch: 'main',
-
-  profilesDirectory: 'profiles'
-
-};
-
-
-window.GitHubProfiles = {
-
-
-  async request(path, options = {}) {
-
-    const token =
-      sessionStorage.getItem(
-        'githubToken'
-      );
-
-
-    const headers = {
-
-      Accept:
-        'application/vnd.github+json',
-
-      'X-GitHub-Api-Version':
-        '2022-11-28',
-
-      ...(options.body
-        ? {
-            'Content-Type':
-              'application/json'
-          }
-        : {}),
-
-      ...(token
-        ? {
-            Authorization:
-              `Bearer ${token}`
-          }
-        : {})
-
-    };
-
-
-    const response =
-      await fetch(
-        `https://api.github.com${path}`,
-        {
-          ...options,
-          headers
-        }
-      );
-
-
-    if (!response.ok) {
-
-      let detail = '';
-
-      try {
-
-        const body =
-          await response.json();
-
-        if (body.message) {
-          detail =
-            `: ${body.message}`;
-        }
-
-      } catch {}
-
-
-      throw new Error(
-        `GitHub request failed (${response.status})${detail}`
-      );
-
-    }
-
-
-    return response.status === 204
-      ? null
-      : response.json();
-
-  },
-
-
-  pathFor(id) {
-
-    if (
-      !/^[A-Za-z0-9_-]+$/.test(id)
-    ) {
-
-      throw new Error(
-        'Invalid Profile ID.'
-      );
-
-    }
-
-
-    return `${
-      GITHUB_CONFIG.profilesDirectory
-    }/${id}.json`;
-
-  },
-
-
-  async load(id) {
-
-    const path =
-      this.pathFor(id);
-
-
-    const data =
-      await this.request(
-
-        `/repos/${
-          GITHUB_CONFIG.owner
-        }/${
-          GITHUB_CONFIG.repo
-        }/contents/${
-          encodeURIComponent(path)
-        }?ref=${
-          encodeURIComponent(
-            GITHUB_CONFIG.branch
-          )
-        }`
-
-      );
-
-
-    const profile =
-      JSON.parse(
-        base64ToUtf8(
-          data.content
-        )
-      );
-
-
-    profile.__githubSha =
-      data.sha;
-
-
-    return profile;
-
-  },
-
-
-  async create(profile) {
-
-    const path =
-      this.pathFor(profile.id);
-
-
-    const content =
-      utf8ToBase64(
-        JSON.stringify(
-          profile,
-          null,
-          2
-        )
-      );
-
-
-    const data =
-      await this.request(
-
-        `/repos/${
-          GITHUB_CONFIG.owner
-        }/${
-          GITHUB_CONFIG.repo
-        }/contents/${
-          encodeURIComponent(path)
-        }`,
-
-        {
-
-          method: 'PUT',
-
-          body:
-            JSON.stringify({
-
-              message:
-                `Create profile ${profile.id}`,
-
-              content,
-
-              branch:
-                GITHUB_CONFIG.branch
-
-            })
-
-        }
-
-      );
-
-
-    profile.__githubSha =
-      data.content.sha;
-
-
-    return profile;
-
-  },
-
-
-  async update(
-    profile,
-    maxRetries = 3
-  ) {
-
-    const path =
-      this.pathFor(profile.id);
-
-
-    for (
-      let attempt = 0;
-      attempt < maxRetries;
-      attempt++
-    ) {
-
-      let sha =
-        profile.__githubSha;
-
-
-      if (!sha) {
-
-        const latest =
-          await this.load(
-            profile.id
-          );
-
-        sha =
-          latest.__githubSha;
-
-      }
-
-
-      const cleanProfile =
-        {
-          ...profile
-        };
-
-
-      delete cleanProfile.__githubSha;
-
-
-      try {
-
-        const data =
-          await this.request(
-
-            `/repos/${
-              GITHUB_CONFIG.owner
-            }/${
-              GITHUB_CONFIG.repo
-            }/contents/${
-              encodeURIComponent(path)
-            }`,
-
-            {
-
-              method: 'PUT',
-
-              body:
-                JSON.stringify({
-
-                  message:
-                    `Update profile ${profile.id}`,
-
-                  content:
-                    utf8ToBase64(
-                      JSON.stringify(
-                        cleanProfile,
-                        null,
-                        2
-                      )
-                    ),
-
-                  sha,
-
-                  branch:
-                    GITHUB_CONFIG.branch
-
-                })
-
-            }
-
-          );
-
-
-        profile.__githubSha =
-          data.content.sha;
-
-
-        return profile;
-
-      } catch (err) {
-
-        if (
-          attempt ===
-          maxRetries - 1
-        ) {
-
-          throw err;
-
-        }
-
-
-        const latest =
-          await this.load(
-            profile.id
-          );
-
-
-        profile =
-          mergeProfileResults(
-            latest,
-            profile
-          );
-
-
-        profile.__githubSha =
-          latest.__githubSha;
-
-      }
-
-    }
-
+const GITHUB_OWNER = "NicRimer";
+const GITHUB_REPO = "Test_engine";
+const GITHUB_BRANCH = "main";
+const PROFILES_PATH = "profiles";
+
+let activeProfile = null;
+let activeProfileFileSha = null;
+
+
+// --------------------------------------------------
+// GitHub API helper
+// --------------------------------------------------
+
+async function githubRequest(url, options = {}) {
+  const response = await fetch(url, options);
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(
+      `GitHub API error ${response.status}: ${text || response.statusText}`
+    );
   }
 
-};
-
-
-/* ---------------------------------------------------------
-   CONCURRENT RESULT MERGE
---------------------------------------------------------- */
-
-function mergeProfileResults(
-  latest,
-  local
-) {
-
-  const byId =
-    new Map(
-      (latest.results || [])
-        .map(
-          result =>
-            [result.id, result]
-        )
-    );
-
-
-  for (
-    const result
-    of local.results || []
-  ) {
-
-    byId.set(
-      result.id,
-      result
-    );
-
-  }
-
-
-  return {
-
-    ...latest,
-
-    ...local,
-
-    results:
-      [...byId.values()]
-        .sort(
-          (a, b) =>
-            new Date(
-              a.completedAt
-            ) -
-            new Date(
-              b.completedAt
-            )
-        )
-
-  };
-
+  return response.json();
 }
 
 
-/* ---------------------------------------------------------
-   UTF-8 / BASE64
---------------------------------------------------------- */
+// --------------------------------------------------
+// Load available profile files
+// --------------------------------------------------
 
-function utf8ToBase64(value) {
+async function getAvailableProfiles() {
+  const url =
+    `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}` +
+    `/contents/${PROFILES_PATH}?ref=${GITHUB_BRANCH}`;
 
-  const bytes =
-    new TextEncoder()
-      .encode(value);
+  const files = await githubRequest(url);
+
+  return files
+    .filter(file =>
+      file.type === "file" &&
+      file.name.toLowerCase().endsWith(".json")
+    )
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
 
 
-  let binary = '';
+// --------------------------------------------------
+// Load one existing profile
+// --------------------------------------------------
+
+async function loadProfile(profileFile) {
+  const url =
+    `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}` +
+    `/contents/${PROFILES_PATH}/${encodeURIComponent(profileFile)}` +
+    `?ref=${GITHUB_BRANCH}`;
+
+  const file = await githubRequest(url);
+
+  const jsonText = decodeBase64(file.content);
+
+  activeProfile = JSON.parse(jsonText);
+  activeProfileFileSha = file.sha;
+
+  return activeProfile;
+}
 
 
-  bytes.forEach(
-    byte =>
-      binary +=
-        String.fromCharCode(byte)
+// --------------------------------------------------
+// Save an existing profile
+// --------------------------------------------------
+
+async function saveProfile(profileFile, profile) {
+  if (!activeProfileFileSha) {
+    throw new Error("Profile file SHA is missing.");
+  }
+
+  const url =
+    `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}` +
+    `/contents/${PROFILES_PATH}/${encodeURIComponent(profileFile)}`;
+
+  const content = btoa(
+    unescape(
+      encodeURIComponent(
+        JSON.stringify(profile, null, 2)
+      )
+    )
   );
 
+  const result = await githubRequest(url, {
+    method: "PUT",
 
-  return btoa(binary);
+    headers: {
+      "Content-Type": "application/json"
+    },
 
+    body: JSON.stringify({
+      message: `Update profile ${profile.id}`,
+      content,
+      sha: activeProfileFileSha,
+      branch: GITHUB_BRANCH
+    })
+  });
+
+  activeProfileFileSha = result.content.sha;
+
+  return result;
 }
 
 
-function base64ToUtf8(value) {
+// --------------------------------------------------
+// Base64 decoder
+// --------------------------------------------------
 
-  const binary =
-    atob(
-      value.replace(/\n/g, '')
-    );
+function decodeBase64(base64) {
+  const binary = atob(base64.replace(/\n/g, ""));
+  const bytes = Uint8Array.from(binary, char => char.charCodeAt(0));
 
-
-  const bytes =
-    Uint8Array.from(
-      binary,
-      char =>
-        char.charCodeAt(0)
-    );
+  return new TextDecoder("utf-8").decode(bytes);
+}
 
 
-  return new TextDecoder()
-    .decode(bytes);
+// --------------------------------------------------
+// Add quiz result to existing profile
+// --------------------------------------------------
 
+async function saveQuizResult(profileFile, result) {
+  if (!activeProfile) {
+    throw new Error("No profile selected.");
+  }
+
+  /*
+   * Reload the profile immediately before saving.
+   *
+   * This means we use the latest version of the profile
+   * rather than relying on an old copy from when the user
+   * first selected it.
+   */
+  const latest = await loadProfile(profileFile);
+
+  if (!Array.isArray(latest.results)) {
+    latest.results = [];
+  }
+
+  latest.results.push(result);
+
+  await saveProfile(profileFile, latest);
+
+  activeProfile = latest;
+
+  return latest;
 }
