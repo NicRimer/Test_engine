@@ -6,163 +6,133 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
-<section id="profileBlock" class="panel">
-  <h2>Quiz Profile</h2>
-  <p>
-    Create a profile or continue with an existing Profile ID.
-    The Profile ID is used as the GitHub profile file name.
-  </p>
-
-  <div class="profile-grid">
+  <!-- =========================
+       PROFILE SELECTION
+       ========================= -->
+  <div id="profileBlock">
+    <h3>Select Profile</h3>
 
     <div>
-      <h3>Create new profile</h3>
+      <label for="profileSelect">Profile:</label>
 
-      <label for="profileName">Display name (optional)</label>
-      <input
-        id="profileName"
-        type="text"
-        maxlength="80"
-        placeholder="e.g. John"
-      >
-
-      <button id="createProfileBtn" type="button">
-        Create Profile
-      </button>
-    </div>
-
-    <div>
-      <h3>Existing profile</h3>
-
-      <label for="profileIdInput">Profile ID</label>
-      <input
-        id="profileIdInput"
-        type="text"
-        maxlength="64"
-        placeholder="e.g. 7f3a91c2"
-      >
+      <select id="profileSelect">
+        <option value="">Loading profiles...</option>
+      </select>
 
       <button id="loadProfileBtn" type="button">
         Load Profile
       </button>
     </div>
 
+    <div id="profileStatus" style="margin-top:10px;"></div>
   </div>
 
-  <div id="activeProfile" class="profile-status" hidden></div>
 
-  <details class="github-settings">
-    <summary>GitHub persistence settings</summary>
+  <!-- =========================
+       QUIZ SETUP
+       Hidden until a profile
+       has been selected
+       ========================= -->
+  <div id="quizSetupBlock" style="display:none;">
 
-    <p class="warning">
-      GitHub writes require authentication.
-      Do not put a GitHub token directly into JavaScript committed to the repository.
-      The token entered here is kept only in this browser session.
-    </p>
+    <h3>Check your knowledge</h3>
 
-    <label for="githubToken">GitHub token</label>
+    <div>
+      <b>Note:</b> select options before loading quiz:
+    </div>
 
-    <input
-      id="githubToken"
-      type="password"
-      autocomplete="off"
-      placeholder="GitHub token with Contents: write"
-    >
+    <div style="display:flex; gap:20px; align-items:center; margin-top:10px; flex-wrap:wrap;">
 
-    <button id="saveGithubTokenBtn" type="button">
-      Use Token
-    </button>
+      <label>
+        <input type="checkbox" id="shuffleToggle">
+        Shuffle questions
+      </label>
 
-    <span id="githubStatus" class="muted"></span>
-  </details>
-</section>
+      <label>
+        <input type="checkbox" id="shuffleAnswersToggle">
+        Shuffle answers
+      </label>
+
+    </div>
 
 
-<section id="quizSetupBlock" class="panel" hidden>
+    <div style="display:flex; gap:20px; align-items:center; margin-top:10px; flex-wrap:wrap;">
 
-  <h3>Check your knowledge</h3>
+      <label>
+        <input type="checkbox" id="autoReadToggle">
+        Auto Reading
+      </label>
 
-  <div>
-    <b>Note:</b> select options before loading quiz:
-  </div>
+      <label>
+        <input type="checkbox" id="voiceToggle">
+        Voice Recognition
+      </label>
 
-  <div class="option-row">
+    </div>
 
-    <label>
-      <input type="checkbox" id="shuffleToggle">
-      Shuffle questions
-    </label>
 
-    <label>
-      <input type="checkbox" id="shuffleAnswersToggle">
-      Shuffle answers
-    </label>
+    <!-- Quiz selection -->
+    <div style="margin-top:10px;">
 
-  </div>
+      <label for="quizFileSelect">
+        Quiz:
+      </label>
 
-  <div class="option-row">
+      <select id="quizFileSelect">
 
-    <label>
-      <input type="checkbox" id="autoReadToggle">
-      Auto Reading
-    </label>
+        <option value="quizzes/PEGACPBA25V1.txt">
+          PegaCPBA_25
+        </option>
 
-    <label>
-      <input type="checkbox" id="voiceToggle">
-      Voice Recognition
-    </label>
+        <option value="quizzes/PEGACPBA25V1_2.txt">
+          PegaCPBA_25_2
+        </option>
 
-  </div>
+        <option value="quizzes/PEGACPBA24V1.txt">
+          PegaCPBA_24
+        </option>
 
-  <div class="quiz-loader">
+        <option value="quizzes/GH-900.txt">
+          GitHub Foundation
+        </option>
 
-    <label for="quizFileSelect">Quiz:</label>
+        <option value="quizzes/GH-300.txt">
+          GitHub Copilot
+        </option>
 
-    <select id="quizFileSelect">
-      <option value="quizzes/PEGACPBA25V1.txt">
-        PegaCPBA_25
-      </option>
+      </select>
 
-      <option value="quizzes/PEGACPBA25V1_2.txt">
-        PegaCPBA_25_2
-      </option>
+      <button id="loadQuizFileBtn" type="button" style="width:100px;">
+        Load
+      </button>
 
-      <option value="quizzes/PEGACPBA24V1.txt">
-        PegaCPBA_24
-      </option>
+      <span style="margin:0 5px;">
+        or
+      </span>
 
-      <option value="quizzes/GH-900.txt">
-        GitHub Foundation
-      </option>
+      <input
+        type="file"
+        id="fileInput"
+        accept=".txt"
+        title="Upload a Quiz File (.txt)"
+      >
 
-      <option value="quizzes/GH-300.txt">
-        GitHub Copilot
-      </option>
-    </select>
-
-    <button id="loadQuizFileBtn" type="button">
-      Load
-    </button>
-
-    <span>or</span>
-
-    <input
-      type="file"
-      id="fileInput"
-      accept=".txt"
-      title="Upload a Quiz File (.txt)"
-    >
+    </div>
 
   </div>
 
-</section>
 
+  <!-- =========================
+       QUIZ NAVIGATION
+       ========================= -->
+  <div
+    class="nav-buttons"
+    style="margin-top:20px;"
+  >
 
-<div id="quizArea" hidden>
-
-  <div class="nav-buttons">
     <button id="prevBtn" type="button">
       Previous
     </button>
@@ -170,33 +140,66 @@
     <button id="nextBtn" type="button">
       Next
     </button>
+
   </div>
 
 
-  <div id="quizContainer"></div>
+  <!-- =========================
+       QUIZ
+       ========================= -->
+  <div
+    id="quizContainer"
+    style="margin-top:20px;"
+  ></div>
 
 
-  <div class="nav-buttons">
+  <!-- =========================
+       QUIZ ACTIONS
+       ========================= -->
+  <div
+    class="nav-buttons"
+    style="margin-top:20px;"
+  >
 
-    <button id="finishQuizBtn" type="button">
+    <button
+      id="finishQuizBtn"
+      type="button"
+    >
       Finish Quiz
     </button>
 
-    <button id="restart" type="button">
+    <button
+      id="restart"
+      type="button"
+    >
       Restart Quiz
     </button>
 
   </div>
 
 
-  <div id="finalScore"></div>
+  <!-- =========================
+       FINAL SCORE
+       ========================= -->
+  <div
+    id="finalScore"
+    style="margin-top:10px;"
+  ></div>
 
 
-  <section id="quizSummary" class="panel" hidden>
+  <!-- =========================
+       QUIZ SUMMARY
+       ========================= -->
+  <div
+    id="quizSummary"
+    style="margin-top:20px; display:none;"
+  >
 
     <details open>
 
-      <summary>🧾 Summary</summary>
+      <summary>
+        🧾 Summary:
+      </summary>
 
       <ul
         id="summaryList"
@@ -205,60 +208,23 @@
 
     </details>
 
-  </section>
-
-
-  <section id="attemptReview" class="panel" hidden>
-
-    <div class="review-header">
-
-      <h3>Answer Review</h3>
-
-      <label>
-        <input
-          type="checkbox"
-          id="errorsOnlyToggle"
-        >
-        Show errors only
-      </label>
-
-    </div>
-
-    <div id="reviewList"></div>
-
-  </section>
-
-</div>
-
-
-<section id="profileHistory" class="panel" hidden>
-
-  <div class="history-header">
-
-    <h2>Profile History</h2>
-
-    <button
-      id="refreshProfileBtn"
-      type="button"
-    >
-      Refresh
-    </button>
-
   </div>
 
-  <div id="historyList"></div>
 
-</section>
+  <!-- =========================
+       VOICE OUTPUT
+       ========================= -->
+  <div
+    id="voiceOutput"
+    style="margin-top:1em; font-style:italic;"
+  ></div>
 
 
-<div
-  id="voiceOutput"
-  class="voice-output"
-></div>
-
-
-<script src="github.js"></script>
-<script src="quiz.js"></script>
+  <!-- =========================
+       JAVASCRIPT
+       ========================= -->
+  <script src="github.js"></script>
+  <script src="quiz.js"></script>
 
 </body>
 </html>
