@@ -1,7 +1,3 @@
-/* =========================================================
-   QUIZ ENGINE
-   ========================================================= */
-
 let currentQuestionIndex = 0;
 
 let activeProfileFile = null;
@@ -9,17 +5,16 @@ let activeProfile = null;
 
 window.quizData = [];
 window.userAnswers = [];
-
-let quizFinished = false;
+window.quizFinished = false;
 
 
 /* =========================================================
    INITIALIZATION
    ========================================================= */
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", () => {
   initializeUI();
-  await initializeProfiles();
+  initializeProfiles();
 });
 
 
@@ -31,9 +26,10 @@ function initializeUI() {
   const restartBtn = document.getElementById("restart");
   const loadQuizBtn = document.getElementById("loadQuizFileBtn");
   const loadProfileBtn = document.getElementById("loadProfileBtn");
+  const voiceToggle = document.getElementById("voiceToggle");
 
   if (fileInput) {
-    fileInput.addEventListener("change", handleFile);
+    fileInput.addEventListener("change", handleFileUpload);
   }
 
   if (finishBtn) {
@@ -41,25 +37,11 @@ function initializeUI() {
   }
 
   if (prevBtn) {
-    prevBtn.addEventListener("click", () => {
-      if (!window.quizData.length) return;
-
-      if (currentQuestionIndex > 0) {
-        currentQuestionIndex--;
-        showQuestion(currentQuestionIndex);
-      }
-    });
+    prevBtn.addEventListener("click", previousQuestion);
   }
 
   if (nextBtn) {
-    nextBtn.addEventListener("click", () => {
-      if (!window.quizData.length) return;
-
-      if (currentQuestionIndex < window.quizData.length - 1) {
-        currentQuestionIndex++;
-        showQuestion(currentQuestionIndex);
-      }
-    });
+    nextBtn.addEventListener("click", nextQuestion);
   }
 
   if (restartBtn) {
@@ -74,17 +56,11 @@ function initializeUI() {
     loadProfileBtn.addEventListener("click", handleProfileSelection);
   }
 
-  const voiceToggle = document.getElementById("voiceToggle");
-
   if (voiceToggle) {
-    voiceToggle.addEventListener("change", () => {
-      const voiceOutput = document.getElementById("voiceOutput");
-
-      if (!voiceToggle.checked && voiceOutput) {
-        voiceOutput.textContent = "";
-      }
-    });
+    voiceToggle.addEventListener("change", handleVoiceToggle);
   }
+
+  updateNavigationButtons();
 }
 
 
@@ -101,69 +77,75 @@ async function initializeProfiles() {
   }
 
   try {
-    profileSelect.innerHTML =
-      '<option value="">Loading profiles...</option>';
-
     if (profileStatus) {
       profileStatus.textContent = "Loading profiles...";
     }
 
-    const files = await getAvailableProfiles();
+    const profiles = await getAvailableProfiles();
 
     profileSelect.innerHTML = "";
 
-    if (!files.length) {
+    if (!profiles || profiles.length === 0) {
       profileSelect.innerHTML =
-        '<option value="">No profiles found</option>';
+        '<option value="">No profiles available</option>';
 
       if (profileStatus) {
         profileStatus.textContent =
-          "No JSON profile files were found in profiles/.";
+          "No profile JSON files were found in profiles/.";
       }
 
       return;
     }
 
-    const rememberedProfile =
-      localStorage.getItem("quizEngineProfile");
-
-    files.forEach(file => {
+    profiles.forEach(file => {
       const option = document.createElement("option");
 
       option.value = file.name;
 
-      /*
-       * Display the filename without .json.
-       *
-       * The filename is the profile identifier.
-       */
-      option.textContent =
-        file.name.replace(/\.json$/i, "");
+      // Show filename without .json
+      option.textContent = file.name.replace(/\.json$/i, "");
 
       profileSelect.appendChild(option);
     });
 
-    if (
-      rememberedProfile &&
-      files.some(file => file.name === rememberedProfile)
-    ) {
-      profileSelect.value = rememberedProfile;
+    /*
+     * Profile selection priority:
+     *
+     * 1. Previously selected profile, if it still exists.
+     * 2. default.json.
+     * 3. First available profile.
+     */
+
+    const savedProfile = localStorage.getItem("quizEngineProfile");
+
+    const savedProfileExists = savedProfile &&
+      profiles.some(file => file.name === savedProfile);
+
+    const defaultProfile = profiles.find(
+      file => file.name.toLowerCase() === "default.json"
+    );
+
+    if (savedProfileExists) {
+      profileSelect.value = savedProfile;
+    } else if (defaultProfile) {
+      profileSelect.value = defaultProfile.name;
+    } else {
+      profileSelect.value = profiles[0].name;
     }
 
     if (profileStatus) {
-      profileStatus.textContent =
-        `${files.length} profile${files.length === 1 ? "" : "s"} available.`;
+      profileStatus.textContent = "Select a profile and click Load Profile.";
     }
 
   } catch (error) {
-    console.error("Could not load profiles:", error);
+    console.error("Failed to load profiles:", error);
 
     profileSelect.innerHTML =
       '<option value="">Unable to load profiles</option>';
 
     if (profileStatus) {
       profileStatus.textContent =
-        "Could not load profiles from GitHub.";
+        "Failed to load profiles: " + error.message;
     }
   }
 }
@@ -182,8 +164,7 @@ async function handleProfileSelection() {
 
   if (!profileFile) {
     if (profileStatus) {
-      profileStatus.textContent =
-        "Please select a profile.";
+      profileStatus.textContent = "Please select a profile.";
     }
 
     return;
@@ -191,8 +172,7 @@ async function handleProfileSelection() {
 
   try {
     if (profileStatus) {
-      profileStatus.textContent =
-        "Loading profile...";
+      profileStatus.textContent = "Loading profile...";
     }
 
     const profile = await loadProfile(profileFile);
@@ -200,38 +180,37 @@ async function handleProfileSelection() {
     activeProfileFile = profileFile;
     activeProfile = profile;
 
-    localStorage.setItem(
-      "quizEngineProfile",
-      profileFile
-    );
-
-    const displayName =
-      profile.name ||
-      profile.id ||
-      profileFile.replace(/\.json$/i, "");
+    /*
+     * Remember only the filename locally.
+     * Actual profile data remains in GitHub.
+     */
+    localStorage.setItem("quizEngineProfile", profileFile);
 
     if (profileStatus) {
+      const profileName =
+        profile.name ||
+        profile.id ||
+        profileFile.replace(/\.json$/i, "");
+
       profileStatus.textContent =
-        `Active profile: ${displayName}`;
+        `Profile loaded: ${profileName}`;
     }
 
     if (quizSetupBlock) {
       quizSetupBlock.style.display = "block";
     }
 
+    resetQuizStateOnly();
+
   } catch (error) {
-    console.error("Could not load profile:", error);
+    console.error("Failed to load profile:", error);
 
     activeProfileFile = null;
     activeProfile = null;
 
-    if (quizSetupBlock) {
-      quizSetupBlock.style.display = "none";
-    }
-
     if (profileStatus) {
       profileStatus.textContent =
-        "Could not load the selected profile.";
+        "Failed to load profile: " + error.message;
     }
   }
 }
@@ -242,38 +221,45 @@ async function handleProfileSelection() {
    ========================================================= */
 
 async function loadSelectedQuiz() {
-  const select = document.getElementById("quizFileSelect");
+  const quizFileSelect = document.getElementById("quizFileSelect");
 
-  if (!select || !select.value) {
+  if (!quizFileSelect) {
+    return;
+  }
+
+  const filePath = quizFileSelect.value;
+
+  if (!filePath) {
     return;
   }
 
   try {
-    const response = await fetch(select.value);
+    const response = await fetch(filePath);
 
     if (!response.ok) {
       throw new Error(
-        `Could not load quiz: ${response.status}`
+        `Unable to load quiz (${response.status})`
       );
     }
 
     const text = await response.text();
 
-    const quizId = getQuizIdFromPath(select.value);
-
-    handleQuizText(text, quizId);
+    loadQuizFromText(text, filePath);
 
   } catch (error) {
-    console.error(error);
+    console.error("Failed to load quiz:", error);
 
-    alert(
-      "Could not load the selected quiz."
-    );
+    const finalScore = document.getElementById("finalScore");
+
+    if (finalScore) {
+      finalScore.textContent =
+        "Failed to load quiz: " + error.message;
+    }
   }
 }
 
 
-async function handleFile(event) {
+async function handleFileUpload(event) {
   const file = event.target.files[0];
 
   if (!file) {
@@ -283,205 +269,73 @@ async function handleFile(event) {
   try {
     const text = await file.text();
 
-    const quizId = getQuizIdFromPath(file.name);
-
-    handleQuizText(text, quizId);
+    loadQuizFromText(text, "uploaded-quiz");
 
   } catch (error) {
-    console.error(error);
+    console.error("Failed to read quiz file:", error);
 
-    alert(
-      "Could not read the quiz file."
-    );
+    const finalScore = document.getElementById("finalScore");
+
+    if (finalScore) {
+      finalScore.textContent =
+        "Failed to read quiz file: " + error.message;
+    }
   }
 }
 
 
-function handleQuizText(text, quizId) {
-  const questions = parseQuestions(
-    text,
-    quizId
-  );
+function loadQuizFromText(text, quizSource) {
+  try {
+    const questions = parseQuestions(text);
 
-  if (!questions.length) {
-    alert(
-      "No questions were found in the quiz file."
-    );
+    if (!questions.length) {
+      throw new Error("No questions found in the quiz file.");
+    }
 
-    return;
-  }
+    window.quizData = questions;
 
-  window.quizData = questions;
-  window.userAnswers = [];
+    window.quizData.quizId = getQuizIdFromSource(quizSource);
 
-  currentQuestionIndex = 0;
-  quizFinished = false;
+    window.userAnswers = new Array(questions.length)
+      .fill(null);
 
-  /*
-   * Shuffle questions only if enabled.
-   *
-   * The question IDs remain attached to their
-   * original questions, so saved results are stable.
-   */
-  const shuffleQuestions =
-    document.getElementById("shuffleToggle")?.checked;
+    currentQuestionIndex = 0;
+    window.quizFinished = false;
 
-  if (shuffleQuestions) {
-    shuffleArray(window.quizData);
-  }
+    clearQuizResults();
 
-  renderQuiz(window.quizData);
+    renderQuiz(window.quizData);
 
-  document.getElementById("quizSummary").style.display =
-    "none";
+    updateNavigationButtons();
 
-  document.getElementById("finalScore").textContent =
-    "";
+  } catch (error) {
+    console.error("Failed to parse quiz:", error);
 
-  document.getElementById("finishQuizBtn").style.display =
-    "inline-block";
+    const finalScore = document.getElementById("finalScore");
 
-  showQuestion(0);
-}
-
-
-/* =========================================================
-   RESET
-   ========================================================= */
-
-function resetQuiz() {
-  window.quizData = [];
-  window.userAnswers = [];
-
-  currentQuestionIndex = 0;
-  quizFinished = false;
-
-  const quizContainer =
-    document.getElementById("quizContainer");
-
-  const finalScore =
-    document.getElementById("finalScore");
-
-  const quizSummary =
-    document.getElementById("quizSummary");
-
-  const finishBtn =
-    document.getElementById("finishQuizBtn");
-
-  const voiceOutput =
-    document.getElementById("voiceOutput");
-
-  if (quizContainer) {
-    quizContainer.innerHTML = "";
-  }
-
-  if (finalScore) {
-    finalScore.textContent = "";
-  }
-
-  if (quizSummary) {
-    quizSummary.style.display = "none";
-  }
-
-  if (finishBtn) {
-    finishBtn.style.display = "none";
-  }
-
-  if (voiceOutput) {
-    voiceOutput.textContent = "";
-  }
-
-  const fileInput =
-    document.getElementById("fileInput");
-
-  if (fileInput) {
-    fileInput.value = "";
+    if (finalScore) {
+      finalScore.textContent =
+        "Failed to load quiz: " + error.message;
+    }
   }
 }
 
 
-/* =========================================================
-   HELPERS
-   ========================================================= */
-
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(
-      Math.random() * (i + 1)
-    );
-
-    [array[i], array[j]] =
-      [array[j], array[i]];
+function getQuizIdFromSource(source) {
+  if (!source) {
+    return "unknown-quiz";
   }
 
-  return array;
-}
-
-
-function getQuizIdFromPath(path) {
-  const filename =
-    path.split("/").pop();
-
-  return filename
-    .replace(/\.[^/.]+$/, "")
-    .toLowerCase();
-}
-
-
-function normalizeText(text) {
-  return String(text || "")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-
-/*
- * Stable question ID.
- *
- * We use the quiz ID plus the original question number.
- *
- * Example:
- * pega... + question 12 -> q12
- *
- * The ID stays attached to the question even when
- * questions are shuffled.
- */
-function createQuestionId(
-  quizId,
-  originalNumber,
-  questionText
-) {
-  if (originalNumber) {
-    return `q-${originalNumber}`;
+  if (source === "uploaded-quiz") {
+    return "uploaded-quiz";
   }
 
-  /*
-   * Fallback for question blocks without numbers.
-   */
-  const normalized =
-    normalizeText(questionText);
+  const filename = source
+    .split("/")
+    .pop()
+    .replace(/\.[^/.]+$/, "");
 
-  let hash = 0;
-
-  for (let i = 0; i < normalized.length; i++) {
-    hash =
-      ((hash << 5) - hash) +
-      normalized.charCodeAt(i);
-
-    hash |= 0;
-  }
-
-  return `q-${Math.abs(hash)}`;
-}
-
-
-function escapeHtml(value) {
-  return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+  return filename || "unknown-quiz";
 }
 
 
@@ -489,160 +343,125 @@ function escapeHtml(value) {
    QUIZ PARSER
    ========================================================= */
 
-function parseQuestions(text, quizId = "quiz") {
+function parseQuestions(text) {
   const questions = [];
 
   /*
-   * Split on numbered questions:
+   * Match blocks beginning with:
    *
    * 1. Question
    * 2. Question
-   *
-   * Also supports:
-   *
-   * 1) Question
+   * etc.
    */
+
   const blocks = text
     .replace(/\r\n/g, "\n")
-    .split(
-      /(?=^\s*\d+\s*[\.\)]\s+)/m
-    );
+    .split(/\n(?=\s*\d+\.\s+)/)
+    .map(block => block.trim())
+    .filter(Boolean);
 
-  blocks.forEach(block => {
-    const cleanedBlock =
-      block.trim();
-
-    if (!cleanedBlock) {
-      return;
-    }
-
-    const lines =
-      cleanedBlock
-        .split("\n")
-        .map(line => line.trim())
-        .filter(line => line.length > 0);
+  for (const block of blocks) {
+    const lines = block
+      .split("\n")
+      .map(line => line.trim())
+      .filter(line => line.length > 0);
 
     if (!lines.length) {
-      return;
+      continue;
     }
 
-    /*
-     * Read question number.
-     */
-    const numberMatch =
-      lines[0].match(
-        /^\s*(\d+)\s*[\.\)]\s*(.*)$/
-      );
+    const questionMatch = lines[0].match(
+      /^(\d+)\.\s*(.*)$/
+    );
 
-    let originalNumber = null;
-    let questionText = "";
-
-    let startIndex = 0;
-
-    if (numberMatch) {
-      originalNumber =
-        numberMatch[1];
-
-      questionText =
-        numberMatch[2].trim();
-
-      startIndex = 1;
-
-    } else {
-      questionText =
-        lines[0].trim();
-
-      startIndex = 1;
+    if (!questionMatch) {
+      continue;
     }
 
-    /*
-     * Find answer choices.
-     *
-     * Supports:
-     *
-     * A. text
-     * A) text
-     * A - text
-     */
+    const originalNumber = questionMatch[1];
+
+    let questionText = questionMatch[2].trim();
+
     const choices = [];
+    let answers = [];
+    let explanation = "";
 
     let currentChoice = null;
+    let explanationStarted = false;
+    let answerStarted = false;
 
-    let answerLabels = [];
-    let explanationLines = [];
-
-    let readingExplanation = false;
-
-    for (
-      let i = startIndex;
-      i < lines.length;
-      i++
-    ) {
+    for (let i = 1; i < lines.length; i++) {
       const line = lines[i];
 
       /*
-       * Answer line.
+       * Answer line
+       *
+       * Answer: A
+       * Answer: A, C
+       * Answer: A,C
        */
-      const answerMatch =
-        line.match(
-          /^Answer\s*:\s*(.+)$/i
-        );
+
+      const answerMatch = line.match(
+        /^Answer\s*:\s*(.*)$/i
+      );
 
       if (answerMatch) {
-        answerLabels =
-          answerMatch[1]
-            .split(/[,\s]+/)
-            .map(value =>
-              value
-                .trim()
-                .replace(/[.)]$/, "")
-                .toUpperCase()
-            )
-            .filter(Boolean);
+        answerStarted = true;
+        explanationStarted = false;
 
+        answers = answerMatch[1]
+          .split(/[,\s]+/)
+          .map(value => value.trim().toUpperCase())
+          .filter(value => /^[A-E]$/.test(value));
+
+        currentChoice = null;
         continue;
       }
 
       /*
-       * Explanation starts here.
+       * Explanation line
        */
-      const explanationMatch =
-        line.match(
-          /^Explanation\s*:\s*(.*)$/i
-        );
+
+      const explanationMatch = line.match(
+        /^Explanation\s*:\s*(.*)$/i
+      );
 
       if (explanationMatch) {
-        readingExplanation = true;
+        explanationStarted = true;
+        answerStarted = false;
 
-        if (explanationMatch[1].trim()) {
-          explanationLines.push(
-            explanationMatch[1].trim()
-          );
-        }
+        explanation = explanationMatch[1].trim();
+
+        currentChoice = null;
+        continue;
+      }
+
+      if (explanationStarted) {
+        explanation +=
+          (explanation ? " " : "") + line;
 
         continue;
       }
 
-      if (readingExplanation) {
-        explanationLines.push(line);
+      if (answerStarted) {
         continue;
       }
 
       /*
-       * Choice line.
+       * Answer choices A-E
        */
-      const choiceMatch =
-        line.match(
-          /^([A-Ea-e])\s*[\.\)\-:]\s*(.+)$/
-        );
+
+      const choiceMatch = line.match(
+        /^([A-E])[\.\):\-]\s*(.*)$/i
+      );
 
       if (choiceMatch) {
-        currentChoice = {
-          label:
-            choiceMatch[1].toUpperCase(),
+        const label = choiceMatch[1].toUpperCase();
+        const textValue = choiceMatch[2].trim();
 
-          text:
-            choiceMatch[2].trim()
+        currentChoice = {
+          label,
+          text: textValue
         };
 
         choices.push(currentChoice);
@@ -651,60 +470,89 @@ function parseQuestions(text, quizId = "quiz") {
       }
 
       /*
-       * If a question or answer choice wraps onto
-       * another line, append it to the previous
-       * choice.
+       * If the question continues over multiple lines,
+       * append text before the first answer choice.
        */
-      if (
-        currentChoice &&
-        !/^Question\s*:/i.test(line)
-      ) {
-        currentChoice.text +=
-          " " + line;
+
+      if (choices.length === 0) {
+        questionText += " " + line;
+      } else if (currentChoice) {
+        /*
+         * Allow multi-line answer choices.
+         */
+        currentChoice.text += " " + line;
       }
     }
 
-    /*
-     * Some quiz files may have "Question:" on
-     * the first line.
-     */
-    questionText =
-      questionText.replace(
-        /^Question\s*:\s*/i,
-        ""
-      );
-
-    if (
-      !questionText ||
-      !choices.length
-    ) {
-      return;
+    if (!choices.length) {
+      continue;
     }
 
-    const questionId =
-      createQuestionId(
-        quizId,
-        originalNumber,
-        questionText
+    if (!answers.length) {
+      console.warn(
+        `Question ${originalNumber} has no answer key.`
       );
+    }
+
+    const questionId = createQuestionId(
+      originalNumber,
+      questionText
+    );
 
     questions.push({
-      questionId,
+      id: questionId,
       originalNumber,
       questionText,
       choices,
-      answers: answerLabels,
-      explanation:
-        explanationLines.join(" ").trim()
+      answers,
+      explanation,
+      choiceMap: {}
     });
-  });
+  }
 
   return questions;
 }
 
 
+function createQuestionId(originalNumber, questionText) {
+  /*
+   * The original question number is the primary stable ID.
+   *
+   * Example:
+   * q-1
+   * q-2
+   * q-3
+   */
+
+  if (originalNumber) {
+    return `q-${originalNumber}`;
+  }
+
+  /*
+   * Fallback if a question somehow has no number.
+   */
+
+  return "q-" + simpleHash(questionText);
+}
+
+
+function simpleHash(value) {
+  let hash = 0;
+
+  for (let i = 0; i < value.length; i++) {
+    hash =
+      ((hash << 5) - hash) +
+      value.charCodeAt(i);
+
+    hash |= 0;
+  }
+
+  return Math.abs(hash).toString(16);
+}
+
+
 /* =========================================================
-   RENDER QUIZ
+   QUIZ RENDERING
    ========================================================= */
 
 function renderQuiz(questions) {
@@ -717,224 +565,233 @@ function renderQuiz(questions) {
 
   container.innerHTML = "";
 
-  const shuffleAnswers =
-    document.getElementById(
-      "shuffleAnswersToggle"
-    )?.checked;
-
   questions.forEach((question, index) => {
-
     const questionBlock =
       document.createElement("div");
 
-    questionBlock.className =
-      "question-block";
+    questionBlock.className = "question-block";
 
-    questionBlock.dataset.index =
-      index;
+    questionBlock.dataset.questionIndex = index;
 
-    questionBlock.dataset.questionId =
-      question.questionId;
-
-    const questionTitle =
+    const title =
       document.createElement("h3");
 
-    questionTitle.textContent =
+    title.textContent =
       `${index + 1}. ${question.questionText}`;
 
-    questionBlock.appendChild(
-      questionTitle
-    );
-
+    questionBlock.appendChild(title);
 
     /*
-     * Copy choices before shuffling.
+     * Shuffle displayed answers when enabled.
+     *
+     * Important:
+     * The original answer ID remains A-E.
+     * choiceMap maps displayed labels back to
+     * original answer IDs.
      */
-    let displayChoices =
-      question.choices.map(choice => ({
-        label: choice.label,
-        text: choice.text
-      }));
+
+    const choices = [...question.choices];
+
+    const shuffleAnswers =
+      document.getElementById(
+        "shuffleAnswersToggle"
+      )?.checked;
 
     if (shuffleAnswers) {
-      shuffleArray(displayChoices);
+      shuffleArray(choices);
     }
 
-
-    /*
-     * choiceMap maps the displayed answer value
-     * back to the original answer label.
-     *
-     * Example:
-     *
-     * displayed "A" -> original "C"
-     *
-     * This is required because answer positions
-     * can be shuffled.
-     */
     question.choiceMap = {};
 
-    displayChoices.forEach(
-      (choice, displayIndex) => {
-        const displayLabel =
-          String.fromCharCode(
-            65 + displayIndex
-          );
+    const isMultipleAnswer =
+      question.answers.length > 1;
 
-        question.choiceMap[
-          displayLabel
-        ] = choice.label;
-      }
-    );
+    choices.forEach((choice, displayIndex) => {
+      const displayLabel =
+        String.fromCharCode(65 + displayIndex);
 
+      question.choiceMap[displayLabel] =
+        choice.label;
 
-    const inputType =
-      question.answers.length > 1
+      const label =
+        document.createElement("label");
+
+      label.className = "answer-option";
+
+      const input =
+        document.createElement("input");
+
+      input.type = isMultipleAnswer
         ? "checkbox"
         : "radio";
 
+      input.name =
+        `question-${index}`;
 
-    const choicesDiv =
-      document.createElement("div");
+      /*
+       * Store the DISPLAYED label.
+       *
+       * checkAnswer() converts this back to
+       * the original A-E answer ID.
+       */
 
-    choicesDiv.className =
-      "choices";
+      input.value = displayLabel;
 
-
-    displayChoices.forEach(
-      (choice, displayIndex) => {
-
-        const displayLabel =
-          String.fromCharCode(
-            65 + displayIndex
-          );
-
-        const label =
-          document.createElement("label");
-
-        const input =
-          document.createElement("input");
-
-        input.type =
-          inputType;
-
-        input.name =
-          `question-${index}`;
-
-        /*
-         * IMPORTANT:
-         *
-         * The input value is the DISPLAY label.
-         * checkAnswer() translates it back to the
-         * original answer label using choiceMap.
-         */
-        input.value =
-          displayLabel;
-
-        input.dataset.originalAnswer =
-          choice.label;
-
-        input.addEventListener(
-          "change",
-          () => {
-            if (!quizFinished) {
-              clearQuestionResult(index);
-            }
+      input.addEventListener(
+        "change",
+        () => {
+          if (window.quizFinished) {
+            return;
           }
-        );
 
-        label.appendChild(input);
+          checkAnswer(
+            index,
+            question.answers,
+            isMultipleAnswer
+              ? "checkbox"
+              : "radio",
+            question.explanation,
+            false
+          );
+        }
+      );
 
-        label.appendChild(
-          document.createTextNode(
-            ` ${displayLabel}. ${choice.text}`
-          )
-        );
+      const text =
+        document.createElement("span");
 
-        choicesDiv.appendChild(label);
-      }
-    );
+      text.textContent =
+        `${displayLabel}. ${choice.text}`;
 
+      label.appendChild(input);
+      label.appendChild(text);
 
-    questionBlock.appendChild(
-      choicesDiv
-    );
+      questionBlock.appendChild(label);
+    });
 
-
-    const resultDiv =
+    const feedback =
       document.createElement("div");
 
-    resultDiv.className =
-      "result";
+    feedback.id =
+      `feedback-${index}`;
 
-    resultDiv.id =
-      `result-${index}`;
+    feedback.className =
+      "question-feedback";
 
-    questionBlock.appendChild(
-      resultDiv
-    );
+    feedback.style.marginTop = "10px";
 
+    questionBlock.appendChild(feedback);
 
-    const explanationDiv =
-      document.createElement("div");
-
-    explanationDiv.className =
-      "explanation";
-
-    explanationDiv.id =
-      `explanation-${index}`;
-
-    questionBlock.appendChild(
-      explanationDiv
-    );
-
-
-    container.appendChild(
-      questionBlock
-    );
+    container.appendChild(questionBlock);
   });
+
+  showQuestion(currentQuestionIndex);
 }
 
 
 /* =========================================================
-   CLEAR QUESTION RESULT
+   QUESTION NAVIGATION
    ========================================================= */
 
-function clearQuestionResult(index) {
-  const result =
-    document.getElementById(
-      `result-${index}`
+function showQuestion(index) {
+  const questions =
+    document.querySelectorAll(
+      ".question-block"
     );
 
-  const explanation =
-    document.getElementById(
-      `explanation-${index}`
-    );
-
-  if (result) {
-    result.textContent = "";
-    result.className = "result";
+  if (!questions.length) {
+    return;
   }
 
-  if (explanation) {
-    explanation.textContent = "";
+  if (index < 0) {
+    index = 0;
   }
 
-  const block =
-    document.querySelector(
-      `.question-block[data-index="${index}"]`
-    );
+  if (index >= questions.length) {
+    index = questions.length - 1;
+  }
 
-  if (block) {
-    block.classList.remove(
-      "highlight-missed"
-    );
+  currentQuestionIndex = index;
+
+  questions.forEach((question, i) => {
+    question.style.display =
+      i === currentQuestionIndex
+        ? "block"
+        : "none";
+  });
+
+  updateNavigationButtons();
+
+  restoreAnswerSelection(currentQuestionIndex);
+
+  speakCurrentQuestionIfEnabled();
+}
+
+
+function nextQuestion() {
+  if (!window.quizData.length) {
+    return;
+  }
+
+  if (currentQuestionIndex <
+      window.quizData.length - 1) {
+
+    currentQuestionIndex++;
+
+    showQuestion(currentQuestionIndex);
+  }
+}
+
+
+function previousQuestion() {
+  if (!window.quizData.length) {
+    return;
+  }
+
+  if (currentQuestionIndex > 0) {
+    currentQuestionIndex--;
+
+    showQuestion(currentQuestionIndex);
+  }
+}
+
+
+function updateNavigationButtons() {
+  const prevBtn =
+    document.getElementById("prevBtn");
+
+  const nextBtn =
+    document.getElementById("nextBtn");
+
+  const finishBtn =
+    document.getElementById("finishQuizBtn");
+
+  const hasQuiz =
+    window.quizData &&
+    window.quizData.length > 0;
+
+  if (prevBtn) {
+    prevBtn.disabled =
+      !hasQuiz ||
+      currentQuestionIndex === 0;
+  }
+
+  if (nextBtn) {
+    nextBtn.disabled =
+      !hasQuiz ||
+      currentQuestionIndex >=
+        window.quizData.length - 1;
+  }
+
+  if (finishBtn) {
+    finishBtn.disabled =
+      !hasQuiz ||
+      window.quizFinished;
   }
 }
 
 
 /* =========================================================
-   CHECK ANSWER
+   ANSWER HANDLING
    ========================================================= */
 
 function checkAnswer(
@@ -951,194 +808,141 @@ function checkAnswer(
     return false;
   }
 
-  const inputs =
-    document.querySelectorAll(
-      `input[name="question-${index}"]:checked`
+  const questionBlock =
+    document.querySelector(
+      `.question-block[data-question-index="${index}"]`
     );
 
-  /*
-   * Display labels selected by the user.
-   */
-  const selectedDisplayAnswers =
-    Array.from(inputs)
-      .map(input => input.value);
+  if (!questionBlock) {
+    return false;
+  }
 
+  const inputs =
+    questionBlock.querySelectorAll(
+      "input"
+    );
+
+  const selectedDisplayAnswers = [];
+
+  inputs.forEach(input => {
+    if (input.checked) {
+      selectedDisplayAnswers.push(
+        input.value.toUpperCase()
+      );
+    }
+  });
 
   /*
    * Convert displayed labels back to the
-   * ORIGINAL answer labels from the quiz.
+   * ORIGINAL answer IDs.
    *
-   * This makes answer shuffling transparent.
+   * Example:
+   *
+   * Displayed A -> original C
+   * Displayed B -> original A
+   * Displayed C -> original D
    */
-  const selectedAnswers =
+
+  const selectedOriginalAnswers =
     selectedDisplayAnswers
       .map(displayLabel =>
-        question.choiceMap?.[displayLabel]
-          || displayLabel
-      );
+        question.choiceMap[displayLabel]
+      )
+      .filter(Boolean)
+      .map(value => value.toUpperCase());
 
-
-  /*
-   * Sort copies before comparison so:
-   *
-   * ["A", "C"]
-   *
-   * equals:
-   *
-   * ["C", "A"]
-   */
-  const selectedSorted =
-    [...selectedAnswers]
+  const normalizedCorrect =
+    correctAnswers
+      .map(value => value.toUpperCase())
       .sort();
 
-  const correctSorted =
-    [...correctAnswers]
+  const normalizedSelected =
+    [...selectedOriginalAnswers]
       .sort();
-
 
   const isCorrect =
-    selectedSorted.length ===
-      correctSorted.length &&
-    selectedSorted.every(
+    normalizedCorrect.length ===
+      normalizedSelected.length &&
+    normalizedCorrect.every(
       (value, i) =>
-        value === correctSorted[i]
+        value === normalizedSelected[i]
     );
-
 
   /*
-   * Save actual selected answer IDs rather than
-   * only a true/false value.
+   * Keep the selected ORIGINAL answer IDs.
+   * This is important because answers may be shuffled.
    */
-  if (markAsSubmitted) {
-    window.userAnswers[index] = {
-      questionId:
-        question.questionId,
 
-      selectedAnswers:
-        selectedAnswers,
+  window.userAnswers[index] = {
+    questionId: question.id,
+    selectedAnswers:
+      selectedOriginalAnswers,
+    isCorrect,
+    submitted: markAsSubmitted
+  };
 
-      isCorrect:
-        isCorrect,
-
-      submitted:
-        true
-    };
-  }
-
-
-  const result =
+  const feedback =
     document.getElementById(
-      `result-${index}`
+      `feedback-${index}`
     );
 
-  const explanationElement =
-    document.getElementById(
-      `explanation-${index}`
-    );
-
-
-  if (result) {
-    result.textContent =
-      isCorrect
-        ? "Correct"
-        : "Incorrect";
-
-    result.className =
-      `result ${
-        isCorrect
-          ? "correct"
-          : "incorrect"
-      }`;
+  if (feedback) {
+    if (selectedOriginalAnswers.length === 0) {
+      feedback.textContent =
+        "No answer selected.";
+    } else if (isCorrect) {
+      feedback.textContent =
+        explanation || "Correct.";
+    } else {
+      feedback.textContent =
+        explanation
+          ? `Incorrect. ${explanation}`
+          : "Incorrect.";
+    }
   }
-
-
-  if (explanationElement) {
-    explanationElement.textContent =
-      explanation || "";
-  }
-
-
-  const block =
-    document.querySelector(
-      `.question-block[data-index="${index}"]`
-    );
-
-  if (block) {
-    block.classList.toggle(
-      "highlight-missed",
-      !isCorrect
-    );
-  }
-
 
   return isCorrect;
 }
 
 
-/* =========================================================
-   SHOW QUESTION
-   ========================================================= */
+function restoreAnswerSelection(index) {
+  const answer =
+    window.userAnswers[index];
 
-function showQuestion(index) {
-  if (
-    index < 0 ||
-    index >= window.quizData.length
-  ) {
+  if (!answer) {
     return;
   }
 
-  currentQuestionIndex =
-    index;
+  const question =
+    window.quizData[index];
 
-  const blocks =
-    document.querySelectorAll(
-      ".question-block"
+  if (!question) {
+    return;
+  }
+
+  const questionBlock =
+    document.querySelector(
+      `.question-block[data-question-index="${index}"]`
     );
 
-  blocks.forEach(
-    (block, blockIndex) => {
-      block.classList.toggle(
-        "active",
-        blockIndex === index
+  if (!questionBlock) {
+    return;
+  }
+
+  const inputs =
+    questionBlock.querySelectorAll(
+      "input"
+    );
+
+  inputs.forEach(input => {
+    const originalAnswer =
+      question.choiceMap[input.value];
+
+    input.checked =
+      answer.selectedAnswers.includes(
+        originalAnswer
       );
-    }
-  );
-
-
-  const prevBtn =
-    document.getElementById(
-      "prevBtn"
-    );
-
-  const nextBtn =
-    document.getElementById(
-      "nextBtn"
-    );
-
-
-  if (prevBtn) {
-    prevBtn.disabled =
-      index === 0;
-  }
-
-  if (nextBtn) {
-    nextBtn.disabled =
-      index ===
-      window.quizData.length - 1;
-  }
-
-
-  /*
-   * Auto-reading.
-   */
-  const autoRead =
-    document.getElementById(
-      "autoReadToggle"
-    )?.checked;
-
-  if (autoRead) {
-    speakQuestion(index);
-  }
+  });
 }
 
 
@@ -1153,118 +957,85 @@ async function finishQuiz() {
 
   if (!activeProfileFile || !activeProfile) {
     alert(
-      "Please select a profile before finishing the quiz."
+      "Please select and load a profile before finishing the quiz."
     );
 
     return;
   }
 
-
-  let correctCount = 0;
-
-
   /*
-   * Check every question.
-   *
-   * This also handles questions that the user
-   * left unanswered.
+   * Submit/check every question.
    */
-  window.quizData.forEach(
-    (question, index) => {
 
-      const alreadySubmitted =
-        window.userAnswers[index];
+  let score = 0;
 
-      let isCorrect;
+  window.quizData.forEach((question, index) => {
+    const isCorrect = checkAnswer(
+      index,
+      question.answers,
+      question.answers.length > 1
+        ? "checkbox"
+        : "radio",
+      question.explanation,
+      true
+    );
 
-      if (
-        alreadySubmitted &&
-        alreadySubmitted.submitted
-      ) {
-        isCorrect =
-          alreadySubmitted.isCorrect;
-      } else {
-        isCorrect =
-          checkAnswer(
-            index,
-            question.answers,
-            question.answers.length > 1
-              ? "checkbox"
-              : "radio",
-            question.explanation,
-            true
-          );
-      }
-
-      if (isCorrect) {
-        correctCount++;
-      }
+    if (isCorrect) {
+      score++;
     }
-  );
-
-
-  quizFinished = true;
-
+  });
 
   const total =
     window.quizData.length;
 
-  const percentage =
-    total > 0
-      ? Math.round(
-          (correctCount / total) * 100
-        )
-      : 0;
-
-
-  const finalScore =
-    document.getElementById(
-      "finalScore"
-    );
-
-  if (finalScore) {
-    finalScore.textContent =
-      `Score: ${correctCount}/${total} (${percentage}%)`;
-  }
-
-
-  buildSummary();
-
+  window.quizFinished = true;
 
   /*
-   * Save result to the selected profile.
+   * Build result object.
+   *
+   * Only answers selected by the user are stored.
+   *
+   * Question text, correct answers and explanations
+   * remain in the quiz definition.
    */
-  const result =
-    buildResultObject(
-      correctCount,
-      total
-    );
 
+  const result =
+    buildResultObject(score, total);
 
   try {
-    const savedProfile =
-      await saveQuizResult(
-        activeProfileFile,
-        result
-      );
+    showSaveStatus(
+      "Saving result to profile..."
+    );
 
-    activeProfile =
-      savedProfile;
+    await saveQuizResult(
+      activeProfileFile,
+      result
+    );
 
     showSaveStatus(
-      "Result saved to profile."
+      "Result saved successfully."
     );
 
   } catch (error) {
     console.error(
-      "Could not save quiz result:",
+      "Failed to save quiz result:",
       error
     );
 
     showSaveStatus(
-      "Quiz completed, but the result could not be saved."
+      "Quiz completed, but the result could not be saved: " +
+      error.message
     );
   }
+
+  displayFinalScore(
+    score,
+    total
+  );
+
+  displayQuizSummary();
+
+  updateNavigationButtons();
 }
 
 
@@ -1272,88 +1043,99 @@ async function finishQuiz() {
    RESULT OBJECT
    ========================================================= */
 
-function buildResultObject(
-  correctCount,
-  total
-) {
-  const quizId =
-    getCurrentQuizId();
+function buildResultObject(score, total) {
+  const answers =
+    window.userAnswers.map(
+      answer => ({
+        questionId:
+          answer?.questionId || null,
+
+        /*
+         * Always store ORIGINAL answer IDs,
+         * never shuffled display positions.
+         */
+        answerId:
+          answer?.selectedAnswers || [],
+
+        isCorrect:
+          Boolean(answer?.isCorrect)
+      })
+    );
 
   return {
-    id:
-      createAttemptId(),
+    id: createResultId(),
 
     quizId:
-
-      quizId,
+      getCurrentQuizId(),
 
     completedAt:
       new Date().toISOString(),
 
-    score:
-      correctCount,
+    score,
 
-    total:
-      total,
+    total,
 
-    answers:
-      window.quizData.map(
-        (question, index) => {
-
-          const answer =
-            window.userAnswers[index];
-
-          return {
-            questionId:
-              question.questionId,
-
-            answerId:
-              answer?.selectedAnswers || []
-          };
-        }
-      )
+    answers
   };
 }
 
 
-function createAttemptId() {
-  const now =
-    new Date();
+function createResultId() {
+  const now = new Date();
 
   const pad =
-    value =>
-      String(value).padStart(2, "0");
+    value => String(value).padStart(2, "0");
 
-  return [
-    now.getUTCFullYear(),
-    pad(now.getUTCMonth() + 1),
-    pad(now.getUTCDate())
-  ].join("") +
-  "-" +
-  [
-    pad(now.getUTCHours()),
-    pad(now.getUTCMinutes()),
-    pad(now.getUTCSeconds())
-  ].join("");
+  return (
+    `${now.getFullYear()}` +
+    `${pad(now.getMonth() + 1)}` +
+    `${pad(now.getDate())}-` +
+    `${pad(now.getHours())}` +
+    `${pad(now.getMinutes())}` +
+    `${pad(now.getSeconds())}`
+  );
 }
 
 
 function getCurrentQuizId() {
-  const select =
+  if (window.quizData?.quizId) {
+    return window.quizData.quizId;
+  }
+
+  const quizSelect =
     document.getElementById(
       "quizFileSelect"
     );
 
-  if (
-    select &&
-    select.value
-  ) {
-    return getQuizIdFromPath(
-      select.value
+  if (quizSelect?.value) {
+    return getQuizIdFromSource(
+      quizSelect.value
     );
   }
 
-  return "uploaded-quiz";
+  return "unknown-quiz";
+}
+
+
+/* =========================================================
+   SCORE DISPLAY
+   ========================================================= */
+
+function displayFinalScore(score, total) {
+  const finalScore =
+    document.getElementById("finalScore");
+
+  if (!finalScore) {
+    return;
+  }
+
+  const percentage =
+    total > 0
+      ? Math.round((score / total) * 100)
+      : 0;
+
+  finalScore.innerHTML =
+    `<strong>Score: ${score} / ${total} (${percentage}%)</strong>`;
 }
 
 
@@ -1361,30 +1143,25 @@ function getCurrentQuizId() {
    SUMMARY
    ========================================================= */
 
-function buildSummary() {
-  const summary =
-    document.getElementById(
-      "quizSummary"
-    );
+function displayQuizSummary() {
+  const summaryBlock =
+    document.getElementById("quizSummary");
 
-  const list =
-    document.getElementById(
-      "summaryList"
-    );
+  const summaryList =
+    document.getElementById("summaryList");
 
-  if (!summary || !list) {
+  if (!summaryBlock || !summaryList) {
     return;
   }
 
-  list.innerHTML = "";
+  summaryList.innerHTML = "";
 
   window.quizData.forEach(
     (question, index) => {
-
       const answer =
         window.userAnswers[index];
 
-      const li =
+      const item =
         document.createElement("li");
 
       const status =
@@ -1392,62 +1169,35 @@ function buildSummary() {
           ? "✓"
           : "✗";
 
-      li.textContent =
+      item.textContent =
         `${status} Question ${index + 1}`;
 
-      if (!answer?.isCorrect) {
-        li.classList.add(
-          "highlight-missed"
-        );
-      }
+      /*
+       * Clicking the summary item takes the user
+       * back to that question.
+       */
 
-      li.addEventListener(
+      item.style.cursor = "pointer";
+
+      item.addEventListener(
         "click",
         () => {
           showQuestion(index);
-
-          const block =
-            document.querySelector(
-              `.question-block[data-index="${index}"]`
-            );
-
-          if (block) {
-            block.scrollIntoView({
-              behavior: "smooth",
-              block: "start"
-            });
-
-            block.classList.add(
-              "flash-highlight"
-            );
-
-            setTimeout(() => {
-              block.classList.remove(
-                "flash-highlight"
-              );
-            }, 1000);
-          }
         }
       );
 
-      list.appendChild(li);
+      summaryList.appendChild(item);
     }
   );
 
-  summary.style.display =
+  summaryBlock.style.display =
     "block";
 }
 
 
-/* =========================================================
-   SAVE STATUS
-   ========================================================= */
-
 function showSaveStatus(message) {
   const finalScore =
-    document.getElementById(
-      "finalScore"
-    );
+    document.getElementById("finalScore");
 
   if (!finalScore) {
     return;
@@ -1456,31 +1206,443 @@ function showSaveStatus(message) {
   const status =
     document.createElement("div");
 
-  status.style.marginTop =
-    "8px";
+  status.style.marginTop = "10px";
 
-  status.style.fontSize =
-    "0.9em";
+  status.textContent = message;
 
-  status.textContent =
-    message;
-
-  finalScore.appendChild(
-    status
-  );
+  finalScore.appendChild(status);
 }
 
 
 /* =========================================================
-   VOICE FUNCTIONS
+   RESET
    ========================================================= */
 
-function speak(text) {
-  if (
-    !("speechSynthesis" in window)
+function resetQuiz() {
+  resetQuizStateOnly();
+
+  const quizContainer =
+    document.getElementById(
+      "quizContainer"
+    );
+
+  if (quizContainer) {
+    quizContainer.innerHTML = "";
+  }
+
+  const quizSummary =
+    document.getElementById(
+      "quizSummary"
+    );
+
+  if (quizSummary) {
+    quizSummary.style.display =
+      "none";
+  }
+
+  const finalScore =
+    document.getElementById(
+      "finalScore"
+    );
+
+  if (finalScore) {
+    finalScore.innerHTML = "";
+  }
+
+  updateNavigationButtons();
+}
+
+
+function resetQuizStateOnly() {
+  currentQuestionIndex = 0;
+
+  window.quizData = [];
+
+  window.userAnswers = [];
+
+  window.quizFinished = false;
+
+  const quizContainer =
+    document.getElementById(
+      "quizContainer"
+    );
+
+  if (quizContainer) {
+    quizContainer.innerHTML = "";
+  }
+
+  const finalScore =
+    document.getElementById(
+      "finalScore"
+    );
+
+  if (finalScore) {
+    finalScore.innerHTML = "";
+  }
+
+  const quizSummary =
+    document.getElementById(
+      "quizSummary"
+    );
+
+  if (quizSummary) {
+    quizSummary.style.display =
+      "none";
+  }
+
+  updateNavigationButtons();
+}
+
+
+function clearQuizResults() {
+  const finalScore =
+    document.getElementById(
+      "finalScore"
+    );
+
+  if (finalScore) {
+    finalScore.innerHTML = "";
+  }
+
+  const summaryBlock =
+    document.getElementById(
+      "quizSummary"
+    );
+
+  const summaryList =
+    document.getElementById(
+      "summaryList"
+    );
+
+  if (summaryBlock) {
+    summaryBlock.style.display =
+      "none";
+  }
+
+  if (summaryList) {
+    summaryList.innerHTML = "";
+  }
+}
+
+
+/* =========================================================
+   SHUFFLE
+   ========================================================= */
+
+function shuffleArray(array) {
+  for (
+    let i = array.length - 1;
+    i > 0;
+    i--
   ) {
+    const j =
+      Math.floor(
+        Math.random() * (i + 1)
+      );
+
+    [
+      array[i],
+      array[j]
+    ] = [
+      array[j],
+      array[i]
+    ];
+  }
+
+  return array;
+}
+
+
+/* =========================================================
+   QUESTION SHUFFLING
+   ========================================================= */
+
+function shuffleQuestions() {
+  if (!window.quizData.length) {
     return;
   }
+
+  const shuffleToggle =
+    document.getElementById(
+      "shuffleToggle"
+    );
+
+  if (!shuffleToggle?.checked) {
+    return;
+  }
+
+  shuffleArray(window.quizData);
+
+  /*
+   * Reset current question index because
+   * the question order has changed.
+   */
+
+  currentQuestionIndex = 0;
+
+  /*
+   * Re-render the questions so their visual
+   * order matches the shuffled data.
+   */
+
+  renderQuiz(window.quizData);
+}
+
+
+/* =========================================================
+   VOICE RECOGNITION
+   ========================================================= */
+
+let recognition = null;
+
+
+function handleVoiceToggle(event) {
+  if (event.target.checked) {
+    startVoiceRecognition();
+  } else {
+    stopVoiceRecognition();
+  }
+}
+
+
+function startVoiceRecognition() {
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    alert(
+      "Voice recognition is not supported by this browser."
+    );
+
+    const voiceToggle =
+      document.getElementById(
+        "voiceToggle"
+      );
+
+    if (voiceToggle) {
+      voiceToggle.checked = false;
+    }
+
+    return;
+  }
+
+  if (recognition) {
+    return;
+  }
+
+  recognition =
+    new SpeechRecognition();
+
+  recognition.continuous = true;
+
+  recognition.interimResults = false;
+
+  recognition.lang =
+    document.documentElement.lang ||
+    "en-US";
+
+  recognition.onresult =
+    event => {
+      const result =
+        event.results[
+          event.results.length - 1
+        ];
+
+      if (!result || !result[0]) {
+        return;
+      }
+
+      const transcript =
+        result[0].transcript
+          .trim()
+          .toUpperCase();
+
+      handleVoiceAnswer(transcript);
+    };
+
+  recognition.onerror =
+    event => {
+      console.error(
+        "Voice recognition error:",
+        event.error
+      );
+    };
+
+  recognition.onend =
+    () => {
+      const voiceToggle =
+        document.getElementById(
+          "voiceToggle"
+        );
+
+      if (
+        voiceToggle?.checked &&
+        recognition
+      ) {
+        try {
+          recognition.start();
+        } catch (error) {
+          console.warn(
+            "Could not restart voice recognition.",
+            error
+          );
+        }
+      }
+    };
+
+  try {
+    recognition.start();
+  } catch (error) {
+    console.error(
+      "Failed to start voice recognition:",
+      error
+    );
+  }
+}
+
+
+function stopVoiceRecognition() {
+  if (!recognition) {
+    return;
+  }
+
+  try {
+    recognition.stop();
+  } catch (error) {
+    console.warn(
+      "Failed to stop voice recognition:",
+      error
+    );
+  }
+
+  recognition = null;
+}
+
+
+function handleVoiceAnswer(transcript) {
+  if (!window.quizData.length) {
+    return;
+  }
+
+  /*
+   * Recognize simple spoken answer choices.
+   */
+
+  const answerMap = {
+    "A": "A",
+    "AY": "A",
+    "HEY": "A",
+
+    "B": "B",
+    "BE": "B",
+
+    "C": "C",
+    "SEE": "C",
+    "SEA": "C",
+
+    "D": "D",
+    "DEE": "D",
+
+    "E": "E",
+    "EE": "E"
+  };
+
+  let answer =
+    answerMap[transcript];
+
+  /*
+   * Also handle phrases such as:
+   *
+   * "answer A"
+   * "option B"
+   * "choose C"
+   */
+
+  if (!answer) {
+    const match =
+      transcript.match(
+        /\b([A-E])\b/
+      );
+
+    if (match) {
+      answer = match[1];
+    }
+  }
+
+  if (!answer) {
+    return;
+  }
+
+  selectVoiceAnswer(answer);
+}
+
+
+function selectVoiceAnswer(answer) {
+  const questionBlock =
+    document.querySelector(
+      `.question-block[data-question-index="${currentQuestionIndex}"]`
+    );
+
+  if (!questionBlock) {
+    return;
+  }
+
+  const inputs =
+    questionBlock.querySelectorAll(
+      "input"
+    );
+
+  inputs.forEach(input => {
+    if (input.value === answer) {
+      input.checked = true;
+
+      input.dispatchEvent(
+        new Event("change", {
+          bubbles: true
+        })
+      );
+    }
+  });
+}
+
+
+/* =========================================================
+   TEXT TO SPEECH
+   ========================================================= */
+
+function speakCurrentQuestionIfEnabled() {
+  const autoReadToggle =
+    document.getElementById(
+      "autoReadToggle"
+    );
+
+  if (!autoReadToggle?.checked) {
+    return;
+  }
+
+  const question =
+    window.quizData[
+      currentQuestionIndex
+    ];
+
+  if (!question) {
+    return;
+  }
+
+  if (!("speechSynthesis" in window)) {
+    return;
+  }
+
+  const text =
+    question.questionText +
+    ". " +
+    question.choices
+      .map(
+        choice =>
+          `${choice.label}. ${choice.text}`
+      )
+      .join(". ");
 
   window.speechSynthesis.cancel();
 
@@ -1495,207 +1657,26 @@ function speak(text) {
 }
 
 
-function speakQuestion(index) {
-  const question =
-    window.quizData[index];
+/* =========================================================
+   PROFILE INFORMATION
+   ========================================================= */
 
-  if (!question) {
-    return;
-  }
-
-  let text =
-    question.questionText;
-
-  question.choices.forEach(
-    (choice, choiceIndex) => {
-      const label =
-        String.fromCharCode(
-          65 + choiceIndex
-        );
-
-      text +=
-        `. ${label}. ${choice.text}`;
-    }
-  );
-
-  speak(text);
+function getActiveProfile() {
+  return activeProfile;
 }
 
 
-function listenOnce() {
-  return new Promise(
-    (resolve, reject) => {
-
-      if (
-        !(
-          "SpeechRecognition" in window ||
-          "webkitSpeechRecognition" in window
-        )
-      ) {
-        reject(
-          new Error(
-            "Speech recognition is not supported."
-          )
-        );
-
-        return;
-      }
-
-
-      const SpeechRecognition =
-        window.SpeechRecognition ||
-        window.webkitSpeechRecognition;
-
-
-      const recognition =
-        new SpeechRecognition();
-
-      recognition.lang =
-        "en-US";
-
-      recognition.interimResults =
-        false;
-
-      recognition.maxAlternatives =
-        1;
-
-
-      recognition.onresult =
-        event => {
-
-          const transcript =
-            event.results[0][0]
-              .transcript
-              .trim();
-
-          resolve(
-            transcript
-          );
-        };
-
-
-      recognition.onerror =
-        event => {
-          reject(
-            new Error(
-              event.error ||
-              "Speech recognition failed."
-            )
-          );
-        };
-
-
-      recognition.start();
-    }
-  );
-}
-
-
-async function listenForVoiceAnswer() {
-  const voiceOutput =
-    document.getElementById(
-      "voiceOutput"
-    );
-
-  const question =
-    window.quizData[
-      currentQuestionIndex
-    ];
-
-  if (!question) {
-    return;
-  }
-
-  try {
-    if (voiceOutput) {
-      voiceOutput.textContent =
-        "Listening...";
-    }
-
-    const spoken =
-      await listenOnce();
-
-    if (voiceOutput) {
-      voiceOutput.textContent =
-        `Heard: ${spoken}`;
-    }
-
-    const answer =
-      spoken
-        .toUpperCase()
-        .trim()
-        .match(/[A-E]/);
-
-    if (!answer) {
-      if (voiceOutput) {
-        voiceOutput.textContent +=
-          " — Could not identify an answer.";
-      }
-
-      return;
-    }
-
-    const selectedLabel =
-      answer[0];
-
-    const input =
-      document.querySelector(
-        `input[name="question-${currentQuestionIndex}"][value="${selectedLabel}"]`
-      );
-
-    if (input) {
-      input.checked = true;
-
-      input.dispatchEvent(
-        new Event("change", {
-          bubbles: true
-        })
-      );
-    }
-
-  } catch (error) {
-    console.error(error);
-
-    if (voiceOutput) {
-      voiceOutput.textContent =
-        "Voice recognition is unavailable.";
-    }
-  }
+function getActiveProfileFile() {
+  return activeProfileFile;
 }
 
 
 /* =========================================================
-   OPTIONAL VOICE BUTTON SUPPORT
+   GLOBAL HELPERS
    ========================================================= */
 
-/*
- * If voice recognition is enabled, allow a spoken
- * answer when the user presses a keyboard shortcut.
- *
- * Space is intentionally not used because it is commonly
- * used for page scrolling.
- */
-document.addEventListener(
-  "keydown",
-  event => {
+window.getActiveProfile =
+  getActiveProfile;
 
-    const voiceToggle =
-      document.getElementById(
-        "voiceToggle"
-      );
-
-    if (
-      !voiceToggle ||
-      !voiceToggle.checked
-    ) {
-      return;
-    }
-
-    if (
-      event.key.toLowerCase() ===
-      "v"
-    ) {
-      listenForVoiceAnswer();
-    }
-  }
-);
+window.getActiveProfileFile =
+  getActiveProfileFile;
