@@ -16,7 +16,7 @@ window.quizFinished = false;
    ========================================================= */
 
 const GOOGLE_SHEETS_URL =
-  "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
+  "https://script.google.com/macros/s/AKfycbyd1m2-u0ihmE0hXBbNZIYkyd0ItdEe39UDwNL1MUTcBr8DNrWSDmSH0p29GNSES1Es2w/exec";
 
 
 /* =========================================================
