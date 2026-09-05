@@ -1,3 +1,4 @@
+```javascript
 /* ---------------------------------------------------------
    QUIZ ENGINE CORE
 --------------------------------------------------------- */
@@ -308,6 +309,10 @@ async function handleProfileSelection() {
     profileStatus.textContent =
       `Profile loaded: ${profile.id || profileFile}`;
 
+    /*
+     * Show quiz setup after a profile
+     * has been successfully loaded.
+     */
     quizSetupBlock.style.display =
       "block";
 
@@ -443,7 +448,7 @@ function handleFileInput(event) {
       } catch (error) {
 
         alert(
-          "Could not load file: " +
+          "Could not load quiz: " +
           error.message
         );
       }
@@ -528,6 +533,18 @@ function loadQuizFromText(
           )
       : "quiz";
 
+  /*
+   * Hide quiz setup after the quiz
+   * has been successfully loaded.
+   *
+   * This restores the original design:
+   * the setup/selection area is visible
+   * before loading and disappears once
+   * the quiz starts.
+   */
+  quizSetupBlock.style.display =
+    "none";
+
   renderQuiz(
     questions
   );
@@ -544,6 +561,10 @@ function resetQuiz() {
 
   resetQuizStateOnly();
 
+  /*
+   * Show quiz setup again when
+   * Restart Quiz is clicked.
+   */
   quizSetupBlock.style.display =
     "block";
 }
