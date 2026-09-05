@@ -1,215 +1,208 @@
-let currentQuestionIndex = 0;
+/* ---------------------------------------------------------
+   QUIZ ENGINE CORE
+--------------------------------------------------------- */
 
+let currentQuestionIndex = 0;
 let activeProfileFile = null;
 
 window.quizData = [];
-window.userAnswers = [];
+window.userAnswers = {};
 window.quizFinished = false;
 
 
 /* =========================================================
-   GOOGLE SHEETS
+   DOM ELEMENTS
    ========================================================= */
 
-/*
- * Replace this with your Google Apps Script Web App URL.
- */
-const GOOGLE_SHEETS_URL =
-  "https://script.google.com/macros/s/AKfycbyd1m2-u0ihmE0hXBbNZIYkyd0ItdEe39UDwNL1MUTcBr8DNrWSDmSH0p29GNSES1Es2w/exec";
+const fileInput =
+  document.getElementById("fileInput");
+
+const finishQuizBtn =
+  document.getElementById("finishQuizBtn");
+
+const prevBtn =
+  document.getElementById("prevBtn");
+
+const nextBtn =
+  document.getElementById("nextBtn");
+
+const restartBtn =
+  document.getElementById("restart");
+
+const loadQuizFileBtn =
+  document.getElementById("loadQuizFileBtn");
+
+const quizFileSelect =
+  document.getElementById("quizFileSelect");
+
+const quizSetupBlock =
+  document.getElementById("quizSetupBlock");
+
+const quizContainer =
+  document.getElementById("quizContainer");
+
+const finalScore =
+  document.getElementById("finalScore");
+
+const summaryList =
+  document.getElementById("summaryList");
+
+const quizSummary =
+  document.getElementById("quizSummary");
+
+const shuffleToggle =
+  document.getElementById("shuffleToggle");
+
+const shuffleAnswersToggle =
+  document.getElementById(
+    "shuffleAnswersToggle"
+  );
+
+const autoReadToggle =
+  document.getElementById(
+    "autoReadToggle"
+  );
+
+const voiceToggle =
+  document.getElementById(
+    "voiceToggle"
+  );
+
+const voiceOutput =
+  document.getElementById(
+    "voiceOutput"
+  );
+
+
+/* =========================================================
+   PROFILE ELEMENTS
+   ========================================================= */
+
+const profileSelect =
+  document.getElementById(
+    "profileSelect"
+  );
+
+const loadProfileBtn =
+  document.getElementById(
+    "loadProfileBtn"
+  );
+
+const profileStatus =
+  document.getElementById(
+    "profileStatus"
+  );
 
 
 /* =========================================================
    INITIALIZATION
    ========================================================= */
 
-document.addEventListener("DOMContentLoaded", () => {
-  initializeUI();
-  initializeProfiles();
-});
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+    initializeProfiles();
 
-
-function initializeUI() {
-  const fileInput =
-    document.getElementById("fileInput");
-
-  const finishBtn =
-    document.getElementById("finishQuizBtn");
-
-  const prevBtn =
-    document.getElementById("prevBtn");
-
-  const nextBtn =
-    document.getElementById("nextBtn");
-
-  const restartBtn =
-    document.getElementById("restart");
-
-  const loadQuizBtn =
-    document.getElementById("loadQuizFileBtn");
-
-  const loadProfileBtn =
-    document.getElementById("loadProfileBtn");
-
-  const voiceToggle =
-    document.getElementById("voiceToggle");
-
-
-  if (fileInput) {
-    fileInput.addEventListener(
-      "change",
-      handleFileUpload
-    );
-  }
-
-
-  if (finishBtn) {
-    finishBtn.addEventListener(
+    finishQuizBtn.addEventListener(
       "click",
       finishQuiz
     );
-  }
 
-
-  if (prevBtn) {
     prevBtn.addEventListener(
       "click",
-      previousQuestion
+      () =>
+        showQuestion(
+          currentQuestionIndex - 1
+        )
     );
-  }
 
-
-  if (nextBtn) {
     nextBtn.addEventListener(
       "click",
-      nextQuestion
+      () =>
+        showQuestion(
+          currentQuestionIndex + 1
+        )
     );
-  }
 
-
-  if (restartBtn) {
     restartBtn.addEventListener(
       "click",
-      resetQuiz
+      () =>
+        resetQuiz()
     );
-  }
 
-
-  if (loadQuizBtn) {
-    loadQuizBtn.addEventListener(
+    loadQuizFileBtn.addEventListener(
       "click",
       loadSelectedQuiz
     );
-  }
 
+    fileInput.addEventListener(
+      "change",
+      handleFileInput
+    );
 
-  if (loadProfileBtn) {
     loadProfileBtn.addEventListener(
       "click",
       handleProfileSelection
     );
-  }
 
-
-  if (voiceToggle) {
     voiceToggle.addEventListener(
       "change",
       handleVoiceToggle
     );
+
+    autoReadToggle.addEventListener(
+      "change",
+      handleAutoReadToggle
+    );
+
+    /*
+     * Quiz setup remains hidden until
+     * a profile is loaded.
+     */
+    quizSetupBlock.style.display =
+      "none";
+
+    finishQuizBtn.style.display =
+      "none";
+
+    prevBtn.disabled = true;
+    nextBtn.disabled = true;
   }
-
-
-  updateNavigationButtons();
-}
+);
 
 
 /* =========================================================
-   PROFILE MANAGEMENT
+   PROFILE INITIALIZATION
    ========================================================= */
 
 async function initializeProfiles() {
-  const profileSelect =
-    document.getElementById(
-      "profileSelect"
-    );
-
-  const profileStatus =
-    document.getElementById(
-      "profileStatus"
-    );
-
-
-  if (!profileSelect) {
-    console.error(
-      "profileSelect element was not found."
-    );
-
-    return;
-  }
-
+  profileStatus.textContent =
+    "Loading profiles...";
 
   try {
-
-    profileSelect.innerHTML =
-      '<option value="">Loading profiles...</option>';
-
-
-    if (profileStatus) {
-      profileStatus.textContent =
-        "Connecting to GitHub...";
-    }
-
-
     const profiles =
       await getAvailableProfiles();
 
+    profileSelect.innerHTML = "";
 
-    console.log(
-      "Profiles received:",
-      profiles
-    );
-
-
-    profileSelect.innerHTML =
-      "";
-
-
-    if (
-      !profiles ||
-      profiles.length === 0
-    ) {
-
-      profileSelect.innerHTML =
-        '<option value="">No profiles found</option>';
-
-
-      if (profileStatus) {
-        profileStatus.textContent =
-          "No .json files found in profiles/.";
-      }
-
-      return;
+    if (profiles.length === 0) {
+      throw new Error(
+        "No profile files were found."
+      );
     }
 
-
-    /*
-     * Add all existing JSON profile files.
-     */
     profiles.forEach(
-      file => {
-
+      profile => {
         const option =
           document.createElement(
             "option"
           );
 
         option.value =
-          file.name;
+          profile.name;
 
         option.textContent =
-          file.name.replace(
-            /\.json$/i,
-            ""
-          );
+          profile.name;
 
         profileSelect.appendChild(
           option
@@ -217,2272 +210,325 @@ async function initializeProfiles() {
       }
     );
 
-
     /*
-     * default.json is the default selection.
+     * default.json is always the default
+     * selection when it exists.
      */
     const defaultProfile =
       profiles.find(
-        file =>
-          file.name.toLowerCase() ===
+        profile =>
+          profile.name.toLowerCase() ===
           "default.json"
       );
 
-
     if (defaultProfile) {
-
       profileSelect.value =
         defaultProfile.name;
-
-      console.log(
-        "Default profile selected:",
-        defaultProfile.name
-      );
-
-    } else {
-
-      profileSelect.value =
-        profiles[0].name;
     }
 
-
-    if (profileStatus) {
-      profileStatus.textContent =
-        `${profiles.length} profile(s) available.`;
-    }
+    profileStatus.textContent =
+      "Select a profile and click Load Profile.";
 
   } catch (error) {
-
     console.error(
-      "Failed to load profiles:",
+      "Could not load profiles:",
       error
     );
 
-
     profileSelect.innerHTML =
-      '<option value="">Error loading profiles</option>';
+      '<option value="">Unable to load profiles</option>';
 
-
-    if (profileStatus) {
-      profileStatus.textContent =
-        "Error: " + error.message;
-    }
+    profileStatus.textContent =
+      `Could not load profiles: ${error.message}`;
   }
 }
 
 
+/* =========================================================
+   PROFILE SELECTION
+   ========================================================= */
+
 async function handleProfileSelection() {
-  const profileSelect =
-    document.getElementById(
-      "profileSelect"
-    );
-
-  const profileStatus =
-    document.getElementById(
-      "profileStatus"
-    );
-
-  const quizSetupBlock =
-    document.getElementById(
-      "quizSetupBlock"
-    );
-
-
-  if (!profileSelect) {
-    return;
-  }
-
-
   const profileFile =
     profileSelect.value;
 
-
   if (!profileFile) {
-
-    if (profileStatus) {
-      profileStatus.textContent =
-        "Please select a profile.";
-    }
+    profileStatus.textContent =
+      "Please select a profile.";
 
     return;
   }
 
+  loadProfileBtn.disabled =
+    true;
+
+  profileStatus.textContent =
+    `Loading ${profileFile}...`;
 
   try {
-
-    if (profileStatus) {
-      profileStatus.textContent =
-        "Loading profile...";
-    }
-
-
-    /*
-     * github.js owns activeProfile.
-     */
     const profile =
       await loadProfile(
         profileFile
       );
 
-
-    /*
-     * Remember only which profile
-     * file is selected.
-     */
     activeProfileFile =
       profileFile;
 
-
+    /*
+     * Store only the selected filename
+     * locally.
+     */
     localStorage.setItem(
-      "quizEngineProfile",
+      "selectedProfileFile",
       profileFile
     );
 
+    profileStatus.textContent =
+      `Profile loaded: ${profile.id || profileFile}`;
 
-    if (profileStatus) {
+    quizSetupBlock.style.display =
+      "block";
 
-      const profileName =
-        profile?.name ||
-        profile?.id ||
-        profileFile.replace(
-          /\.json$/i,
-          ""
-        );
-
-
-      profileStatus.textContent =
-        `Profile loaded: ${profileName}`;
-    }
-
-
-    if (quizSetupBlock) {
-      quizSetupBlock.style.display =
-        "block";
-    }
-
-
+    /*
+     * Loading a new profile should clear
+     * the current quiz state.
+     */
     resetQuizStateOnly();
 
-  } catch (error) {
+    console.log(
+      "Active profile:",
+      profile
+    );
 
+  } catch (error) {
     console.error(
-      "Failed to load profile:",
+      "Profile loading failed:",
       error
     );
 
+    profileStatus.textContent =
+      `Could not load profile: ${error.message}`;
 
-    activeProfileFile =
-      null;
-
-
-    if (profileStatus) {
-      profileStatus.textContent =
-        "Failed to load profile: " +
-        error.message;
-    }
+  } finally {
+    loadProfileBtn.disabled =
+      false;
   }
 }
 
 
 /* =========================================================
-   QUIZ LOADING
+   GET SELECTED PROFILE FILE
+   ========================================================= */
+
+function getSelectedProfileFile() {
+  return activeProfileFile;
+}
+
+window.getSelectedProfileFile =
+  getSelectedProfileFile;
+
+
+/* =========================================================
+   LOAD SELECTED QUIZ
    ========================================================= */
 
 async function loadSelectedQuiz() {
-  const quizFileSelect =
-    document.getElementById(
-      "quizFileSelect"
-    );
-
-
-  if (!quizFileSelect) {
-    return;
-  }
-
-
-  const filePath =
+  const selectedFile =
     quizFileSelect.value;
 
+  if (!selectedFile) {
+    alert(
+      "Please select a quiz."
+    );
 
-  if (!filePath) {
     return;
   }
 
+  resetQuizStateOnly();
 
   try {
-
     const response =
-      await fetch(filePath);
-
+      await fetch(
+        selectedFile
+      );
 
     if (!response.ok) {
       throw new Error(
-        `Unable to load quiz (${response.status})`
+        "File not found"
       );
     }
 
-
-    const text =
+    const content =
       await response.text();
 
-
     loadQuizFromText(
-      text,
-      filePath
+      content,
+      selectedFile
     );
 
   } catch (error) {
-
     console.error(
-      "Failed to load quiz:",
+      "Could not load quiz:",
       error
     );
 
-
-    const finalScore =
-      document.getElementById(
-        "finalScore"
-      );
-
-
-    if (finalScore) {
-      finalScore.textContent =
-        "Failed to load quiz: " +
-        error.message;
-    }
+    alert(
+      "Could not load file: " +
+      error.message
+    );
   }
 }
 
 
-async function handleFileUpload(
-  event
-) {
+/* =========================================================
+   LOAD QUIZ FROM UPLOADED FILE
+   ========================================================= */
+
+function handleFileInput(event) {
+  resetQuizStateOnly();
+
   const file =
     event.target.files[0];
-
 
   if (!file) {
     return;
   }
 
+  const reader =
+    new FileReader();
 
-  try {
+  reader.onload =
+    function (e) {
+      const content =
+        e.target.result;
 
-    const text =
-      await file.text();
+      try {
+        loadQuizFromText(
+          content,
+          file.name
+        );
+      } catch (error) {
+        alert(
+          "Could not load file: " +
+          error.message
+        );
+      }
+    };
 
-
-    loadQuizFromText(
-      text,
-      "uploaded-quiz"
-    );
-
-  } catch (error) {
-
-    console.error(
-      "Failed to read quiz file:",
-      error
-    );
-
-
-    const finalScore =
-      document.getElementById(
-        "finalScore"
-      );
-
-
-    if (finalScore) {
-      finalScore.textContent =
-        "Failed to read quiz file: " +
-        error.message;
-    }
-  }
+  reader.readAsText(file);
 }
 
+
+/* =========================================================
+   LOAD QUIZ TEXT
+   ========================================================= */
 
 function loadQuizFromText(
-  text,
-  quizSource
+  content,
+  sourceFile = ""
 ) {
-  try {
-
-    const questions =
-      parseQuestions(text);
-
-
-    if (!questions.length) {
-      throw new Error(
-        "No questions found in the quiz file."
-      );
-    }
-
-
-    window.quizData =
-      questions;
-
-
-    window.quizData.quizId =
-      getQuizIdFromSource(
-        quizSource
-      );
-
-
-    window.userAnswers =
-      new Array(
-        questions.length
-      ).fill(null);
-
-
-    currentQuestionIndex =
-      0;
-
-
-    window.quizFinished =
-      false;
-
-
-    clearQuizResults();
-
-
-    /*
-     * Render questions.
-     */
-    renderQuiz(
-      window.quizData
+  let questions =
+    parseQuestions(
+      content
     );
-
-
-    /*
-     * Apply question shuffle.
-     */
-    const shuffleQuestionsToggle =
-      document.getElementById(
-        "shuffleToggle"
-      );
-
-
-    if (
-      shuffleQuestionsToggle &&
-      shuffleQuestionsToggle.checked
-    ) {
-
-      shuffleArray(
-        window.quizData
-      );
-
-
-      currentQuestionIndex =
-        0;
-
-
-      renderQuiz(
-        window.quizData
-      );
-    }
-
-
-    updateNavigationButtons();
-
-  } catch (error) {
-
-    console.error(
-      "Failed to parse quiz:",
-      error
-    );
-
-
-    const finalScore =
-      document.getElementById(
-        "finalScore"
-      );
-
-
-    if (finalScore) {
-      finalScore.textContent =
-        "Failed to load quiz: " +
-        error.message;
-    }
-  }
-}
-
-
-function getQuizIdFromSource(
-  source
-) {
-  if (!source) {
-    return "unknown-quiz";
-  }
-
-
-  if (
-    source === "uploaded-quiz"
-  ) {
-    return "uploaded-quiz";
-  }
-
-
-  const filename =
-    source
-      .split("/")
-      .pop()
-      .replace(
-        /\.[^/.]+$/,
-        ""
-      );
-
-
-  return filename ||
-    "unknown-quiz";
-}
-
-
-/* =========================================================
-   QUIZ PARSER
-   ========================================================= */
-
-function parseQuestions(text) {
-  const questions = [];
-
-
-  const blocks =
-    text
-      .replace(
-        /\r\n/g,
-        "\n"
-      )
-      .split(
-        /\n(?=\s*\d+\.\s+)/
-      )
-      .map(
-        block =>
-          block.trim()
-      )
-      .filter(Boolean);
-
-
-  for (
-    const block of blocks
-  ) {
-
-    const lines =
-      block
-        .split("\n")
-        .map(
-          line =>
-            line.trim()
-        )
-        .filter(
-          line =>
-            line.length > 0
-        );
-
-
-    if (!lines.length) {
-      continue;
-    }
-
-
-    const questionMatch =
-      lines[0].match(
-        /^(\d+)\.\s*(.*)$/
-      );
-
-
-    if (!questionMatch) {
-      continue;
-    }
-
-
-    const originalNumber =
-      questionMatch[1];
-
-
-    let questionText =
-      questionMatch[2].trim();
-
-
-    const choices = [];
-
-    let answers = [];
-
-    let explanation = "";
-
-    let currentChoice =
-      null;
-
-    let explanationStarted =
-      false;
-
-    let answerStarted =
-      false;
-
-
-    for (
-      let i = 1;
-      i < lines.length;
-      i++
-    ) {
-
-      const line =
-        lines[i];
-
-
-      /*
-       * Answer:
-       * Answer: A
-       * Answer: A, C
-       * Answer: A,C
-       */
-      const answerMatch =
-        line.match(
-          /^Answer\s*:\s*(.*)$/i
-        );
-
-
-      if (answerMatch) {
-
-        answerStarted =
-          true;
-
-        explanationStarted =
-          false;
-
-
-        answers =
-          answerMatch[1]
-            .split(/[,\s]+/)
-            .map(
-              value =>
-                value
-                  .trim()
-                  .toUpperCase()
-            )
-            .filter(
-              value =>
-                /^[A-E]$/.test(
-                  value
-                )
-            );
-
-
-        currentChoice =
-          null;
-
-        continue;
-      }
-
-
-      /*
-       * Explanation:
-       */
-      const explanationMatch =
-        line.match(
-          /^Explanation\s*:\s*(.*)$/i
-        );
-
-
-      if (explanationMatch) {
-
-        explanationStarted =
-          true;
-
-        answerStarted =
-          false;
-
-
-        explanation =
-          explanationMatch[1].trim();
-
-
-        currentChoice =
-          null;
-
-        continue;
-      }
-
-
-      /*
-       * Explanation continuation.
-       */
-      if (explanationStarted) {
-
-        explanation +=
-          (explanation
-            ? " "
-            : "") +
-          line;
-
-        continue;
-      }
-
-
-      /*
-       * Ignore lines after Answer
-       * until Explanation.
-       */
-      if (answerStarted) {
-        continue;
-      }
-
-
-      /*
-       * Answer choice A-E.
-       */
-      const choiceMatch =
-        line.match(
-          /^([A-E])[\.\):\-]\s*(.*)$/i
-        );
-
-
-      if (choiceMatch) {
-
-        const label =
-          choiceMatch[1]
-            .toUpperCase();
-
-
-        const textValue =
-          choiceMatch[2].trim();
-
-
-        currentChoice = {
-          label,
-          text:
-            textValue
-        };
-
-
-        choices.push(
-          currentChoice
-        );
-
-
-        continue;
-      }
-
-
-      /*
-       * Question continuation.
-       */
-      if (
-        choices.length === 0
-      ) {
-
-        questionText +=
-          " " + line;
-
-      } else if (
-        currentChoice
-      ) {
-
-        currentChoice.text +=
-          " " + line;
-      }
-    }
-
-
-    if (!choices.length) {
-      continue;
-    }
-
-
-    if (!answers.length) {
-
-      console.warn(
-        `Question ${originalNumber} has no answer key.`
-      );
-    }
-
-
-    const questionId =
-      createQuestionId(
-        originalNumber,
-        questionText
-      );
-
-
-    questions.push({
-
-      id:
-        questionId,
-
-      originalNumber,
-
-      questionText,
-
-      choices,
-
-      answers,
-
-      explanation,
-
-      choiceMap: {}
-
-    });
-  }
-
-
-  return questions;
-}
-
-
-function createQuestionId(
-  originalNumber,
-  questionText
-) {
-  if (originalNumber) {
-    return `q-${originalNumber}`;
-  }
-
-
-  return (
-    "q-" +
-    simpleHash(
-      questionText
-    )
-  );
-}
-
-
-function simpleHash(
-  value
-) {
-  let hash = 0;
-
-
-  for (
-    let i = 0;
-    i < value.length;
-    i++
-  ) {
-
-    hash =
-      ((hash << 5) - hash) +
-      value.charCodeAt(i);
-
-
-    hash |= 0;
-  }
-
-
-  return Math.abs(
-    hash
-  ).toString(16);
-}
-
-
-/* =========================================================
-   QUIZ RENDERING
-   ========================================================= */
-
-function renderQuiz(
-  questions
-) {
-  const container =
-    document.getElementById(
-      "quizContainer"
-    );
-
-
-  if (!container) {
-    return;
-  }
-
-
-  container.innerHTML =
-    "";
-
-
-  questions.forEach(
-    (
-      question,
-      index
-    ) => {
-
-      const questionBlock =
-        document.createElement(
-          "div"
-        );
-
-
-      questionBlock.className =
-        "question-block";
-
-
-      questionBlock.dataset.questionIndex =
-        index;
-
-
-      const title =
-        document.createElement(
-          "h3"
-        );
-
-
-      title.textContent =
-        `${index + 1}. ${question.questionText}`;
-
-
-      questionBlock.appendChild(
-        title
-      );
-
-
-      /*
-       * Copy choices before shuffling.
-       *
-       * IMPORTANT:
-       * We never modify question.choices.
-       */
-      const choices =
-        [...question.choices];
-
-
-      const shuffleAnswers =
-        document.getElementById(
-          "shuffleAnswersToggle"
-        )?.checked;
-
-
-      if (shuffleAnswers) {
-
-        shuffleArray(
-          choices
-        );
-      }
-
-
-      /*
-       * Create mapping between displayed
-       * labels and ORIGINAL labels.
-       *
-       * Example:
-       *
-       * Display A -> original C
-       * Display B -> original A
-       * Display C -> original D
-       */
-      question.choiceMap =
-        {};
-
-
-      const isMultipleAnswer =
-        question.answers.length >
-        1;
-
-
-      choices.forEach(
-        (
-          choice,
-          displayIndex
-        ) => {
-
-          const displayLabel =
-            String.fromCharCode(
-              65 + displayIndex
-            );
-
-
-          question.choiceMap[
-            displayLabel
-          ] =
-            choice.label;
-
-
-          const label =
-            document.createElement(
-              "label"
-            );
-
-
-          label.className =
-            "answer-option";
-
-
-          const input =
-            document.createElement(
-              "input"
-            );
-
-
-          input.type =
-            isMultipleAnswer
-              ? "checkbox"
-              : "radio";
-
-
-          input.name =
-            `question-${index}`;
-
-
-          /*
-           * Value is the DISPLAYED label.
-           */
-          input.value =
-            displayLabel;
-
-
-          /*
-           * IMPORTANT:
-           *
-           * There is NO change listener
-           * that calls checkAnswer().
-           *
-           * Selecting an answer does NOT
-           * immediately check it.
-           */
-          input.addEventListener(
-            "change",
-            () => {
-              storeCurrentSelection(
-                index
-              );
-            }
-          );
-
-
-          const text =
-            document.createElement(
-              "span"
-            );
-
-
-          text.textContent =
-            `${displayLabel}. ${choice.text}`;
-
-
-          label.appendChild(
-            input
-          );
-
-
-          label.appendChild(
-            text
-          );
-
-
-          questionBlock.appendChild(
-            label
-          );
-        }
-      );
-
-
-      /*
-       * Submit button.
-       *
-       * This is deliberately retained
-       * as the original explicit check.
-       */
-      const submitButton =
-        document.createElement(
-          "button"
-        );
-
-
-      submitButton.type =
-        "button";
-
-
-      submitButton.textContent =
-        "Submit";
-
-
-      submitButton.className =
-        "submit-answer";
-
-
-      submitButton.addEventListener(
-        "click",
-        () => {
-
-          checkAnswer(
-            index,
-            question.answers,
-            isMultipleAnswer
-              ? "checkbox"
-              : "radio",
-            question.explanation,
-            true
-          );
-        }
-      );
-
-
-      questionBlock.appendChild(
-        submitButton
-      );
-
-
-      /*
-       * Feedback.
-       */
-      const feedback =
-        document.createElement(
-          "div"
-        );
-
-
-      feedback.id =
-        `feedback-${index}`;
-
-
-      feedback.className =
-        "question-feedback";
-
-
-      feedback.style.marginTop =
-        "10px";
-
-
-      questionBlock.appendChild(
-        feedback
-      );
-
-
-      container.appendChild(
-        questionBlock
-      );
-    }
-  );
-
-
-  showQuestion(
-    currentQuestionIndex
-  );
-}
-
-
-/* =========================================================
-   STORE CURRENT SELECTION
-   ========================================================= */
-
-function storeCurrentSelection(
-  index
-) {
-  if (window.quizFinished) {
-    return;
-  }
-
-
-  const question =
-    window.quizData[index];
-
-
-  if (!question) {
-    return;
-  }
-
-
-  const questionBlock =
-    document.querySelector(
-      `.question-block[data-question-index="${index}"]`
-    );
-
-
-  if (!questionBlock) {
-    return;
-  }
-
-
-  const inputs =
-    questionBlock.querySelectorAll(
-      "input"
-    );
-
-
-  const selectedDisplayAnswers =
-    [];
-
-
-  inputs.forEach(
-    input => {
-
-      if (input.checked) {
-
-        selectedDisplayAnswers.push(
-          input.value.toUpperCase()
-        );
-      }
-    }
-  );
-
-
-  /*
-   * Convert display labels to
-   * original answer labels.
-   */
-  const selectedOriginalAnswers =
-    selectedDisplayAnswers
-      .map(
-        displayLabel =>
-          question.choiceMap[
-            displayLabel
-          ]
-      )
-      .filter(Boolean)
-      .map(
-        value =>
-          value.toUpperCase()
-      );
-
-
-  /*
-   * Only store the selection.
-   *
-   * DO NOT mark it correct/incorrect.
-   */
-  window.userAnswers[index] = {
-
-    questionId:
-      question.id,
-
-    selectedAnswers:
-      selectedOriginalAnswers,
-
-    isCorrect:
-      window.userAnswers[index]
-        ?.isCorrect ??
-      false,
-
-    submitted:
-      window.userAnswers[index]
-        ?.submitted ??
-      false
-  };
-}
-
-
-/* =========================================================
-   QUESTION NAVIGATION
-   ========================================================= */
-
-function showQuestion(
-  index
-) {
-  const questions =
-    document.querySelectorAll(
-      ".question-block"
-    );
-
 
   if (!questions.length) {
-    return;
+    throw new Error(
+      "No valid questions were found."
+    );
   }
-
-
-  if (index < 0) {
-    index = 0;
-  }
-
-
-  if (
-    index >=
-    questions.length
-  ) {
-    index =
-      questions.length - 1;
-  }
-
-
-  currentQuestionIndex =
-    index;
-
-
-  questions.forEach(
-    (
-      question,
-      i
-    ) => {
-
-      question.style.display =
-        i === currentQuestionIndex
-          ? "block"
-          : "none";
-    }
-  );
-
-
-  updateNavigationButtons();
-
-
-  restoreAnswerSelection(
-    currentQuestionIndex
-  );
-
-
-  speakCurrentQuestionIfEnabled();
-}
-
-
-function nextQuestion() {
-  if (!window.quizData.length) {
-    return;
-  }
-
 
   /*
-   * Save current selection before
-   * moving to another question.
+   * Shuffle questions only if requested.
    */
-  storeCurrentSelection(
-    currentQuestionIndex
-  );
-
-
-  if (
-    currentQuestionIndex <
-    window.quizData.length - 1
-  ) {
-
-    currentQuestionIndex++;
-
-
-    showQuestion(
-      currentQuestionIndex
+  if (shuffleToggle.checked) {
+    shuffleArray(
+      questions
     );
   }
-}
 
+  window.shuffleAnswersEnabled =
+    shuffleAnswersToggle.checked;
 
-function previousQuestion() {
-  if (!window.quizData.length) {
-    return;
-  }
+  window.quizData =
+    questions;
 
-
-  /*
-   * Save current selection before
-   * moving to another question.
-   */
-  storeCurrentSelection(
-    currentQuestionIndex
-  );
-
-
-  if (
-    currentQuestionIndex > 0
-  ) {
-
-    currentQuestionIndex--;
-
-
-    showQuestion(
-      currentQuestionIndex
-    );
-  }
-}
-
-
-function updateNavigationButtons() {
-  const prevBtn =
-    document.getElementById(
-      "prevBtn"
-    );
-
-
-  const nextBtn =
-    document.getElementById(
-      "nextBtn"
-    );
-
-
-  const finishBtn =
-    document.getElementById(
-      "finishQuizBtn"
-    );
-
-
-  const hasQuiz =
-    window.quizData &&
-    window.quizData.length >
-      0;
-
-
-  if (prevBtn) {
-
-    prevBtn.disabled =
-      !hasQuiz ||
-      currentQuestionIndex === 0;
-  }
-
-
-  if (nextBtn) {
-
-    nextBtn.disabled =
-      !hasQuiz ||
-      currentQuestionIndex >=
-        window.quizData.length - 1;
-  }
-
-
-  if (finishBtn) {
-
-    finishBtn.disabled =
-      !hasQuiz ||
-      window.quizFinished;
-  }
-}
-
-
-/* =========================================================
-   ANSWER HANDLING
-   ========================================================= */
-
-function checkAnswer(
-  index,
-  correctAnswers,
-  inputType,
-  explanation,
-  markAsSubmitted = true
-) {
-  const question =
-    window.quizData[index];
-
-
-  if (!question) {
-    return false;
-  }
-
-
-  const questionBlock =
-    document.querySelector(
-      `.question-block[data-question-index="${index}"]`
-    );
-
-
-  if (!questionBlock) {
-    return false;
-  }
-
-
-  const inputs =
-    questionBlock.querySelectorAll(
-      "input"
-    );
-
-
-  const selectedDisplayAnswers =
-    [];
-
-
-  inputs.forEach(
-    input => {
-
-      if (input.checked) {
-
-        selectedDisplayAnswers.push(
-          input.value.toUpperCase()
-        );
-      }
-    }
-  );
-
-
-  /*
-   * Convert displayed answer IDs
-   * back to ORIGINAL answer IDs.
-   */
-  const selectedOriginalAnswers =
-    selectedDisplayAnswers
-      .map(
-        displayLabel =>
-          question.choiceMap[
-            displayLabel
-          ]
-      )
-      .filter(Boolean)
-      .map(
-        value =>
-          value.toUpperCase()
-      );
-
-
-  /*
-   * No answer selected.
-   */
-  if (
-    selectedOriginalAnswers.length ===
-    0
-  ) {
-
-    const feedback =
-      document.getElementById(
-        `feedback-${index}`
-      );
-
-
-    if (feedback) {
-      feedback.textContent =
-        "No answer selected.";
-    }
-
-
-    if (markAsSubmitted) {
-
-      window.userAnswers[index] = {
-
-        questionId:
-          question.id,
-
-        selectedAnswers:
-          [],
-
-        isCorrect:
-          false,
-
-        submitted:
-          true
-      };
-    }
-
-
-    return false;
-  }
-
-
-  /*
-   * Normalize answer keys.
-   */
-  const normalizedCorrect =
-    correctAnswers
-      .map(
-        value =>
-          value.toUpperCase()
-      )
-      .sort();
-
-
-  const normalizedSelected =
-    [...selectedOriginalAnswers]
-      .sort();
-
-
-  /*
-   * Compare selected answers
-   * with the actual answer key.
-   */
-  const isCorrect =
-    normalizedCorrect.length ===
-      normalizedSelected.length &&
-    normalizedCorrect.every(
-      (
-        value,
-        i
-      ) =>
-        value ===
-        normalizedSelected[i]
-    );
-
-
-  /*
-   * Store answer.
-   *
-   * This happens when Submit or
-   * Finish Quiz calls checkAnswer().
-   */
-  window.userAnswers[index] = {
-
-    questionId:
-      question.id,
-
-    selectedAnswers:
-      selectedOriginalAnswers,
-
-    isCorrect,
-
-    submitted:
-      markAsSubmitted
-  };
-
-
-  const feedback =
-    document.getElementById(
-      `feedback-${index}`
-    );
-
-
-  if (feedback) {
-
-    if (isCorrect) {
-
-      feedback.textContent =
-        explanation ||
-        "Correct.";
-
-    } else {
-
-      feedback.textContent =
-        explanation
-          ? `Incorrect. ${explanation}`
-          : "Incorrect.";
-    }
-  }
-
-
-  return isCorrect;
-}
-
-
-/* =========================================================
-   RESTORE ANSWER SELECTION
-   ========================================================= */
-
-function restoreAnswerSelection(
-  index
-) {
-  const answer =
-    window.userAnswers[index];
-
-
-  if (!answer) {
-    return;
-  }
-
-
-  const question =
-    window.quizData[index];
-
-
-  if (!question) {
-    return;
-  }
-
-
-  const questionBlock =
-    document.querySelector(
-      `.question-block[data-question-index="${index}"]`
-    );
-
-
-  if (!questionBlock) {
-    return;
-  }
-
-
-  const inputs =
-    questionBlock.querySelectorAll(
-      "input"
-    );
-
-
-  inputs.forEach(
-    input => {
-
-      const originalAnswer =
-        question.choiceMap[
-          input.value
-        ];
-
-
-      input.checked =
-        answer.selectedAnswers.includes(
-          originalAnswer
-        );
-    }
-  );
-}
-
-
-/* =========================================================
-   FINISH QUIZ
-   ========================================================= */
-
-async function finishQuiz() {
-  if (!window.quizData.length) {
-    return;
-  }
-
-
-  /*
-   * activeProfile is owned by github.js.
-   */
-  const profile =
-    typeof getActiveProfile ===
-      "function"
-      ? getActiveProfile()
-      : null;
-
-
-  if (
-    !activeProfileFile ||
-    !profile
-  ) {
-
-    alert(
-      "Please select and load a profile before finishing the quiz."
-    );
-
-    return;
-  }
-
-
-  /*
-   * Save the current visible question
-   * before checking everything.
-   */
-  storeCurrentSelection(
-    currentQuestionIndex
-  );
-
-
-  let score = 0;
-
-
-  /*
-   * Check every question.
-   *
-   * This is the ONLY point where unanswered
-   * selections become checked.
-   */
-  window.quizData.forEach(
-    (
-      question,
-      index
-    ) => {
-
-      const isCorrect =
-        checkAnswer(
-          index,
-          question.answers,
-          question.answers.length >
-            1
-            ? "checkbox"
-            : "radio",
-          question.explanation,
-          true
-        );
-
-
-      if (isCorrect) {
-        score++;
-      }
-    }
-  );
-
-
-  const total =
-    window.quizData.length;
-
+  window.userAnswers = {};
 
   window.quizFinished =
-    true;
+    false;
 
-
-  const result =
-    buildResultObject(
-      score,
-      total
-    );
-
+  window.totalQuestions =
+    questions.length;
 
   /*
-   * Save to Google Sheets.
+   * Derive a quiz ID from the filename.
    */
-  try {
+  window.currentQuizId =
+    sourceFile
+      ? sourceFile
+          .split("/")
+          .pop()
+          .replace(/\.[^/.]+$/, "")
+      : "quiz";
 
-    showSaveStatus(
-      "Saving result to Google Sheets..."
-    );
-
-
-    await saveQuizResultToGoogleSheets(
-      getProfileId(profile),
-      result
-    );
-
-
-    showSaveStatus(
-      "Result saved successfully to Google Sheets."
-    );
-
-  } catch (error) {
-
-    console.error(
-      "Failed to save quiz result:",
-      error
-    );
-
-
-    showSaveStatus(
-      "Quiz completed, but the result could not be saved: " +
-      error.message
-    );
-  }
-
-
-  displayFinalScore(
-    score,
-    total
+  renderQuiz(
+    questions
   );
 
-
-  displayQuizSummary();
-
-
-  updateNavigationButtons();
+  showQuestion(0);
 }
 
 
 /* =========================================================
-   PROFILE ID
-   ========================================================= */
-
-function getProfileId(
-  profile
-) {
-  if (!profile) {
-    return null;
-  }
-
-
-  /*
-   * User identifier is the profile ID.
-   * Names are not used as the primary ID.
-   */
-  return (
-    profile.id ||
-    profile.profileId ||
-    activeProfileFile?.replace(
-      /\.json$/i,
-      ""
-    ) ||
-    null
-  );
-}
-
-
-/* =========================================================
-   RESULT OBJECT
-   ========================================================= */
-
-function buildResultObject(
-  score,
-  total
-) {
-  const answers =
-    window.quizData.map(
-      (
-        question,
-        index
-      ) => {
-
-        const answer =
-          window.userAnswers[index];
-
-
-        return {
-
-          questionId:
-            question.id,
-
-          /*
-           * ORIGINAL answer IDs.
-           *
-           * These remain correct even when
-           * answer shuffling is enabled.
-           */
-          answerId:
-            answer?.selectedAnswers ||
-            [],
-
-          /*
-           * Store the correct answer IDs.
-           */
-          correctAnswer:
-            question.answers || [],
-
-          isCorrect:
-            Boolean(
-              answer?.isCorrect
-            )
-        };
-      }
-    );
-
-
-  return {
-
-    id:
-      createResultId(),
-
-    quizId:
-      getCurrentQuizId(),
-
-    completedAt:
-      new Date().toISOString(),
-
-    score,
-
-    correct:
-      score,
-
-    total,
-
-    answers
-  };
-}
-
-
-function createResultId() {
-  const now =
-    new Date();
-
-
-  const pad =
-    value =>
-      String(value)
-        .padStart(
-          2,
-          "0"
-        );
-
-
-  return (
-    `${now.getFullYear()}` +
-    `${pad(
-      now.getMonth() + 1
-    )}` +
-    `${pad(
-      now.getDate()
-    )}-` +
-    `${pad(
-      now.getHours()
-    )}` +
-    `${pad(
-      now.getMinutes()
-    )}` +
-    `${pad(
-      now.getSeconds()
-    )}`
-  );
-}
-
-
-function getCurrentQuizId() {
-  if (
-    window.quizData?.quizId
-  ) {
-    return window.quizData.quizId;
-  }
-
-
-  const quizSelect =
-    document.getElementById(
-      "quizFileSelect"
-    );
-
-
-  if (quizSelect?.value) {
-    return getQuizIdFromSource(
-      quizSelect.value
-    );
-  }
-
-
-  return "unknown-quiz";
-}
-
-
-/* =========================================================
-   GOOGLE SHEETS
-   ========================================================= */
-
-async function saveQuizResultToGoogleSheets(
-  profileId,
-  result
-) {
-  if (
-    !GOOGLE_SHEETS_URL ||
-    GOOGLE_SHEETS_URL.includes(
-      "PASTE_YOUR"
-    )
-  ) {
-
-    throw new Error(
-      "Google Sheets URL has not been configured in quiz.js."
-    );
-  }
-
-
-  if (!profileId) {
-    throw new Error(
-      "Profile ID is missing."
-    );
-  }
-
-
-  if (!result) {
-    throw new Error(
-      "Quiz result is missing."
-    );
-  }
-
-
-  const response =
-    await fetch(
-      GOOGLE_SHEETS_URL,
-      {
-        method:
-          "POST",
-
-        /*
-         * text/plain avoids the browser's
-         * CORS preflight that would otherwise
-         * occur with application/json.
-         */
-        headers: {
-          "Content-Type":
-            "text/plain;charset=utf-8"
-        },
-
-        body:
-          JSON.stringify({
-
-            action:
-              "saveResult",
-
-            profileId:
-              profileId,
-
-            result:
-              result
-          })
-      }
-    );
-
-
-  if (!response.ok) {
-
-    throw new Error(
-      `Google Sheets request failed: ${response.status}`
-    );
-  }
-
-
-  const data =
-    await response.json();
-
-
-  if (!data.success) {
-
-    throw new Error(
-      data.error ||
-      "Google Sheets rejected the result."
-    );
-  }
-
-
-  return data;
-}
-
-
-/* =========================================================
-   SCORE DISPLAY
-   ========================================================= */
-
-function displayFinalScore(
-  score,
-  total
-) {
-  const finalScore =
-    document.getElementById(
-      "finalScore"
-    );
-
-
-  if (!finalScore) {
-    return;
-  }
-
-
-  const percentage =
-    total > 0
-      ? Math.round(
-          (score / total) * 100
-        )
-      : 0;
-
-
-  finalScore.innerHTML =
-    `<strong>Score: ${score} / ${total} (${percentage}%)</strong>`;
-}
-
-
-/* =========================================================
-   SUMMARY
-   ========================================================= */
-
-function displayQuizSummary() {
-  const summaryBlock =
-    document.getElementById(
-      "quizSummary"
-    );
-
-
-  const summaryList =
-    document.getElementById(
-      "summaryList"
-    );
-
-
-  if (
-    !summaryBlock ||
-    !summaryList
-  ) {
-    return;
-  }
-
-
-  summaryList.innerHTML =
-    "";
-
-
-  window.quizData.forEach(
-    (
-      question,
-      index
-    ) => {
-
-      const answer =
-        window.userAnswers[index];
-
-
-      const item =
-        document.createElement(
-          "li"
-        );
-
-
-      const status =
-        answer?.isCorrect
-          ? "✓"
-          : "✗";
-
-
-      item.textContent =
-        `${status} Question ${index + 1}`;
-
-
-      item.style.cursor =
-        "pointer";
-
-
-      item.addEventListener(
-        "click",
-        () => {
-
-          showQuestion(
-            index
-          );
-        }
-      );
-
-
-      summaryList.appendChild(
-        item
-      );
-    }
-  );
-
-
-  summaryBlock.style.display =
-    "block";
-}
-
-
-function showSaveStatus(
-  message
-) {
-  const finalScore =
-    document.getElementById(
-      "finalScore"
-    );
-
-
-  if (!finalScore) {
-    return;
-  }
-
-
-  /*
-   * Remove previous save status.
-   */
-  const existing =
-    finalScore.querySelector(
-      ".save-status"
-    );
-
-
-  if (existing) {
-    existing.remove();
-  }
-
-
-  const status =
-    document.createElement(
-      "div"
-    );
-
-
-  status.className =
-    "save-status";
-
-
-  status.style.marginTop =
-    "10px";
-
-
-  status.textContent =
-    message;
-
-
-  finalScore.appendChild(
-    status
-  );
-}
-
-
-/* =========================================================
-   RESET
+   RESET QUIZ
    ========================================================= */
 
 function resetQuiz() {
   resetQuizStateOnly();
 
-
-  const quizContainer =
-    document.getElementById(
-      "quizContainer"
-    );
-
-
-  if (quizContainer) {
-    quizContainer.innerHTML =
-      "";
-  }
-
-
-  const quizSummary =
-    document.getElementById(
-      "quizSummary"
-    );
-
-
-  if (quizSummary) {
-    quizSummary.style.display =
-      "none";
-  }
-
-
-  const finalScore =
-    document.getElementById(
-      "finalScore"
-    );
-
-
-  if (finalScore) {
-    finalScore.innerHTML =
-      "";
-  }
-
-
-  updateNavigationButtons();
+  quizSetupBlock.style.display =
+    "block";
 }
 
+
+/* =========================================================
+   RESET QUIZ STATE ONLY
+   ========================================================= */
 
 function resetQuizStateOnly() {
-  currentQuestionIndex =
-    0;
+  window.quizData = [];
+  window.userAnswers = {};
+  window.quizFinished = false;
+  window.totalQuestions = 0;
 
+  currentQuestionIndex = 0;
 
-  window.quizData =
-    [];
+  quizContainer.innerHTML =
+    "";
 
+  finalScore.textContent =
+    "";
 
-  window.userAnswers =
-    [];
+  summaryList.innerHTML =
+    "";
 
+  quizSummary.style.display =
+    "none";
 
-  window.quizFinished =
-    false;
+  finishQuizBtn.style.display =
+    "none";
 
+  prevBtn.disabled =
+    true;
 
-  const quizContainer =
-    document.getElementById(
-      "quizContainer"
-    );
+  nextBtn.disabled =
+    true;
 
-
-  if (quizContainer) {
-    quizContainer.innerHTML =
-      "";
-  }
-
-
-  const finalScore =
-    document.getElementById(
-      "finalScore"
-    );
-
-
-  if (finalScore) {
-    finalScore.innerHTML =
-      "";
-  }
-
-
-  const quizSummary =
-    document.getElementById(
-      "quizSummary"
-    );
-
-
-  if (quizSummary) {
-    quizSummary.style.display =
-      "none";
-  }
-
-
-  updateNavigationButtons();
-}
-
-
-function clearQuizResults() {
-  const finalScore =
-    document.getElementById(
-      "finalScore"
-    );
-
-
-  if (finalScore) {
-    finalScore.innerHTML =
-      "";
-  }
-
-
-  const summaryBlock =
-    document.getElementById(
-      "quizSummary"
-    );
-
-
-  const summaryList =
-    document.getElementById(
-      "summaryList"
-    );
-
-
-  if (summaryBlock) {
-    summaryBlock.style.display =
-      "none";
-  }
-
-
-  if (summaryList) {
-    summaryList.innerHTML =
-      "";
-  }
+  /*
+   * Do not automatically change the
+   * profile setup visibility here.
+   */
 }
 
 
@@ -2490,22 +536,17 @@ function clearQuizResults() {
    SHUFFLE
    ========================================================= */
 
-function shuffleArray(
-  array
-) {
+function shuffleArray(array) {
   for (
-    let i =
-      array.length - 1;
+    let i = array.length - 1;
     i > 0;
     i--
   ) {
-
     const j =
       Math.floor(
         Math.random() *
         (i + 1)
       );
-
 
     [
       array[i],
@@ -2515,414 +556,1157 @@ function shuffleArray(
       array[i]
     ];
   }
-
-
-  return array;
 }
 
 
 /* =========================================================
-   QUESTION SHUFFLING
+   PARSE QUESTIONS
    ========================================================= */
 
-function shuffleQuestions() {
-  if (!window.quizData.length) {
-    return;
-  }
-
-
-  const shuffleToggle =
-    document.getElementById(
-      "shuffleToggle"
+function parseQuestions(text) {
+  const questionBlocks =
+    text.split(
+      /\n(?=\d+\.\s)/
     );
 
+  const questions = [];
+  const seen = new Set();
 
-  if (
-    !shuffleToggle?.checked
-  ) {
-    return;
-  }
+  questionBlocks.forEach(
+    (block, blockIndex) => {
+      const lines =
+        block
+          .trim()
+          .split("\n")
+          .filter(Boolean);
 
+      if (lines.length < 6) {
+        return;
+      }
 
-  shuffleArray(
-    window.quizData
-  );
+      const numberMatch =
+        lines[0].match(
+          /^(\d+)\.\s*/
+        );
 
+      const originalNumber =
+        numberMatch
+          ? Number(numberMatch[1])
+          : blockIndex + 1;
 
-  currentQuestionIndex =
-    0;
+      const questionText =
+        lines[0]
+          .replace(
+            /^\d+\.\s*/,
+            ""
+          )
+          .trim();
 
-
-  renderQuiz(
-    window.quizData
-  );
-}
-
-
-/* =========================================================
-   VOICE RECOGNITION
-   ========================================================= */
-
-let recognition = null;
-
-
-function handleVoiceToggle(
-  event
-) {
-  if (event.target.checked) {
-
-    startVoiceRecognition();
-
-  } else {
-
-    stopVoiceRecognition();
-  }
-}
-
-
-function startVoiceRecognition() {
-  const SpeechRecognition =
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
-
-
-  if (!SpeechRecognition) {
-
-    alert(
-      "Voice recognition is not supported by this browser."
-    );
-
-
-    const voiceToggle =
-      document.getElementById(
-        "voiceToggle"
-      );
-
-
-    if (voiceToggle) {
-      voiceToggle.checked =
-        false;
-    }
-
-
-    return;
-  }
-
-
-  if (recognition) {
-    return;
-  }
-
-
-  recognition =
-    new SpeechRecognition();
-
-
-  recognition.continuous =
-    true;
-
-
-  recognition.interimResults =
-    false;
-
-
-  recognition.lang =
-    document.documentElement
-      .lang ||
-    "en-US";
-
-
-  recognition.onresult =
-    event => {
-
-      const result =
-        event.results[
-          event.results.length - 1
-        ];
-
+      /*
+       * Avoid duplicate questions.
+       */
+      const duplicateKey =
+        questionText.toLowerCase();
 
       if (
-        !result ||
-        !result[0]
+        seen.has(
+          duplicateKey
+        )
       ) {
         return;
       }
 
-
-      const transcript =
-        result[0].transcript
-          .trim()
-          .toUpperCase();
-
-
-      handleVoiceAnswer(
-        transcript
+      seen.add(
+        duplicateKey
       );
-    };
 
+      const choices = {};
 
-  recognition.onerror =
-    event => {
+      let i = 1;
 
-      console.error(
-        "Voice recognition error:",
-        event.error
-      );
-    };
-
-
-  recognition.onend =
-    () => {
-
-      const voiceToggle =
-        document.getElementById(
-          "voiceToggle"
-        );
-
-
-      if (
-        voiceToggle?.checked &&
-        recognition
+      while (
+        i < lines.length &&
+        /^[A-E]\.\s/.test(
+          lines[i]
+        )
       ) {
-
-        try {
-
-          recognition.start();
-
-        } catch (error) {
-
-          console.warn(
-            "Could not restart voice recognition.",
-            error
+        const match =
+          lines[i].match(
+            /^([A-E])\.\s*(.*)/
           );
+
+        if (match) {
+          choices[
+            match[1]
+          ] = match[2];
         }
+
+        i++;
       }
-    };
 
-
-  try {
-
-    recognition.start();
-
-  } catch (error) {
-
-    console.error(
-      "Failed to start voice recognition:",
-      error
-    );
-  }
-}
-
-
-function stopVoiceRecognition() {
-  if (!recognition) {
-    return;
-  }
-
-
-  try {
-
-    recognition.stop();
-
-  } catch (error) {
-
-    console.warn(
-      "Failed to stop voice recognition:",
-      error
-    );
-  }
-
-
-  recognition =
-    null;
-}
-
-
-function handleVoiceAnswer(
-  transcript
-) {
-  if (!window.quizData.length) {
-    return;
-  }
-
-
-  const answerMap = {
-
-    "A": "A",
-    "AY": "A",
-    "HEY": "A",
-
-    "B": "B",
-    "BE": "B",
-
-    "C": "C",
-    "SEE": "C",
-    "SEA": "C",
-
-    "D": "D",
-    "DEE": "D",
-
-    "E": "E",
-    "EE": "E"
-
-  };
-
-
-  let answer =
-    answerMap[
-      transcript
-    ];
-
-
-  if (!answer) {
-
-    const match =
-      transcript.match(
-        /\b([A-E])\b/
-      );
-
-
-    if (match) {
-      answer =
-        match[1];
-    }
-  }
-
-
-  if (!answer) {
-    return;
-  }
-
-
-  selectVoiceAnswer(
-    answer
-  );
-}
-
-
-function selectVoiceAnswer(
-  answer
-) {
-  const questionBlock =
-    document.querySelector(
-      `.question-block[data-question-index="${currentQuestionIndex}"]`
-    );
-
-
-  if (!questionBlock) {
-    return;
-  }
-
-
-  const inputs =
-    questionBlock.querySelectorAll(
-      "input"
-    );
-
-
-  inputs.forEach(
-    input => {
-
-      if (
-        input.value ===
-        answer
-      ) {
-
-        input.checked =
-          true;
-
-
-        /*
-         * Store the selection but
-         * DO NOT immediately check it.
-         */
-        storeCurrentSelection(
-          currentQuestionIndex
+      const answerLine =
+        lines.find(
+          line =>
+            line.startsWith(
+              "Answer:"
+            )
         );
-      }
+
+      const rawAnswer =
+        answerLine
+          ?.split(
+            "Answer:"
+          )[1]
+          ?.trim();
+
+      const answers =
+        rawAnswer
+          ? rawAnswer
+              .split(",")
+              .map(
+                answer =>
+                  answer
+                    .trim()
+                    .toUpperCase()
+              )
+          : [];
+
+      const expStart =
+        lines.findIndex(
+          line =>
+            line.startsWith(
+              "Explanation:"
+            )
+        );
+
+      const explanation =
+        expStart !== -1
+          ? lines
+              .slice(
+                expStart + 1
+              )
+              .join(" ")
+          : "";
+
+      const questionId =
+        `q-${originalNumber}`;
+
+      questions.push({
+        id: questionId,
+
+        originalNumber,
+
+        questionText,
+
+        choices,
+
+        answers,
+
+        explanation,
+
+        choiceMap: {}
+      });
     }
   );
+
+  return questions;
 }
 
 
 /* =========================================================
-   TEXT TO SPEECH
+   RENDER QUIZ
    ========================================================= */
 
-function speakCurrentQuestionIfEnabled() {
-  const autoReadToggle =
+function renderQuiz(questions) {
+  const container =
     document.getElementById(
-      "autoReadToggle"
+      "quizContainer"
+    );
+
+  container.innerHTML =
+    "";
+
+  questions.forEach(
+    (q, index) => {
+
+      const qDiv =
+        document.createElement(
+          "div"
+        );
+
+      qDiv.className =
+        "question-block";
+
+      qDiv.id =
+        `question-${index}`;
+
+
+      /* -----------------------------------------------
+         QUESTION TEXT
+      ------------------------------------------------ */
+
+      const qText =
+        document.createElement(
+          "p"
+        );
+
+      qText.innerHTML =
+        `<strong>${index + 1}. ${q.questionText}</strong>`;
+
+      qDiv.appendChild(
+        qText
+      );
+
+
+      /* -----------------------------------------------
+         ANSWER CHOICES
+      ------------------------------------------------ */
+
+      const choiceDiv =
+        document.createElement(
+          "div"
+        );
+
+      /*
+       * IMPORTANT:
+       * Keep the original CSS class.
+       */
+      choiceDiv.className =
+        "choices";
+
+      const inputType =
+        q.answers.length > 1
+          ? "checkbox"
+          : "radio";
+
+      let choiceEntries =
+        Object.entries(
+          q.choices
+        );
+
+      /*
+       * Shuffle answers only if
+       * the user selected that option.
+       */
+      if (
+        window.shuffleAnswersEnabled
+      ) {
+        shuffleArray(
+          choiceEntries
+        );
+      }
+
+      const newLabels = [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ];
+
+      /*
+       * new displayed label -> original
+       * answer label.
+       *
+       * Example:
+       *
+       * Display A = original C
+       * Display B = original A
+       */
+      const choiceMap = {};
+
+      choiceEntries.forEach(
+        ([origKey], i) => {
+          const newKey =
+            newLabels[i];
+
+          choiceMap[newKey] =
+            origKey;
+        }
+      );
+
+      q.choiceMap =
+        choiceMap;
+
+
+      /* -----------------------------------------------
+         CREATE ANSWER INPUTS
+      ------------------------------------------------ */
+
+      choiceEntries.forEach(
+        ([origKey, txt], i) => {
+
+          const newKey =
+            newLabels[i];
+
+          const label =
+            document.createElement(
+              "label"
+            );
+
+          /*
+           * IMPORTANT:
+           * There is NO change listener here.
+           *
+           * Selecting an answer does NOT
+           * immediately check it.
+           */
+          label.innerHTML =
+            `<input type="${inputType}" name="q${index}" value="${newKey}"> ${newKey}. ${txt}`;
+
+          choiceDiv.appendChild(
+            label
+          );
+        }
+      );
+
+      qDiv.appendChild(
+        choiceDiv
+      );
+
+
+      /* -----------------------------------------------
+         ORIGINAL SUBMIT BUTTON
+      ------------------------------------------------ */
+
+      const submit =
+        document.createElement(
+          "button"
+        );
+
+      submit.type =
+        "button";
+
+      submit.textContent =
+        "Submit";
+
+      /*
+       * The answer is checked ONLY when
+       * this button is clicked.
+       */
+      submit.onclick =
+        () =>
+          checkAnswer(
+            index,
+            q.answers,
+            inputType,
+            q.explanation,
+            true
+          );
+
+      qDiv.appendChild(
+        submit
+      );
+
+
+      /* -----------------------------------------------
+         RESULT
+      ------------------------------------------------ */
+
+      const result =
+        document.createElement(
+          "div"
+        );
+
+      result.className =
+        "result";
+
+      result.id =
+        `result${index}`;
+
+      qDiv.appendChild(
+        result
+      );
+
+
+      /* -----------------------------------------------
+         EXPLANATION
+      ------------------------------------------------ */
+
+      const explanation =
+        document.createElement(
+          "div"
+        );
+
+      explanation.className =
+        "explanation";
+
+      explanation.id =
+        `explanation${index}`;
+
+      qDiv.appendChild(
+        explanation
+      );
+
+
+      container.appendChild(
+        qDiv
+      );
+    }
+  );
+
+
+  /* -----------------------------------------------
+     QUIZ CONTROLS
+  ------------------------------------------------ */
+
+  finishQuizBtn.style.display =
+    "block";
+
+  quizSummary.style.display =
+    "block";
+
+  window.totalQuestions =
+    questions.length;
+}
+
+
+/* =========================================================
+   CHECK ANSWER
+   ========================================================= */
+
+function checkAnswer(
+  index,
+  correctAnswers,
+  inputType,
+  explanation,
+  markAsSubmitted = false
+) {
+  const question =
+    window.quizData[index];
+
+  if (!question) {
+    return false;
+  }
+
+  const inputs =
+    document.getElementsByName(
+      `q${index}`
+    );
+
+  const selected = [];
+
+  inputs.forEach(
+    input => {
+      if (input.checked) {
+        selected.push(
+          input.value
+        );
+      }
+    }
+  );
+
+
+  const result =
+    document.getElementById(
+      `result${index}`
+    );
+
+  const explanationDiv =
+    document.getElementById(
+      `explanation${index}`
+    );
+
+  const block =
+    document.getElementById(
+      `question-${index}`
     );
 
 
+  /* -----------------------------------------------
+     NOTHING SELECTED
+  ------------------------------------------------ */
+
   if (
-    !autoReadToggle?.checked
+    selected.length === 0
+  ) {
+    result.textContent =
+      "Please select at least one answer.";
+
+    result.className =
+      "result incorrect";
+
+    explanationDiv.textContent =
+      "";
+
+    block.classList.add(
+      "highlight-missed"
+    );
+
+    return false;
+  }
+
+
+  /* -----------------------------------------------
+     TRANSLATE DISPLAYED ANSWERS
+     BACK TO ORIGINAL ANSWERS
+  ------------------------------------------------ */
+
+  const reverseMap =
+    question.choiceMap;
+
+  const translated =
+    selected.map(
+      value =>
+        reverseMap[value]
+    );
+
+
+  /* -----------------------------------------------
+     COMPARE ANSWERS
+  ------------------------------------------------ */
+
+  const correctSet =
+    new Set(
+      correctAnswers
+    );
+
+  const selectedSet =
+    new Set(
+      translated
+    );
+
+  const isCorrect =
+    selectedSet.size ===
+      correctSet.size &&
+    [
+      ...correctSet
+    ].every(
+      answer =>
+        selectedSet.has(
+          answer
+        )
+    );
+
+
+  /* -----------------------------------------------
+     DISPLAY RESULT
+  ------------------------------------------------ */
+
+  result.textContent =
+    isCorrect
+      ? "✅ Correct!"
+      : `❌ Incorrect. Correct answer${correctAnswers.length > 1 ? "s" : ""}: ${correctAnswers.join(", ")}`;
+
+  result.className =
+    "result " +
+    (
+      isCorrect
+        ? "correct"
+        : "incorrect"
+    );
+
+
+  /* -----------------------------------------------
+     HIGHLIGHT MISSED QUESTIONS
+  ------------------------------------------------ */
+
+  if (!isCorrect) {
+    block.classList.add(
+      "highlight-missed"
+    );
+  } else {
+    block.classList.remove(
+      "highlight-missed"
+    );
+  }
+
+
+  /* -----------------------------------------------
+     EXPLANATION
+  ------------------------------------------------ */
+
+  explanationDiv.textContent =
+    explanation;
+
+
+  /* -----------------------------------------------
+     STORE ANSWER ONLY AFTER SUBMIT
+  ------------------------------------------------ */
+
+  if (markAsSubmitted) {
+    window.userAnswers[index] =
+      {
+        selected,
+        translated,
+        isCorrect
+      };
+  }
+
+  return isCorrect;
+}
+
+
+/* =========================================================
+   SHOW QUESTION
+   ========================================================= */
+
+function showQuestion(index) {
+  if (
+    !window.quizData ||
+    !window.quizData.length
   ) {
     return;
   }
 
-
-  const question =
-    window.quizData[
-      currentQuestionIndex
-    ];
-
-
-  if (!question) {
-    return;
-  }
-
-
   if (
-    !("speechSynthesis" in window)
+    index < 0 ||
+    index >= window.quizData.length
   ) {
     return;
   }
 
+  document
+    .querySelectorAll(
+      ".question-block"
+    )
+    .forEach(
+      block =>
+        block.classList.remove(
+          "active"
+        )
+    );
 
-  const text =
-    question.questionText +
-    ". " +
-    question.choices
-      .map(
-        choice =>
-          `${choice.label}. ${choice.text}`
+  const block =
+    document.getElementById(
+      `question-${index}`
+    );
+
+  if (!block) {
+    return;
+  }
+
+  /*
+   * Restore original active-class behavior.
+   */
+  block.classList.add(
+    "active"
+  );
+
+  block.scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
+
+  currentQuestionIndex =
+    index;
+
+  prevBtn.disabled =
+    index === 0;
+
+  nextBtn.disabled =
+    index ===
+    window.quizData.length - 1;
+
+
+  /*
+   * Voice integration hook.
+   */
+  speakQuestion(index);
+}
+
+
+/* =========================================================
+   FINISH QUIZ
+   ========================================================= */
+
+async function finishQuiz() {
+  const total =
+    window.totalQuestions || 0;
+
+  if (!total) {
+    return;
+  }
+
+  let correct = 0;
+
+  const list =
+    document.getElementById(
+      "summaryList"
+    );
+
+  list.innerHTML =
+    "";
+
+
+  /* -----------------------------------------------
+     CHECK EVERY QUESTION
+  ------------------------------------------------ */
+
+  for (
+    let i = 0;
+    i < total;
+    i++
+  ) {
+    const q =
+      window.quizData[i];
+
+    const inputType =
+      q.answers.length > 1
+        ? "checkbox"
+        : "radio";
+
+    const wasAnswered =
+      window.userAnswers[i] !==
+      undefined;
+
+    let isCorrect;
+
+    if (wasAnswered) {
+      isCorrect =
+        window.userAnswers[i]
+          .isCorrect;
+    } else {
+      /*
+       * Finish Quiz checks unanswered
+       * questions using the same original
+       * checkAnswer function.
+       */
+      isCorrect =
+        checkAnswer(
+          i,
+          q.answers,
+          inputType,
+          q.explanation,
+          true
+        );
+    }
+
+    if (isCorrect) {
+      correct++;
+    }
+
+
+    /* ---------------------------------------------
+       SUMMARY ENTRY
+    --------------------------------------------- */
+
+    const li =
+      document.createElement(
+        "li"
+      );
+
+    const answered =
+      window.userAnswers[i] !==
+      undefined;
+
+    li.textContent =
+      `Question ${i + 1} – ` +
+      (
+        answered
+          ? (
+              isCorrect
+                ? "✅ Correct"
+                : "❌ Incorrect"
+            )
+          : "⚠️ Missed"
+      );
+
+    li.style.cursor =
+      "pointer";
+
+    li.addEventListener(
+      "click",
+      () => {
+        showQuestion(i);
+
+        const questionBlock =
+          document.getElementById(
+            `question-${i}`
+          );
+
+        questionBlock.classList.add(
+          "flash-highlight"
+        );
+
+        setTimeout(
+          () =>
+            questionBlock.classList.remove(
+              "flash-highlight"
+            ),
+          1000
+        );
+      }
+    );
+
+    list.appendChild(
+      li
+    );
+  }
+
+
+  /* -----------------------------------------------
+     SCORE
+  ------------------------------------------------ */
+
+  const percent =
+    total > 0
+      ? Math.round(
+          (correct / total) *
+          100
+        )
+      : 0;
+
+  finalScore.textContent =
+    `Final Score: ${percent}% (${correct}/${total})`;
+
+  window.quizFinished =
+    true;
+
+
+  /* -----------------------------------------------
+     SAVE RESULT TO PROFILE
+  ------------------------------------------------ */
+
+  if (!activeProfileFile) {
+    console.warn(
+      "No active profile. Quiz result was not saved."
+    );
+
+    return;
+  }
+
+  /*
+   * Store only quiz-result information.
+   *
+   * Explanations remain part of the quiz
+   * definition and are NOT copied into the
+   * profile.
+   */
+  const result = {
+    id:
+      `result-${Date.now()}`,
+
+    quizId:
+      window.currentQuizId ||
+      "quiz",
+
+    completedAt:
+      new Date().toISOString(),
+
+    score:
+      percent,
+
+    total,
+
+    correct,
+
+    answers:
+      window.quizData.map(
+        (q, index) => {
+          const answer =
+            window.userAnswers[index];
+
+          return {
+            questionId:
+              q.id,
+
+            answerId:
+              answer
+                ? answer.translated
+                : [],
+
+            isCorrect:
+              answer
+                ? answer.isCorrect
+                : false
+          };
+        }
       )
-      .join(". ");
+  };
 
+
+  try {
+    await saveQuizResult(
+      activeProfileFile,
+      result
+    );
+
+    console.log(
+      "Quiz result saved:",
+      result
+    );
+
+  } catch (error) {
+    console.error(
+      "Could not save quiz result:",
+      error
+    );
+
+    /*
+     * The quiz itself is already finished,
+     * so don't erase the score if GitHub
+     * saving fails.
+     */
+    alert(
+      "Quiz finished, but the result could not be saved to the profile.\n\n" +
+      error.message
+    );
+  }
+}
+
+
+/* =========================================================
+   VOICE / SPEECH
+   ========================================================= */
+
+function speak(text) {
+  if (
+    !window.speechSynthesis
+  ) {
+    return;
+  }
 
   window.speechSynthesis.cancel();
 
-
-  const utterance =
+  const utter =
     new SpeechSynthesisUtterance(
       text
     );
 
-
   window.speechSynthesis.speak(
-    utterance
+    utter
   );
 }
 
 
 /* =========================================================
-   PROFILE INFORMATION
+   LISTEN ONCE
    ========================================================= */
 
-function getSelectedProfileFile() {
-  return activeProfileFile;
+function listenOnce(callback) {
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    alert(
+      "Voice recognition not supported"
+    );
+
+    return;
+  }
+
+  const rec =
+    new SpeechRecognition();
+
+  rec.lang =
+    "en-US";
+
+  rec.interimResults =
+    false;
+
+  rec.maxAlternatives =
+    1;
+
+  rec.onresult =
+    evt => {
+      const text =
+        evt.results[0][0]
+          .transcript
+          .trim();
+
+      callback(text);
+    };
+
+  rec.onerror =
+    e =>
+      console.error(
+        "Speech error:",
+        e.error
+      );
+
+  rec.start();
 }
 
 
-window.getSelectedProfileFile =
-  getSelectedProfileFile;
+/* =========================================================
+   SPEAK CURRENT QUESTION
+   ========================================================= */
+
+function speakQuestion(index) {
+  const q =
+    window.quizData[index];
+
+  if (!q) {
+    return;
+  }
+
+  /*
+   * Only read automatically when enabled.
+   */
+  if (
+    !autoReadToggle.checked
+  ) {
+    return;
+  }
+
+  let txt =
+    `${q.questionText}. Options: `;
+
+  for (
+    const [
+      label,
+      originalLabel
+    ] of Object.entries(
+      q.choiceMap
+    )
+  ) {
+    const choiceText =
+      q.choices[
+        originalLabel
+      ];
+
+    txt +=
+      `${label}: ${choiceText}. `;
+  }
+
+  speak(txt);
+
+
+  /*
+   * If voice recognition is enabled,
+   * listen after speaking.
+   */
+  if (
+    voiceToggle.checked
+  ) {
+    setTimeout(
+      () =>
+        listenForVoiceAnswer(
+          index
+        ),
+      2200
+    );
+  }
+}
 
 
 /* =========================================================
-   GOOGLE SHEETS EXPORT
+   VOICE TOGGLE
    ========================================================= */
 
-window.saveQuizResultToGoogleSheets =
-  saveQuizResultToGoogleSheets;
+function handleVoiceToggle() {
+  voiceOutput.innerHTML =
+    voiceToggle.checked
+      ? "🎤 Voice recognition enabled."
+      : "🔇 Voice recognition disabled.";
+}
+
+
+/* =========================================================
+   AUTO READ TOGGLE
+   ========================================================= */
+
+function handleAutoReadToggle() {
+  voiceOutput.innerHTML =
+    autoReadToggle.checked
+      ? "🗣️ Auto reading enabled."
+      : "🔇 Auto reading disabled.";
+}
+
+
+/* =========================================================
+   VOICE ANSWER
+   ========================================================= */
+
+function listenForVoiceAnswer(index) {
+  const q =
+    window.quizData[index];
+
+  if (!q) {
+    return;
+  }
+
+  listenOnce(
+    spoken => {
+      spoken =
+        spoken.toLowerCase();
+
+      let chosenLabel =
+        null;
+
+
+      /* ---------------------------------------------
+         MATCH LETTER OR ANSWER TEXT
+      --------------------------------------------- */
+
+      for (
+        const [
+          newLabel,
+          origLabel
+        ] of Object.entries(
+          q.choiceMap
+        )
+      ) {
+        const choiceText =
+          q.choices[
+            origLabel
+          ].toLowerCase();
+
+        if (
+          spoken ===
+            newLabel.toLowerCase() ||
+          spoken.includes(
+            choiceText
+          )
+        ) {
+          chosenLabel =
+            newLabel;
+
+          break;
+        }
+      }
+
+
+      /* ---------------------------------------------
+         NOT RECOGNIZED
+      --------------------------------------------- */
+
+      if (!chosenLabel) {
+        speak(
+          "I did not recognize that. Please try again."
+        );
+
+        return;
+      }
+
+
+      /* ---------------------------------------------
+         MARK ANSWER IN UI
+      --------------------------------------------- */
+
+      const input =
+        document.querySelector(
+          `input[name="q${index}"][value="${chosenLabel}"]`
+        );
+
+      if (input) {
+        input.checked =
+          true;
+      }
+
+
+      /* ---------------------------------------------
+         VOICE SUBMITS THE ANSWER
+      --------------------------------------------- */
+
+      const isCorrect =
+        checkAnswer(
+          index,
+          q.answers,
+          q.answers.length > 1
+            ? "checkbox"
+            : "radio",
+          q.explanation,
+          true
+        );
+
+      speak(
+        isCorrect
+          ? "Correct."
+          : "Submitted."
+      );
+    }
+  );
+}
