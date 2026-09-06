@@ -28,7 +28,8 @@ B. Configure a Case wide optional action to allow uploads. After the Client Inta
 C. Configure a service level agreement on the Stage that contains the Client Consultation Process with a deadline of 72 hours.
 D. Configure a child Case after the Client Intake Stage to upload recordings. Add a Wait shape with a Case dependency until the child Case is resolved.
 Answer: B
-Explanation: A Case-wide optional action allows the client to upload recordings, while the Wait shape pauses processing for up to 72 hours before continuing.
+Explanation: 
+A Case-wide optional action allows the client to upload recordings, while the Wait shape pauses processing for up to 72 hours before continuing.
 
 5. You are building a customer service application where each customer request is handled as a separate Case. To manage these Cases, you need to configure workflows and assign them to different service teams. Which Class type should you use to define these Case Types and workflows?
 A. Work class
@@ -108,7 +109,8 @@ B. What fields does the account owner need to see to be able to add a temporary 
 C. How do the fields for the temporary member need to be displayed?
 D. Do the fields about the temporary member need to be displayed in multiple languages?
 Answer: B, C
-Explanation: Option B directly identifies the data requirements (the "what") needed to complete the action, such as the member's email, name, or access expiration date. Option C determines the layout and controls (the "how") for the user interface, such as whether a date picker, a dropdown, or a text box should be used to display those fields.
+Explanation: 
+Option B directly identifies the data requirements (the "what") needed to complete the action, such as the member's email, name, or access expiration date. Option C determines the layout and controls (the "how") for the user interface, such as whether a date picker, a dropdown, or a text box should be used to display those fields.
 
 15. In a purchase order case the vendor assigned might not respond to a customer's query in the desired amount of time required by policy. The vendor must respond within the time required according to policy. Both the vendor and customer should be notified at each milestone. To satisfy this requirement, create a service level that specifies two of the following options. (Choose Two)
 A. Set the goal to be the required response time based on policy and send notifications to both parties.
@@ -233,7 +235,8 @@ B. Set the goal to 2 business days, the deadline to 5 business days, and let the
 C. Set the goal to 5 business days and the deadline to 2 business days, using the passed-deadline interval to escalate afterward.
 D. Add a Wait step of 5 business days to the flow to enforce the completion limit instead of configuring an SLA.
 Answer: B
-Explanation: The goal is the ideal target, the deadline is the firm commitment, and the passed-deadline interval raises urgency after the deadline, which matches all three statements.
+Explanation: 
+The goal is the ideal target, the deadline is the firm commitment, and the passed-deadline interval raises urgency after the deadline, which matches all three statements.
 
 31. To which principle does the UI layer of the Pega Constellation architecture subscribe?
 A. Separation of Concerns
@@ -241,7 +244,8 @@ B. User Control and Consistency
 C. Architecture Hierarchy
 D. Single Responsibility
 Answer: A
-Explanation: Constellation separates the UI (client) from application logic (server), following the separation-of-concerns principle.
+Explanation: 
+Constellation separates the UI (client) from application logic (server), following the separation-of-concerns principle.
 
 32. An employee-onboarding application must handle three workstreams for each new hire: IT provisioning, facilities and desk setup, and payroll enrollment. Each is owned by a different team, must be able to progress independently, and the onboarding case should not resolve until all three are complete. Which case-design approach best fits these requirements?
 A. Add three optional actions so each team launches its own workstream task on demand when it is ready.
@@ -249,7 +253,8 @@ B. Add three parallel processes inside a single stage of the onboarding case, on
 C. Create three separate top-level cases with no parent link back to the onboarding case, so each team runs its own workstream entirely on its own.
 D. Spin off a child case for each of the three workstreams and have the parent onboarding case wait on the children before it resolves.
 Answer: D
-Explanation: Child cases give each workstream independent ownership and progression, and the parent can wait on all three to complete before resolving, matching every requirement.
+Explanation: 
+Child cases give each workstream independent ownership and progression, and the parent can wait on all three to complete before resolving, matching every requirement.
 
 33. A Business Architect is hardening the data entry on an employee-onboarding case. They want the application to reject bad input at the point of capture and show the user a message to correct it. Which two situations are best handled by a validation rule (business-logic validation)? (Choose Two)
 A. Reject an expected start date that falls before today's date and prompt the user to fix it.
@@ -257,7 +262,8 @@ B. Pre-fill the department field with a default value from a data transform when
 C. Require that an entered annual salary falls within an allowed minimum-to-maximum band before the case can proceed.
 D. Automatically compute the total onboarding cost by summing several entered amounts into a derived field.
 Answer: A, C
-Explanation: Validation enforces a business condition on entered data and returns a corrective message. A date constraint and a salary range are business validations, while default values and calculated fields are handled differently.
+Explanation: 
+Validation enforces a business condition on entered data and returns a corrective message. A date constraint and a salary range are business validations, while default values and calculated fields are handled differently.
 
 34. A Business Architect is designing the intake screen for a citizen permit-request application. The screen currently shows a long, unstructured list of fields, and reviewers find it hard to scan. What is the primary purpose of grouping fields into views on this screen?
 A. To route the completed intake form to the correct work queue so that a reviewer can approve it.
@@ -265,7 +271,8 @@ B. To automatically compute each field's value from the other fields using a cal
 C. To encrypt the underlying field values so that only authorized operators in the right access group can read them.
 D. To organize related fields into reusable, logically arranged sections that improve readability across the application.
 Answer: D
-Explanation: Views group related fields into coherent, reusable sections, making forms easier to scan and consistent across the app.
+Explanation: 
+Views group related fields into coherent, reusable sections, making forms easier to scan and consistent across the app.
 
 35. During a security review, a stakeholder says: "When a user signs in with their corporate SSO credentials, the system confirms it is really them. Separately, once inside, the system decides that this user can open claims but cannot approve payouts." Which pairing correctly labels these two behaviors?
 A. Confirming it is really them is authentication; deciding what they can open or approve is authorization.
@@ -273,7 +280,8 @@ B. Both behaviors are authorization, because both control system access.
 C. Both behaviors are authentication, because both happen at sign-in.
 D. Confirming it is really them is authorization; deciding what they can open or approve is authentication.
 Answer: A
-Explanation: Authentication verifies identity (who you are), while authorization determines what an authenticated user is permitted to do.
+Explanation: 
+Authentication verifies identity (who you are), while authorization determines what an authenticated user is permitted to do.
 
 36. UCom wants its shopping website to share an update about order acceptance and the expected delivery time of the product. Which Automation Step is most suitable to achieve this objective?
 A. Post to Pulse
@@ -281,7 +289,8 @@ B. Send Notification
 C. Push Notification
 D. Update Case
 Answer: B
-Explanation: The Send Notification automation step sends the order-acceptance and delivery-time message to the intended recipient.
+Explanation: 
+The Send Notification automation step sends the order-acceptance and delivery-time message to the intended recipient.
 
 37. A hospital's Pega application serves two groups: intake coordinators who register patients, and billing specialists who process invoices. Each group needs a different portal and different permissions, and dozens of individual staff belong to each group. How should the Business Architect structure this so the right people get the right access?
 A. Create one shared persona for all staff and route each user to a different work queue to control their portal and access.
@@ -289,7 +298,8 @@ B. Give every staff operator the same shared access group and rely on validation
 C. Define an intake-coordinator persona and a billing-specialist persona, map each to its own access group, then place each operator in its access group.
 D. Assign portal access and permissions directly to each individual operator record without using personas or access groups.
 Answer: C
-Explanation: Modeling each group as a persona mapped to an access group, then placing operators in the access group, cleanly grants the correct portal and permissions to each group of users.
+Explanation: 
+Modeling each group as a persona mapped to an access group, then placing operators in the access group, cleanly grants the correct portal and permissions to each group of users.
 
 38. A Business Architect new to Pega Platform asks what the Insights feature in App Studio is for. Which statement best describes it?
 A. It defines which operators can sign in to the application and controls what actions and data each role is permitted to access.
@@ -297,7 +307,8 @@ B. It stores the system-of-record data that the application reads and writes thr
 C. It routes each open assignment to the correct operator or work queue based on the routing rules you configure.
 D. It presents case and data as visualizations, such as tables and charts, that you configure with columns, filters, and sorting to analyze the data.
 Answer: D
-Explanation: Insights turns case data into configurable table and chart visualizations, controlled through columns, filters, and sorting, so the business can analyze results.
+Explanation: 
+Insights turns case data into configurable table and chart visualizations, controlled through columns, filters, and sorting, so the business can analyze results.
 
 39. A BA is identifying Pega tools that support Agile collaboration — managing backlogs, sprints, and in-application feedback — rather than authoring or deploying the application. Which two are Pega Agile/collaboration tools? (Choose Two)
 A. Add several always-visible fields to the form so users can see every possible option up front.
@@ -385,7 +396,8 @@ B. The end of the deadline interval.
 C. The Assignment creation time.
 D. The Case creation time.
 Answer: B
-Explanation: The passed deadline interval begins when the deadline interval ends.
+Explanation: 
+The passed deadline interval begins when the deadline interval ends.
 
 50. What is the value of using Automation steps in Pega Platform applications?
 A. To assign work to the appropriate party automatically to ensure timely completion.
@@ -393,7 +405,8 @@ B. To reduce the number of required users by eliminating all user actions from t
 C. To save development time and reduce human error by automating specific actions.
 D. To ensure a consistent user experience across views and channel interfaces.
 Answer: C
-Explanation: Automation steps save development time and reduce human error by automating specific actions.
+Explanation: 
+Automation steps save development time and reduce human error by automating specific actions.
 
 51. Identify the two requirements that are satisfied by using a data transform. (Choose two.)
 A. Convert integer data to text data.
@@ -401,7 +414,8 @@ B. Copy items from a previous order to the current case.
 C. Validate the format of a property value.
 D. Display data from the system of record on multiple steps of a case.
 Answer: A, B
-Explanation: Data transforms can convert data and copy or map values between properties. Validation and displaying system-of-record data are handled by other Pega features. 
+Explanation: 
+Data transforms can convert data and copy or map values between properties. Validation and displaying system-of-record data are handled by other Pega features. 
 
 52. In a Case Lifecycle for an online order, which Stage typically handles exceptions such as order cancellations or returns?
 A. Create Stage
@@ -409,7 +423,8 @@ B. Primary Stage
 C. Alternate Stage
 D. Resolution Stage
 Answer: C
-Explanation: Alternate Stages handle exceptions or alternative paths in the normal Case Lifecycle. 
+Explanation: 
+Alternate Stages handle exceptions or alternative paths in the normal Case Lifecycle. 
 
 53. What is the primary purpose of the Pega GenAI Connect Step in a workflow?
 A. To train large language models on existing application data.
@@ -417,7 +432,8 @@ B. To create a new Case Type based on AI-generated recommendations.
 C. To replace human decision-making in approval processes.
 D. To automate tasks such as summarizing Case details.
 Answer: D
-Explanation: The Pega GenAI Connect Step can use generative AI capabilities to automate tasks such as summarizing Case details.
+Explanation: 
+The Pega GenAI Connect Step can use generative AI capabilities to automate tasks such as summarizing Case details.
 
 54. A museum ticketing case has an option for students or seniors to enter identifying information. If the customer information identifies the user as a student or senior, they do not need to enter payment information and they receive their ticket. How do you implement this requirement?
 A. Add an Approve/Reject step to the process for a manager to review and assess if the customer is a senior or student.
@@ -425,7 +441,8 @@ B. Configure the Enter payment information process to start if the Customer is n
 C. Configure a decision shape. If the customer is a student, the process advances, otherwise the process ends.
 D. Configure the Ticket Confirmation stage to be skipped if the Customer is not a student or a senior.
 Answer: B
-Explanation: Configure the payment process to run only when the customer is not a student or senior, allowing eligible customers to bypass payment.
+Explanation: 
+Configure the payment process to run only when the customer is not a student or senior, allowing eligible customers to bypass payment.
 
 55. What is a key benefit of Tool Rules in Pega GenAI implementation?
 A. They remove the need for human oversight in generative AI systems.
@@ -433,7 +450,8 @@ B. They restrict users from interacting with agents based on user roles and resp
 C. They support governance by controlling agent behavior and helping to provide transparency.
 D. They allow agents to operate independently of business policies.
 Answer: C
-Explanation: Tool Rules support governance by controlling agent behavior and helping provide transparency.
+Explanation: 
+Tool Rules support governance by controlling agent behavior and helping provide transparency.
 
 56. How do you update the urgency of an assignment to increase the likelihood that completion of the assignment occurs before the deadline?
 A. Apply an urgency adjustment to the deadline interval.
@@ -441,7 +459,8 @@ B. Add an escalation action to the deadline interval.
 C. Apply an urgency adjustment to the goal interval.
 D. Decrease the time allotted on the goal interval.
 Answer: C
-Explanation: Applying an urgency adjustment to the goal interval increases assignment urgency as the goal interval approaches or passes, encouraging timely completion.
+Explanation: 
+Applying an urgency adjustment to the goal interval increases assignment urgency as the goal interval approaches or passes, encouraging timely completion.
 
 57. Which two features does Pega GenAI Autopilot provide to help developers with data management? (Choose two.)
 A. Deleting unused data objects in the application permanently.
@@ -449,7 +468,8 @@ B. Suggesting choices for picklist fields in the Data Model of the Case Type.
 C. Migrating data models from legacy systems automatically.
 D. Generating sample records for a Data Object to make testing easier.
 Answer: B, D
-Explanation: Pega GenAI Autopilot can suggest choices for picklist fields and generate sample records to make testing easier.
+Explanation: 
+Pega GenAI Autopilot can suggest choices for picklist fields and generate sample records to make testing easier.
 
 58. How can team members of the Finance unit and Accounting unit of a real estate company collaborate to efficiently share the workload?
 A. Finance unit work group and Accounting unit work group are merged to share a work queue.
@@ -457,7 +477,8 @@ B. Finance unit and Accounting unit team members can access the shared work from
 C. Finance unit and Accounting unit team members are added to the same work group with a shared work queue.
 D. Finance unit team members can assign themselves work from the Accounting unit work queue.
 Answer: C
-Explanation: Adding both teams to the same work group with a shared work queue allows team members to collaborate and share assignments. During a review session with stakeholders from an insurance company, the claims process is described as follows: An accident claim case creates a vehicle claim case for each vehicle involved in an accident.
+Explanation: 
+Adding both teams to the same work group with a shared work queue allows team members to collaborate and share assignments. During a review session with stakeholders from an insurance company, the claims process is described as follows: An accident claim case creates a vehicle claim case for each vehicle involved in an accident.
 
 59. Which two configurations prevent the accident claim case from resolving before all vehicle claims are resolved? (Choose two.)
 A. Add each vehicle claim as a child case of the accident claim.
@@ -465,7 +486,8 @@ B. Add a manual approval step to the accident claim case.
 C. Add an optional process to pause the accident case until the vehicle claims are paid.
 D. Add a wait step to the accident claim case to wait until all vehicle claims have a status of Resolved.
 Answer: A, D
-Explanation: Child cases establish the parent-child relationship, and a wait step can prevent the parent Case from resolving until all vehicle claims are resolved.
+Explanation: 
+Child cases establish the parent-child relationship, and a wait step can prevent the parent Case from resolving until all vehicle claims are resolved.
 
 60. What is the primary purpose of Pega GenAI Knowledge Buddy?
 A. To generate code snippets for developers.
@@ -473,7 +495,8 @@ B. To help find and manage information efficiently.
 C. To connect Pega applications to large language models.
 D. To create automated test Cases for Pega applications.
 Answer: B
-Explanation: Pega GenAI Knowledge Buddy helps users find and manage information efficiently.
+Explanation: 
+Pega GenAI Knowledge Buddy helps users find and manage information efficiently.
 
 61. An insurance company wants to prevent duplicate claims for the same incident. The system must check the Customer name field first, followed by the Incident details field group. Which two configurations should you apply together in the Search duplicate Cases Step to achieve this goal? (Choose two.)
 A. Incident details as weighted conditions.
@@ -481,7 +504,8 @@ B. Incident details as basic conditions.
 C. Customer name as a basic condition.
 D. Customer name as a weighted condition.
 Answer: A, C
-Explanation: Customer name is used as a basic condition, while Incident details is configured as a weighted condition to refine duplicate matching.
+Explanation: 
+Customer name is used as a basic condition, while Incident details is configured as a weighted condition to refine duplicate matching.
 
 62. A Meal type radio button to request a vegetarian meal; A Services data type to enter services requested at a car mechanic; A Weather data type to retrieve weather data from a national weather service; What are correct data types?
 A. No system of record; External system of record; Pega system of record
@@ -497,7 +521,8 @@ B. When the Process ticket step completes
 C. When the Enter Ticket Details step completes
 D. When the Triage stage starts
 Answer: A
-Explanation: When a Process step is configured to set the Case status, the status is set when that Process step starts.
+Explanation: 
+When a Process step is configured to set the Case status, the status is set when that Process step starts.
 
 64. You are building a customer service application where each customer request is handled as a separate Case. To manage these Cases, you need to configure workflows and assign them to different service teams. Which Class type should you use to define these Case Types and workflows?
 A. Work class
@@ -505,7 +530,8 @@ B. Rule class
 C. Base class
 D. Data class
 Answer: A
-Explanation: Work classes define Cases and the workflows used to process them.
+Explanation: 
+Work classes define Cases and the workflows used to process them.
 
 65. What two types of escalation actions can you configure with Service-Level Agreements in Pega Platform? (Choose two.)
 A. Increasing the urgency of the work item.
@@ -513,7 +539,8 @@ B. Automatically resolving the Case without human intervention.
 C. Sending notifications to managers.
 D. Extending the deadline automatically by 24 hours.
 Answer: A, C
-Explanation: SLA escalation actions can increase the urgency of work and send notifications to appropriate parties. 
+Explanation: 
+SLA escalation actions can increase the urgency of work and send notifications to appropriate parties. 
 
 66. A music studio allows clients to upload audio recordings before they begin consultation. The studio wants to pause Case processing after the Client. Intake Stage and give clients 72 hours to upload recordings, if they choose, before beginning the Client Consultation Process. Which configuration meets this requirement?
 A. Configure a validate rule on the Client Intake Stage and set the elapsed time to 72 hours.
@@ -521,7 +548,8 @@ B. Configure a Case wide optional action to allow uploads. After the Client Inta
 C. Configure a service level agreement on the Stage that contains the Client Consultation Process with a deadline of 72 hours.
 D. Configure a child Case after the Client Intake Stage to upload recordings. Add a Wait shape with a Case dependency until the child Case is resolved.
 Answer: B
-Explanation: A Case-wide optional action allows the client to upload recordings, while the Wait shape pauses processing for up to 72 hours before continuing.
+Explanation: 
+A Case-wide optional action allows the client to upload recordings, while the Wait shape pauses processing for up to 72 hours before continuing.
 
 67. In an Insurance Claim Case Type, the Assessment Stage includes multiple tasks such as Damage Estimation and Fraud Investigation. Different teams can complete both tasks independently. Which configuration best improves the overall claim resolution time?
 A. Create one Process that uses Decision shapes to determine which team performs their task first.
@@ -529,7 +557,8 @@ B. Remove all Processes and use only Steps in the Assessment Stage to support si
 C. Use parallel Processes so each team can work on their respective task simultaneously.
 D. Include both tasks in a single Process, but use routing and Service-Level Agreements to ensure task completion.
 Answer: C
-Explanation: Parallel Processes allow independent teams to work on their respective tasks simultaneously, reducing overall Case resolution time.
+Explanation: 
+Parallel Processes allow independent teams to work on their respective tasks simultaneously, reducing overall Case resolution time.
 
 68. A business analyst needs to quickly design a facilities management application with multiple stakeholders. How can Pega Blueprint help accelerate the development process?
 A. By summarizing notes for stakeholders to remove the need for meetings.
@@ -537,4 +566,5 @@ B. By generating tailored suggestions for Case Types, Stages, and Steps.
 C. By replacing the Pega Platform development environment entirely.
 D. By automatically coding the entire application without human intervention.
 Answer: B
-Explanation: Pega Blueprint accelerates application design by generating tailored suggestions for Case Types, Stages, and Steps.
+Explanation: 
+Pega Blueprint accelerates application design by generating tailored suggestions for Case Types, Stages, and Steps.
