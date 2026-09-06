@@ -1222,10 +1222,10 @@ function checkAnswer(
   ) {
 
     result.textContent =
-      "Please select at least one answer.";
+      "⚠️ No answer selected.";
 
     result.className =
-      "result incorrect";
+      "result missed";
 
     explanationDiv.textContent =
       "";
@@ -1235,9 +1235,10 @@ function checkAnswer(
     );
 
     /*
-     * If this was Submit or Finish,
-     * record the question as submitted
-     * and incorrect.
+     * Record unanswered questions separately.
+     *
+     * They are NOT considered wrong answers
+     * for Google Sheets extraction.
      */
     if (markAsSubmitted) {
 
@@ -1248,6 +1249,8 @@ function checkAnswer(
         translated: [],
 
         isCorrect: false,
+
+        unanswered: true,
 
         submitted: true
       };
@@ -1360,6 +1363,8 @@ function checkAnswer(
       translated,
 
       isCorrect,
+
+      unanswered: false,
 
       submitted: true
     };
@@ -1533,20 +1538,28 @@ async function finishQuiz() {
         "li"
       );
 
+    const answerRecord =
+      window.userAnswers[i];
+
     const answered =
-      window.userAnswers[i] !==
+      answerRecord !==
       undefined;
+
+    const unanswered =
+      answerRecord?.unanswered === true;
 
     li.textContent =
       `Question ${i + 1} – ` +
       (
-        answered
-          ? (
-              isCorrect
-                ? "✅ Correct"
-                : "❌ Incorrect"
-            )
-          : "⚠️ Missed"
+        unanswered
+          ? "⚠️ Unanswered"
+          : answered
+            ? (
+                isCorrect
+                  ? "✅ Correct"
+                  : "❌ Incorrect"
+              )
+            : "⚠️ Unanswered"
       );
 
     li.style.cursor =
@@ -1588,7 +1601,7 @@ async function finishQuiz() {
 
   /* -----------------------------------------------
      SCORE
-  ----------------------------------------------- */
+  ------------------------------------------------ */
 
   const percent =
     total > 0
@@ -1607,7 +1620,7 @@ async function finishQuiz() {
 
   /* -----------------------------------------------
      BUILD RESULT FOR GOOGLE SHEETS
-  ----------------------------------------------- */
+  ------------------------------------------------ */
 
   const result = {
 
@@ -1672,7 +1685,16 @@ async function finishQuiz() {
                 ? Boolean(
                     answer.isCorrect
                   )
-                : false
+                : false,
+
+            /*
+             * Explicitly identify unanswered
+             * questions.
+             */
+            unanswered:
+              answer
+                ? answer.unanswered === true
+                : true
           };
         }
       )
