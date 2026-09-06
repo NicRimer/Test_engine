@@ -966,12 +966,10 @@ function renderQuiz(questions) {
             newKey;
 
           /*
-           * IMPORTANT:
+           * Selecting an answer ONLY
+           * stores the selection.
            *
-           * Selecting an answer does NOT
-           * check or submit the answer.
-           *
-           * It only remembers the selection.
+           * It does NOT check the answer.
            */
           input.addEventListener(
             "change",
@@ -1025,7 +1023,7 @@ function renderQuiz(questions) {
 
 
       /* -----------------------------------------------
-         ORIGINAL SUBMIT BUTTON
+         SUBMIT BUTTON
       ------------------------------------------------ */
 
       const submit =
@@ -1222,7 +1220,7 @@ function checkAnswer(
   ) {
 
     result.textContent =
-      "⚠️ No answer selected.";
+      "⚠️ Unanswered";
 
     result.className =
       "result missed";
@@ -1235,10 +1233,11 @@ function checkAnswer(
     );
 
     /*
-     * Record unanswered questions separately.
+     * Record unanswered separately.
      *
-     * They are NOT considered wrong answers
-     * for Google Sheets extraction.
+     * This is important because an unanswered
+     * question must NOT be treated as a wrong
+     * answer by Google Sheets.
      */
     if (markAsSubmitted) {
 
@@ -1652,6 +1651,9 @@ async function finishQuiz() {
 
     /*
      * Store every question's result.
+     *
+     * Google Apps Script will filter this
+     * and save only genuinely wrong answers.
      */
     answers:
       window.quizData.map(
@@ -1680,6 +1682,11 @@ async function finishQuiz() {
             correctAnswer:
               q.answers,
 
+            /*
+             * True only when the selected
+             * answer exactly matches the
+             * correct answer.
+             */
             isCorrect:
               answer
                 ? Boolean(
@@ -1688,8 +1695,7 @@ async function finishQuiz() {
                 : false,
 
             /*
-             * Explicitly identify unanswered
-             * questions.
+             * Explicit unanswered flag.
              */
             unanswered:
               answer
@@ -1703,7 +1709,7 @@ async function finishQuiz() {
 
   /* -----------------------------------------------
      SAVE TO GOOGLE SHEETS
-  ----------------------------------------------- */
+  ------------------------------------------------ */
 
   if (!activeProfileFile) {
 
