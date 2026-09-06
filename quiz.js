@@ -170,10 +170,6 @@ document.addEventListener(
       handleAutoReadToggle
     );
 
-    /*
-     * Quiz setup remains hidden until
-     * a profile is loaded.
-     */
     quizSetupBlock.style.display =
       "none";
 
@@ -232,10 +228,6 @@ async function initializeProfiles() {
       }
     );
 
-    /*
-     * default.json is always the default
-     * selection when it exists.
-     */
     const defaultProfile =
       profiles.find(
         profile =>
@@ -301,10 +293,6 @@ async function handleProfileSelection() {
     activeProfileFile =
       profileFile;
 
-    /*
-     * Store only the selected filename
-     * locally.
-     */
     localStorage.setItem(
       "selectedProfileFile",
       profileFile
@@ -313,17 +301,9 @@ async function handleProfileSelection() {
     profileStatus.textContent =
       `Profile loaded: ${profile.id || profileFile}`;
 
-    /*
-     * Show quiz setup after a profile
-     * has been successfully loaded.
-     */
     quizSetupBlock.style.display =
       "block";
 
-    /*
-     * Loading a new profile clears
-     * the current quiz state.
-     */
     resetQuizStateOnly();
 
     console.log(
@@ -483,9 +463,6 @@ function loadQuizFromText(
     );
   }
 
-  /*
-   * Shuffle questions only if requested.
-   */
   if (shuffleToggle.checked) {
 
     shuffleArray(
@@ -499,19 +476,9 @@ function loadQuizFromText(
   window.quizData =
     questions;
 
-  /*
-   * Submitted answers.
-   */
   window.userAnswers =
     {};
 
-  /*
-   * Current selections.
-   *
-   * These are deliberately separate from
-   * userAnswers so selecting an answer does
-   * not count as submitting it.
-   */
   window.selectedAnswers =
     new Array(
       questions.length
@@ -523,9 +490,6 @@ function loadQuizFromText(
   window.totalQuestions =
     questions.length;
 
-  /*
-   * Derive quiz ID from filename.
-   */
   window.currentQuizId =
     sourceFile
       ? sourceFile
@@ -537,10 +501,6 @@ function loadQuizFromText(
           )
       : "quiz";
 
-  /*
-   * Hide profile selection and quiz setup
-   * after the quiz has been successfully loaded.
-   */
   profileBlock.style.display =
     "none";
 
@@ -563,16 +523,9 @@ function resetQuiz() {
 
   resetQuizStateOnly();
 
-  /*
-   * Show profile selection again.
-   */
   profileBlock.style.display =
     "block";
 
-  /*
-   * Show quiz setup again when
-   * Restart Quiz is clicked.
-   */
   quizSetupBlock.style.display =
     "block";
 }
@@ -701,9 +654,6 @@ function parseQuestions(text) {
           )
           .trim();
 
-      /*
-       * Avoid duplicate questions.
-       */
       const duplicateKey =
         questionText.toLowerCase();
 
@@ -871,19 +821,9 @@ function renderQuiz(questions) {
           "div"
         );
 
-      /*
-       * Keep the original CSS class.
-       */
       choiceDiv.className =
         "choices";
 
-      /*
-       * Multiple correct answers =
-       * checkboxes.
-       *
-       * One correct answer =
-       * radio buttons.
-       */
       const inputType =
         q.answers.length > 1
           ? "checkbox"
@@ -894,10 +834,6 @@ function renderQuiz(questions) {
           q.choices
         );
 
-      /*
-       * Shuffle answers only if
-       * the user selected that option.
-       */
       if (
         window.shuffleAnswersEnabled
       ) {
@@ -915,10 +851,6 @@ function renderQuiz(questions) {
         "E"
       ];
 
-      /*
-       * Displayed label -> original
-       * answer label.
-       */
       const choiceMap = {};
 
       choiceEntries.forEach(
@@ -965,12 +897,6 @@ function renderQuiz(questions) {
           input.value =
             newKey;
 
-          /*
-           * Selecting an answer ONLY
-           * stores the selection.
-           *
-           * It does NOT check the answer.
-           */
           input.addEventListener(
             "change",
             () => {
@@ -995,6 +921,10 @@ function renderQuiz(questions) {
                   }
                 );
 
+              /*
+               * IMPORTANT:
+               * Selection is NOT submission.
+               */
               window.selectedAnswers[
                 index
               ] = selected;
@@ -1037,10 +967,6 @@ function renderQuiz(questions) {
       submit.textContent =
         "Submit";
 
-      /*
-       * ONLY clicking Submit checks
-       * this question.
-       */
       submit.onclick =
         () =>
           checkAnswer(
@@ -1186,14 +1112,8 @@ function checkAnswer(
     }
   );
 
-
-  /*
-   * Keep current UI selection separate
-   * from submitted answers.
-   */
   window.selectedAnswers[index] =
     selected;
-
 
   const result =
     document.getElementById(
@@ -1232,13 +1152,6 @@ function checkAnswer(
       "highlight-missed"
     );
 
-    /*
-     * Record unanswered separately.
-     *
-     * This is important because an unanswered
-     * question must NOT be treated as a wrong
-     * answer by Google Sheets.
-     */
     if (markAsSubmitted) {
 
       window.userAnswers[index] = {
@@ -1415,17 +1328,10 @@ function showQuestion(index) {
     return;
   }
 
-  /*
-   * Restore active class.
-   */
   block.classList.add(
     "active"
   );
 
-  /*
-   * Restore selection when
-   * navigating back to a question.
-   */
   restoreSelectedAnswers(
     index
   );
@@ -1445,10 +1351,6 @@ function showQuestion(index) {
     index ===
     window.quizData.length - 1;
 
-
-  /*
-   * Voice integration hook.
-   */
   speakQuestion(index);
 }
 
@@ -1509,10 +1411,6 @@ async function finishQuiz() {
 
     } else {
 
-      /*
-       * Finish Quiz checks every question
-       * that hasn't already been submitted.
-       */
       isCorrect =
         checkAnswer(
           i,
@@ -1633,27 +1531,23 @@ async function finishQuiz() {
     completedAt:
       new Date().toISOString(),
 
-    /*
-     * Percentage score.
-     */
     score:
       percent,
 
-    /*
-     * Number correct.
-     */
     correct,
 
-    /*
-     * Total questions.
-     */
     total,
 
     /*
-     * Store every question's result.
+     * IMPORTANT:
      *
-     * Google Apps Script will filter this
-     * and save only genuinely wrong answers.
+     * Every question is included here.
+     *
+     * Unanswered questions have:
+     * answerId: []
+     *
+     * Google Apps Script will NEVER save
+     * records where answerId is empty.
      */
     answers:
       window.quizData.map(
@@ -1662,45 +1556,36 @@ async function finishQuiz() {
           const answer =
             window.userAnswers[index];
 
+          const selectedAnswers =
+            answer &&
+            Array.isArray(
+              answer.translated
+            )
+              ? answer.translated
+              : [];
+
+          const unanswered =
+            selectedAnswers.length === 0;
+
           return {
 
             questionId:
               q.id,
 
-            /*
-             * Original answer IDs,
-             * e.g. ["A"] or ["A", "C"].
-             */
             answerId:
-              answer
-                ? answer.translated
-                : [],
+              selectedAnswers,
 
-            /*
-             * Correct answer IDs.
-             */
             correctAnswer:
               q.answers,
 
-            /*
-             * True only when the selected
-             * answer exactly matches the
-             * correct answer.
-             */
             isCorrect:
-              answer
-                ? Boolean(
+              unanswered
+                ? false
+                : Boolean(
                     answer.isCorrect
-                  )
-                : false,
+                  ),
 
-            /*
-             * Explicit unanswered flag.
-             */
-            unanswered:
-              answer
-                ? answer.unanswered === true
-                : true
+            unanswered
           };
         }
       )
@@ -1708,7 +1593,7 @@ async function finishQuiz() {
 
 
   /* -----------------------------------------------
-     SAVE TO GOOGLE SHEETS
+     SAVE RESULT TO GOOGLE SHEETS
   ------------------------------------------------ */
 
   if (!activeProfileFile) {
@@ -1739,10 +1624,6 @@ async function finishQuiz() {
       error
     );
 
-    /*
-     * The quiz has already finished,
-     * so keep the score visible.
-     */
     alert(
       "Quiz finished, but the result could not be saved to Google Sheets.\n\n" +
       error.message
@@ -1786,12 +1667,6 @@ async function saveQuizResultToGoogleSheets(
     );
   }
 
-
-  /*
-   * text/plain avoids the browser
-   * CORS preflight that can occur with
-   * application/json.
-   */
   const response =
     await fetch(
       GOOGLE_SHEETS_URL,
@@ -1945,9 +1820,6 @@ function speakQuestion(index) {
     return;
   }
 
-  /*
-   * Only read automatically when enabled.
-   */
   if (
     !autoReadToggle.checked
   ) {
@@ -1978,11 +1850,6 @@ function speakQuestion(index) {
 
   speak(txt);
 
-
-  /*
-   * If voice recognition is enabled,
-   * listen after speaking.
-   */
   if (
     voiceToggle.checked
   ) {
@@ -2046,11 +1913,6 @@ function listenForVoiceAnswer(index) {
       let chosenLabel =
         null;
 
-
-      /* ---------------------------------------------
-         MATCH LETTER OR ANSWER TEXT
-      --------------------------------------------- */
-
       for (
         const [
           newLabel,
@@ -2080,11 +1942,6 @@ function listenForVoiceAnswer(index) {
         }
       }
 
-
-      /* ---------------------------------------------
-         NOT RECOGNIZED
-      --------------------------------------------- */
-
       if (!chosenLabel) {
 
         speak(
@@ -2093,11 +1950,6 @@ function listenForVoiceAnswer(index) {
 
         return;
       }
-
-
-      /* ---------------------------------------------
-         SELECT ANSWER IN UI
-      --------------------------------------------- */
 
       const input =
         document.querySelector(
@@ -2109,10 +1961,6 @@ function listenForVoiceAnswer(index) {
         input.checked =
           true;
 
-        /*
-         * Trigger the normal selection
-         * handler, but NOT checkAnswer().
-         */
         input.dispatchEvent(
           new Event(
             "change",
@@ -2122,11 +1970,6 @@ function listenForVoiceAnswer(index) {
           )
         );
       }
-
-
-      /* ---------------------------------------------
-         DO NOT SUBMIT VOICE ANSWER
-      --------------------------------------------- */
 
       speak(
         "Answer selected."
