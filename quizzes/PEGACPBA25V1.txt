@@ -22,13 +22,13 @@ D. Extending the deadline automatically by 24 hours.
 Answer: A, C
 Explanation:
 
-4. A music studio allows clients to upload audio recordings before they begin consultation. The studio wants to pause Case processing after the Client Intake Stage and give clients 72 hours to upload recordings, if they choose, before beginning the Client Consultation Process. Which configuration meets this requirement?
+4. A music studio allows clients to upload audio recordings before they begin consultation. The studio wants to pause Case processing after the Client. Intake Stage and give clients 72 hours to upload recordings, if they choose, before beginning the Client Consultation Process. Which configuration meets this requirement?
 A. Configure a validate rule on the Client Intake Stage and set the elapsed time to 72 hours.
 B. Configure a Case wide optional action to allow uploads. After the Client Intake Stage, add a Wait shape with a timer set to 72 hours.
 C. Configure a service level agreement on the Stage that contains the Client Consultation Process with a deadline of 72 hours.
 D. Configure a child Case after the Client Intake Stage to upload recordings. Add a Wait shape with a Case dependency until the child Case is resolved.
 Answer: B
-Explanation:
+Explanation: A Case-wide optional action allows the client to upload recordings, while the Wait shape pauses processing for up to 72 hours before continuing.
 
 5. You are building a customer service application where each customer request is handled as a separate Case. To manage these Cases, you need to configure workflows and assign them to different service teams. Which Class type should you use to define these Case Types and workflows?
 A. Work class
@@ -102,13 +102,13 @@ D. Identify the scope of the initial release.
 Answer: D
 Explanation:
 
-14. Consider the following user story: As an account owner, I want to be able to add a member to my account so I can give the member temporary access. Which two questions help you define the fields for the user view?
+14. Consider the following user story: As an account owner, I want to be able to add a member to my account so I can give the member temporary access. Which two questions help you define the fields for the user view? (Choose Two)
 A. Will field information about the temporary member be stored in an external database?
 B. What fields does the account owner need to see to be able to add a temporary member?
 C. How do the fields for the temporary member need to be displayed?
 D. Do the fields about the temporary member need to be displayed in multiple languages?
-Answer: B
-Explanation:
+Answer: B, C
+Explanation: Option B directly identifies the data requirements (the "what") needed to complete the action, such as the member's email, name, or access expiration date. Option C determines the layout and controls (the "how") for the user interface, such as whether a date picker, a dropdown, or a text box should be used to display those fields.
 
 15. In a purchase order case the vendor assigned might not respond to a customer's query in the desired amount of time required by policy. The vendor must respond within the time required according to policy. Both the vendor and customer should be notified at each milestone. To satisfy this requirement, create a service level that specifies two of the following options. (Choose Two)
 A. Set the goal to be the required response time based on policy and send notifications to both parties.
@@ -457,8 +457,7 @@ B. Finance unit and Accounting unit team members can access the shared work from
 C. Finance unit and Accounting unit team members are added to the same work group with a shared work queue.
 D. Finance unit team members can assign themselves work from the Accounting unit work queue.
 Answer: C
-Explanation: Adding both teams to the same work group with a shared work queue allows team members to collaborate and share assignments.
-During a review session with stakeholders from an insurance company, the claims process is described as follows: An accident claim case creates a vehicle claim case for each vehicle involved in an accident.
+Explanation: Adding both teams to the same work group with a shared work queue allows team members to collaborate and share assignments. During a review session with stakeholders from an insurance company, the claims process is described as follows: An accident claim case creates a vehicle claim case for each vehicle involved in an accident.
 
 59. Which two configurations prevent the accident claim case from resolving before all vehicle claims are resolved? (Choose two.)
 A. Add each vehicle claim as a child case of the accident claim.
