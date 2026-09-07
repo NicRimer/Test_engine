@@ -371,13 +371,13 @@ E. Stage 2 is an alternate stage.
 Answer: B, D
 Explanation:
 
-047. (True/False) Alternate stages automatically execute in sequential order.
+047. Alternate stages automatically execute in sequential order.
 A. True
 B. False
 Answer: B
 Explanation:
 
-048. (True/False) A single flow can contain multiple End shapes.
+048. A single flow can contain multiple End shapes.
 A. True
 B. False
 Answer: A
@@ -512,7 +512,7 @@ D. create business logic to the different approvers.
 Answer: A
 Explanation:
 
-065. You have created a new report that contains a list of employees, hire dates, and managers. You have been asked to display each manager in a row. Beneath each manager row, you must list the employees of the manager their hire dates.
+065. You have created a new report that contains a list of employees, hire dates, and managers. You have been asked to display each manager in a row. Beneath each manager row you must list the manager's employees and their hire dates. How do you support this request?
 A. Summarize the manager column
 B. Sort the manager column
 C. Group the manager column
@@ -794,7 +794,7 @@ D. Configure a static list of the make, model, and year vehicles.
 Answer: B
 Explanation:
 
-100. A hotel booking application allows customers to change rooms after making a reservation. The status of each room in each hotel is stored on a data page sourced from a database table. Which two configuration options do you use to update the database table when a customer changes rooms? (Choose Two)
+100. A hotel booking application allows customers to change rooms after making a reservation. The status of each room in each hotel is stored on a data page sourced from a database table.Which two configuration options do you use to update the database table when a customer changes rooms? (Choose Two)
 A. A When rule to trigger the database update
 B. An editable data page containing the room information
 C. A data transform to copy updates to the data page
@@ -802,7 +802,7 @@ D. A savable data page containing the room information
 Answer: B, D
 Explanation:
 
-101. You are configuring an external data source using the Integration Designer. You have the REST, Dev, Stage, and Prod endpoint URLs, and a name for the data source.What other information do your need to configure the external data source?
+101. You are configuring an external data source using the Integration Designer. You have the REST, Dev, Stage, and Prod endpoint URLs, and a name for the data source. What other information do your need to configure the external data source?
 A. A backup endpoint URL if the configured WL refuses to connect
 B. The name of the database where the source data is stored
 C. A plan for mapping the data and REST response fields
@@ -960,7 +960,7 @@ D. The service level on expense reports
 Answer: A, B
 Explanation:
 
-121. You have created a new report that contains a list of employees, hire dates, and managers. You have been asked to display each manager in a row. Beneath each manager row, you must list the employees of the manager and their hire dates. How do you support this request?
+121. You have created a new report that contains a list of employees, hire dates, and managers. You have been asked to display each manager in a row. Beneath each manager row you must list the manager's employees and their hire dates. How do you support this request?
 A. Summarize the manager column.
 B. Sort the manager column.
 C. Group the manager column.
