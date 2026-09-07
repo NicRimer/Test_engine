@@ -655,7 +655,7 @@ A. Apply an urgency value to the deadline interval
 B. Add an escalation action to the goal interview
 C. Adjust the default assignment urgency value
 D. Apply an urgency value to the goal interval
-Answer: A
+Answer: D
 Explanation:
 
 083. A car rental company provides luxury cars in certain geographical locations. According to policy, the rental request for a luxury car must be processed by an agent who is trained to rent luxury cars. Which routing approach do you use?
@@ -778,7 +778,7 @@ D. Use an Edit Validate rule to verify if each of the mandatory properties has a
 Answer: D
 Explanation:
 
-098. A bookseller maintains a database of more than 10,00 book titles. You have been asked to configure a form that a allow users to select a book by title. How do you configure the form?
+098. A bookseller maintains a database of more than 10,000 book titles. You have been asked to configure a form that a allow users to select a book by title. How do you configure the form?
 A. Add a drop-down control arid source the data from the property value used in the control.
 B. Add a drop-down control and Source the data using a data page.
 C. Add an autocomplete control and Source the data using a data page.
