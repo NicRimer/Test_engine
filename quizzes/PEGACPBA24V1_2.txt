@@ -374,12 +374,14 @@ Explanation:
 047. Alternate stages automatically execute in sequential order.
 A. True
 B. False
+C. Randomly
 Answer: B
 Explanation:
 
 048. A single flow can contain multiple End shapes.
 A. True
 B. False
+C. Randomly
 Answer: A
 Explanation:
 
