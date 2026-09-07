@@ -1,0 +1,1171 @@
+001. How do you provide users with guidance for completing a form and avoid the need for application training?
+A. Add an optional action to the case to explain the task.
+B. Send a notification to the assigned user.
+C. Add an instruction to the assignment.
+D. Add the corresponding step to an appropriate stage.
+Answer: C
+Explanation:
+
+002. Which two of the following scenarios are good candidates for rule delegation?
+A. Content of an entail confirming a customer submission
+B. Business policies controlled by regularity compliance
+C. Password validation standards
+D. The service level on expense reports
+Answer: A, B
+Explanation:
+
+003. An application references a data element found in the Work- class. How is this rule inherited by the application?
+A. By applying directed inheritance.
+B. By applying pattern inheritance.
+C. By naming PegaRULES as the built-on application.
+D. By adding the ruleset that contains the property to the application.
+Answer: A
+Explanation:
+
+004. Automating decisions based on business logic enables________.
+A. application users to mark a specific location for business exceptions that may arise in the process flow
+B. architects to improve the performance of the application
+C. application users to focus on more nuanced decisions that require business expertise
+D. architects to spend less time building the application
+Answer: C
+Explanation:
+
+005. Select two benefits of adopting a rule delegation strategy.
+A. Adopting a delegation strategy can help deliver applications more quickly by incorporating business users in the development process.
+B. Adopting a rule delegation strategy enables business users and architects to focus on their specific tasks related to application development and maintenance.
+C. Adopting a rule delegation strategy can help improve the business’ ability to adapt to changing business conditions.
+D. Adopting a delegation strategy enables architects to limit the availability of application changes to specific users and access groups to manage application updates.
+Answer: B, C
+Explanation:
+
+006. A home loan application requires application the legal team manager and the Finance team manager. The Legal team manager must approve before the Finance team manager. How do you configure this requirement?
+A. Create an approval step with cascading approval.
+B. Apply business logic to route a single assignment in the correct order.
+C. Route an assignment to a work queue where both roles have access.
+D. Create an approval process for each manager in parallel.
+Answer: A
+Explanation:
+
+007. The goal milestone in a service level defines that amount of time _______.
+A. allowed for a user to advance to the next stage
+B. in which the case or step should be completed
+C. allowed before an assignment is considered overdue
+D. in which the case or step must be completed
+Answer: B
+Explanation:
+
+008. You want to engage business and IT resources to review the working models. What best practice helps accomplish this objective?
+A. Approval process
+B. Pega Cloud®
+C. Guardrail compliance
+D. Direct Capture of Objectives (DCO)
+Answer: D
+Explanation:
+
+009. Consider the following user story: As an account owner, I want to be able to add a member to my account so I can give the member temporary access. Which two questions help you define the fields for the user view?
+A. Will field information about the temporary member be stored in an external database?
+B. What fields does the account owner need to see to be able to add a temporary member?
+C. How do the fields for the temporary member need to be displayed?
+D. Do the fields about the temporary member need to be displayed in multiple languages?
+Answer: B, C
+Explanation:
+
+010. What three questions should you answer to create effective correspondence?
+A. How often should you send correspondence?
+B. Who is the user that receives the correspondence
+C. Which email server should the correspondence use?
+D. When does the correspondence need to be sent?
+E. How will the correspondence be sent?
+Answer: B, D, E
+Explanation:
+
+011. What is the primary goal of the Process Commander framework in Pega?
+A. To automate business processes
+B. To manage database transactions
+C. To create reports and dashboards
+D. To handle system-level events
+Answer: A
+Explanation: The Process Commander framework in Pega is designed to automate and streamline business processes, allowing organizations to improve efficiency, increase customer satisfaction, and drive growth.
+
+012. Which of the following is NOT a step in the Pega application development life cycle?
+A. Design
+B. Build
+C. Test
+D. Deploy
+E. Sell
+Answer: E
+Explanation: The steps in the Pega application development life cycle are typically Design, Build, Test, and Deploy. “Sell” is not a step in the development life cycle, but rather a separate process that occurs after the application has been developed and deployed.
+
+013. Which of the following is NOT a feature of Pega’s Business Process Management (BPM) capability?
+A. Process modeling
+B. Rule-based decision making
+C. Workflow management
+D. Marketing automation
+Answer: D
+Explanation: Pega’s Business Process Management capability includes process modeling, rule-based decision making, and workflow management. Marketing automation is a separate capability that is not part of Pega’s BPM offering.
+
+14. What is the main purpose of Pega’s Case Management framework?
+A. To automate business processes
+B. To manage customer service interactions
+C. To manage database transactions
+D. To handle system-level events
+Answer: B
+Explanation: Pega’s Case Management framework is designed to support customer service interactions, allowing organizations to efficiently handle customer inquiries, resolve issues, and manage customer interactions from start to finish.
+
+15. Which of the following best describes the role of a Pega Business Architect?
+A. To design and develop software solutions using Pega Platform.
+B. To analyze business requirements and design business processes using Pega Platform.
+C. To configure and deploy Pega applications.
+D. To manage and maintain Pega applications.
+Answer: B
+Explanation: The role of a Pega Business Architect is to work with business stakeholders to understand their requirements and design business processes using Pega Platform. They are responsible for modeling and designing business processes, data structures, and user interfaces, and for ensuring that the resulting applications meet the needs of the business.
+
+16. Which of the following is an example of a Pega Business Architect’s responsibilities during the design phase of a project?
+A. Creating test plans and test cases.
+B. Building and configuring user interfaces.
+C. Defining business requirements and process flows.
+D. Writing and executing SQL queries.
+Answer: C
+Explanation: During the design phase of a project, the Pega Business Architect is responsible for defining the business requirements and process flows that will be used to build the application. This involves analyzing the business requirements, modeling the business processes, and designing the user interfaces and data structures that will be used in the application.
+
+17. Which of the following best describes the purpose of a Pega Case Type?
+A. To define the data model for a Pega application.
+B. To define the user interface for a Pega application.
+C. To define the business process for a Pega application.
+D. To define the security model for a Pega application.
+Answer: C
+Explanation: A Pega Case Type is used to define the business process for a Pega application. It specifies the steps that must be taken to complete a specific type of case, as well as the data that is needed to support those steps. The Case Type is at the center of the Pega application and is used to manage the entire lifecycle of a case.
+
+18. Which of the following is an example of a Pega Business Architect’s responsibilities during the implementation phase of a project?
+A. Writing code to implement business logic.
+B. Building and configuring user interfaces.
+C. Defining business requirements and process flows.
+D. Configuring and testing application security.
+Answer: B
+Explanation: During the implementation phase of a project, the Pega Business Architect is responsible for building and configuring user interfaces for the application. This involves designing and implementing the screens and widgets that users will interact with, as well as configuring the business rules that drive the behavior of the application.
+
+19. Which of the following best describes the purpose of a Pega Business Rule?
+A. To define the data model for a Pega application.
+B. To define the user interface for a Pega application.
+C. To define the business process for a Pega application.
+D. To define the behavior of a Pega application.
+Answer: D
+Explanation: A Pega Business Rule is used to define the behavior of a Pega application. It specifies the business logic that is used to determine how the application should behave in response to various events, such as user actions or changes to the application’s data. Business Rules are used to implement the business policies and rules that govern the behavior of the application.
+
+20. Which of the following is NOT a type of case in Pega?
+A. Standard
+B. Adaptive
+C. Dynamic
+D. Adaptive and dynamic are both types of cases in Pega.
+Answer: D
+Explanation: The types of cases in Pega are Standard, Adaptive, and Dynamic. Standard cases follow a predefined process, Adaptive cases allow for some changes to be made to the process as it is executed, and Dynamic cases are completely flexible and do not have a predefined process.
+
+21. Kevin has been approached to make a pie graph that shows the number of cases every manager has made. A rundown report contains columns for manager name, case ID, and office. How would he configure the rundown report to make the pie graph in CPBA?
+A. Sum up the manager name column.
+B. Grouping the column of manager name
+C. Grouping the column having case ID.
+D. Summarizing the case ID column.
+Answer: D
+Explanation:
+
+22. A list report incorporates sections for purchase requests and regional expense centers. A manager maintains that the report should show the complete number of purchase requests for every one of the regional cost centers. How would one arrange the report definition?
+A. Utilize the purchase requests segment to group the expense centers.
+B. Channel the outcomes so that only the cost center and purchase requests are included in the report.
+C. Sum up the regional expense centers by count.
+D. Sum up the purchase requests segment by count.
+Answer: D
+Explanation:
+
+23. Liam has made another report that contains a list of representative hire dates and managers. He has been approached to show every manager in succession. Underneath every manager column, he should list the representatives of the manager and their recruit dates. How would he support this request in CPBA?
+A. Sorting out the manager column.
+B. Summarizing the manager column
+C. Filtering the manager column
+D. Grouping the manager column.
+Answer: D
+Explanation:
+
+24. Sam is developing a vehicle maintenance application for a car service center. Explicit services are performed by various teams. Example services include oil changes, tire rotations, and windshield wiper examinations. Which two configuration choices play out the right task routing?
+A. Design all tasks to route to the service manager who then, at that point, relegates the tasks to the particular team.
+B. Configure routing to utilize business rationale to relegate the tasks to the appropriate team utilizing the kind of service.
+C. Configuring single-level approval routing to a manager who assigns errands to the particular team.
+D. Configuring routing to a skilled work team involving the proper expertise parameters for the chosen service.
+Answer: A, D
+Explanation:
+
+25. A supervisor or manager has inspected a case and has chosen to build the case direness and escalate it to HR. HR should survey and answer within four business hours. Which three design choices are expected to empower the chief to fulfill the necessities?
+A. Give notice to HR mentioning direness be expanded.
+B. Offer a support level for the HR task.
+C. Give heightening activity to HR and resolve the case.
+D. Give a field to criticalness change.
+E. Give a neighborhood activity to move the task to another line.
+Answer: C, D, E
+Explanation:
+
+26. At the point when an auto accident claim is settled in the Resolve stage, an email notification should be sent naturally to the adjuster who assessed the vehicle, to the insured party, and to the insurance agent who checked the case. How would one arrange the purpose interaction to help this prerequisite?
+A. Add a Send Email step as a discretionary action.
+B. Add a Send Email step and incorporate every single required party.
+C. Course the email to every one of the beneficiaries in a Collect Information step.
+D. Highway an Approval move toward the required parties.
+Answer: B
+Explanation:
+
+27. While handling an auto accident claim, the framework requires three approvals: Approval from the adjuster who examined the vehicle, approval from the medical administrator who gave clinical care to the insured, and approval from the insurance agent who checked the case. How can one carry out this necessity so every approver can work freely?
+A. Creating an approval step with cascading approval.
+B. Create three assignments and route them to the appropriate approver.
+C. Creating a business logic to route to the different approvers.
+D. Routing to a workbasket where all three roles have access.
+Answer: B
+Explanation:
+
+28. An application permits Consultants to enter their hours on a project on a weekly basis. Consultant hours should be supported by both their manager and the task supervisor. The approvals can be acted in any order. How would you arrange the approvals in the application?
+A. Add the manager’s approvals to a substitute stage for the situation life cycle.
+B. Design an equal cycle for every one of the expected approvals.
+C. Add a discretionary cycle to every approval in the proper stage.
+D. Design single cascading approval in light of a power lattice.
+Answer: D
+Explanation:
+
+29. Select the trademark used to distinguish up-and-comer rules to be appointed to business clients in CPBA.
+A. Changing business conditions expect that the standard is overseen without IT mediation.
+B. Responsibility for appointed rules changes from work gathering to work for a bunch.
+C. Successive changes are expected to ceaselessly rethink the client experience.
+D. Changes to business conditions expect that the standard is made do with IT intercession.
+Answer: B
+Explanation:
+
+30. In a purchase order case the merchant doled out probably won’t answer a client’s question in the ideal measure of time expected by strategy. The seller should answer within the time expected by the strategy. Both the seller and client ought to be advised at every achievement. To fulfill this prerequisite, make a help level that indicates two of the accompanying choices.
+A. Put forth the objective to be the necessary reaction time in light of strategy and sent notices to the two players.
+B. Set the cutoff time to be the ideal reaction time in light of strategy and sent notices to the two players.
+C. Set the cutoff time to be the necessary reaction time in light of strategy and sent notices to the two players.
+D. Put forth the objective to be the ideal reaction time in view of strategy and sent warnings to the two players.
+Answer: C, D
+Explanation:
+
+31. A survey is sent to a client through email. How would you design an answer to guarantee the email incorporates the case ID for the review?
+A. Utilize the Insert Property element of a Send Email move toward adding the case ID while creating the message exchange.
+B. Make an interaction utilizing the Send Email step permitting delegates to add the case ID to the email rapidly.
+C. Delegate a business rule, so delegates can redo the email content depending on the situation, depends upon the situation.
+D. Make an expected field for the case ID that should be placed by a client during the case cycle preceding sending the review.
+Answer: B
+Explanation:
+
+32. How would you change the urgency of an aging task to improve the probability that the task is finished before the deadline in CPBA?
+A. Apply an urgency adjustment in accordance with the goal interval.
+B. Apply an urgency adjustment with the deadline interval
+C. Change the default task urgency.
+D. Add an escalation activity to the interval.
+Answer: B
+Explanation:
+
+33. A home loan application requires approvals from the Legal team manager and the Finance group chief. The Legal group director should support the Finance group chief. How would you design this necessity?
+A. Make an approval step with cascading approval.
+B. Apply business logic to the highway a solitary task properly aligned.
+C. Highway a task to a work line where the two jobs approach.
+D. Make an endorsement cycle for every manager equal.
+Answer: A
+Explanation:
+
+34. You are planning to designate various business rules. What three essential moves should be made before you can designate the business rules in CPBA?
+A. Guarantee the assigned ruleset that exists in the Production rulesets list.
+B. Guarantee a ruleset that will contain the designated rules that exist.
+C. Guarantee the ruleset exists for the clients who will deal with the appointed standards.
+D. Guarantee an entrance bunch exists for the clients who will deal with the assigned principles.
+E. Guarantee the designated rules are added to a locked ruleset.
+Answer: A, C, D
+Explanation:
+
+35. To meet this requirement you really want to set the __ in the assistance level to 5 days in CPBA.
+A. passed deadline
+B. goal
+C. urgency
+D. deadline
+Answer: D
+Explanation:
+
+36. While applying for a credit limit increment, clients with standard credit cards should give data in an Employment Information process. Demand from clients with Platinum charge cards consequently avoids this cycle. What assignment do you perform to execute this necessity?
+A. In the Employment Information process add a custom condition to test the card type.
+B. In the Employment Information process add an Approve/Reject move toward testing the card type.
+C. In the Employment Information process add a card type valid/bogus field to a client view.
+D. In the Employment Information process approve card type for handled.
+Answer: C
+Explanation:
+
+37. A purchase request case is made by a representative. After accommodation, the case is relegated to the chief for audit. Whenever supported, the case is appointed to the Creditor liabilities division where a specialist will survey and, forthcoming review, will support the installment. To figure out what kind of steering to apply to every task, what inquiry do you pose to yourself?
+A. Is any unique correspondence required?
+B. Might the work at any point be appointed to different clients?
+C. What amount of time takes the necessary steps required to finish?
+D. Who ought to take every necessary step?
+Answer: C
+Explanation:
+
+38. To meet this requirement, you plan a case with a _.
+A. process that routes to the manager.
+B. step that routes to the manager.
+C. change stage move toward permitting the representative to the course to the chief.
+D. stage to route demands to the manager.
+Answer: A
+Explanation:
+
+39. When implementing a business process as a Pega case type, which of the following would indicate a boundary between case stages?
+A. The case reaches a specific milestone
+B. The case has been resolved
+C. The case changes ownership
+D. A subcase needs to be created
+Answer: A
+Explanation:
+
+40. When defining a new case type, the best course of action is to:
+A. Identify steps and their processes, then add stages to reference the steps
+B. Identify processes, then steps, and then stages
+C. Identify stages, then add steps, and then define processes
+D. Identify processes, then add stages, and then add steps
+Answer: D
+Explanation:
+
+41. A new work status value is defined using a field value rule for which Pega 7 property?
+A. pyStatusWork
+B. pyCaseStatus
+C. pxCaseStatus
+D. pyWorkstatus
+Answer: D
+Explanation:
+
+42. When designing a case, it is recommended that each stage be decomposed into no more than ______ steps.
+A. 5 to 9
+B. 6 to 10
+C. 10 to 15
+D. 15
+Answer: C
+Explanation:
+
+43. An application references the property .Customer.Address(Billing).State. What is the property mode for .Address(Billing)?
+A. Page
+B. Page Group
+C. Page List
+D. Single Value
+Answer: C
+Explanation:
+
+44. Key Performance Indicators (KPIs) are used to ______________.
+A. determine whether an application has satisfied all of its requirements
+B. determine if an application has met all of its business objectives
+C. verify whether end users are satisfied with the application
+D. determine whether or not an application has implemented all of its specifications
+Answer: D
+Explanation:
+
+45. Which explorers can be used to view properties for a data object in your application?
+A. Case Explorer
+B. Data Explorer
+C. Records Explorer
+D. Application Explorer
+Answer: A, D
+Explanation:
+
+46. Which statements about the following case are true?
+A. Stage 1 is a resolution stage.
+B. Stage 1 automatically transitions to Stage 2.
+C. Stage 2 is a resolution stage.
+D. Stage 1 is a primary stage.
+E. Stage 2 is an alternate stage.
+Answer: B, D
+Explanation:
+
+47. (True/False) Alternate stages automatically execute in sequential order.
+A. True
+B. False
+Answer: B
+Explanation:
+
+48. (True/False) A single flow can contain multiple End shapes.
+A. True
+B. False
+Answer: A
+Explanation:
+
+49. Which statement best describes the behavior observed when running a flow in draft mode?
+A. Flows can be saved even if rules have not been configured for flow shapes
+B. UI fields marked as required can be skipped when running the flow
+C. Service levels are ignored when running the flow
+D. Decision outcomes are chosen by the user if the decision rule cannot be found
+Answer: C
+Explanation:
+
+50. An experienced Pega business architect can apply their expertise __________.
+A. throughout the entire development life cycle
+B. during the analytical modeling phase only
+C. during the executable modeling phase only
+D. during the descriptive modeling phase only
+Answer: C
+Explanation:
+
+51. A _____________ rule allows us to set a property value automatically, whenever an input value changes.
+A. Declarative Network
+B. Declare Expressions
+C. Property
+D. Data Transform
+Answer: D
+Explanation:
+
+52. Which statement best describes the difference between a local flow action and a connector flow action?
+A. A local flow action can be configured for a decision rule, while a connector flow action cannot
+B. A local flow action can be reused within a flow rule, while a connector flow action cannot
+C. A connector flow action can be reused within a flow rule, while a local flow action cannot
+D. A connector flow action completes an assignment, while a local flow action does not
+Answer: B
+Explanation:
+
+53. Rulesets are primarily used _____________.
+A. to support the creation ofmultiple versions of rules in an application
+B. to facilitate the migration of rules from one system to another
+C. to specify the reusability of a rule
+D. to define and configure an application
+Answer: B, D
+Explanation:
+
+54. You are assigned to a pega implementation project as a pega business architect. Which task are you expected to perform?
+A. Organize the project Kickoff meeting.
+B. Help to refine ahead of a sprint.
+C. Identify the initial of case types.
+D. Identify the scope of the initial release.
+Answer: D
+Explanation:
+
+55. Consider the following user story: As an account owner, I want to be able to add a member to my account so I can give the member temporary access. Which two questions help you define the fields for the user view?
+A. Will field information about the temporary member be stored in an external database?
+B. What fields does the account owner need to see to be able to add a temporary member?
+C. How do the fields for the temporary member need to be displayed?
+D. Do the fields about the temporary member need to be displayed in multiple languages?
+Answer: B, C
+Explanation:
+
+56. In a purchase order case the vendor assigned might not respond to a customer's query in the desired amount of time required by policy. The vendor must respond within the time required according to policy. Both the vendor and customer should be notified at each milestone. To satisfy this requirement, create a service level that specifies two of the following options.
+A. Set the goal to be the required response time based on policy and send notifications to both parties.
+B. Set the deadline to be the desired response time based on policy and sends notifications to both parties.
+C. Set the deadline to be the required response time based on policy and send notifications to both parties.
+D. Set the goal to be the desired response time based on policy and send notifications to both parties.
+Answer: C, D
+Explanation:
+
+57. You configure a service level to adjust assignment urgency to 100 when the goal interval lapses. How does the assignment urgency impact the deadline and passed intervals?
+A. Urgency value continues to increment as configured.
+B. Service level processing is halted until the assignment is completed.
+C. The user is notified that the maximum urgency value has been reached.
+D. Urgency value remains at 100, but other service level processing continues.
+Answer: D
+Explanation:
+
+58. How do you provide users with guidance for completing a form and avoid the need for application training?
+A. Add an instruction to the assignment.
+B. Send a notification to the assigned user.
+C. Add an optional action to the case to explain the task.
+D. Add the corresponding step to an appropriate stage.
+Answer: A
+Explanation:
+
+59. A home loan application requires application the legal team manager and the Finance team manager. The Legal team manager must approve before the Finance team manager. How do you configure this requirement?
+A. Create an approval step with cascading approval.
+B. Apply business logic to route a single assignment in the correct order.
+C. Route an assignment to a work queue where both roles have access.
+D. Create an approval process for each manager in parallel.
+Answer: A
+Explanation:
+
+60. Which two of the following scenarios are good candidates for rule delegation?
+A. Content of an entail confirming a customer submission
+B. Business policies controlled by regularity compliance
+C. Password validation standards
+D. The service level on expense reports
+Answer: A, B
+Explanation:
+
+61. You are preparing to delegate a number of business rules. What three prerequisite actions must be taken before you can delegate the business rules?
+A. Ensure the delegated ruleset exists in the Production rulesets list.
+B. Ensure a ruleset that will contain the delegated rules exists.
+C. Ensure a ruleset exists for the users who will manage the delegated rules.
+D. Ensure an access group exists for the users who will manage the delegated rules.
+E. Ensure the delegated rules are added to a locked ruleset.
+Answer: A, C, D
+Explanation:
+
+62. A Customer applies for a credit card. In order for the credit card to be approved, the credit card consultant must receive the results of a credit check. How do you configure the case types to reflect their relationship?
+A. Make credit card request a child case of credit check.
+B. Make credit check a child case of credit card request.
+C. Make both loan request and credit check top cases.
+D. Make credit check a spin-off case of credit card request.
+Answer: B
+Explanation:
+
+63. When completing a new rule for, the "Apply To" field represents what?
+A. The version of the rule
+B. The ruleset the rule applies to
+C. The other rules the new rule will apply to
+D. The rules context, or scope, for the purpose of inheritance
+Answer: D
+Explanation:
+
+64. When processing an auto accident claim, the system requires three approvals: approval from the adjuster who inspected the car, approval from the medical administrator who provided medical care to the insured, and approval From the insurance agent who verified the claim. How do you implement this requirement so each approver can work independently?
+A. create three assignments and route to the appropriate approver.
+B. create an approval step with cascading approval.
+C. route to a workbasket where all three roles have access.
+D. create business logic to the different approvers.
+Answer: A
+Explanation:
+
+65. You have created a new report that contains a list of employees, hire dates, and managers. You have been asked to display each manager in a row. Beneath each manager row, you must list the employees of the manager their hire dates.
+A. Summarize the manager column
+B. Sort the manager column
+C. Group the manager column
+D. Filter the manager column
+Answer: C
+Explanation:
+
+66. A home loan application requires application the legal team manager and the finance team manager. The legal team manager must approve before the finance team manager. How do you configure this requirement?
+A. create an approval step with cascading approval
+B. apply business logic to route a single assignment in the correct order.
+C. route an assignment to a work queue where both roles have access.
+D. create an approval process for each manager in parallel.
+Answer: A
+Explanation:
+
+67. An organization has two lines of business: selling books for children and reselling college textbooks. The division selling books for children can use the same basic user interface (UI) as the division reselling textbooks with the exception of the payment methods.How do you apply the Situational Layer CakeTM in this scenario?
+A. Place the UI rules in the base layer, and create a new layer for the payment rules for both lines of business.
+B. Place the UI rules and generic payment method rules in the base layer, and create a new layer for the division-specific payment rules.
+C. Place the UI rules in the base layer, and create a parallel base layer for the payments rules.
+D. Place the UI rules in the base layer, and create a new layer for the payment rule for each division.
+Answer: D
+Explanation:
+
+68. With Pega's Situational Layer Cake ™ approach, how do you configure a regional variation for Human Resources (HR) time off cases?
+A. Create a rule for the variation and add the rule to the common layer of the application.
+B. Create a rule for the variation and replace the existing HR time off rule in the application common layer.
+C. Create a rule for the variation and add it to a secondary common application layer.
+D. Create a rule for the variation and add the rule to the layer for the region.
+Answer: D
+Explanation:
+
+69. You are designing a form for an online bookstore to display new arrivals. In the form, the book cover pictures are displayed in a row, like words in a sentence. Once the row reaches the full width of the screen, it wraps around to begin a new row. Which layout do you use to display the book cover pictures?
+A. Screen layout
+B. Column layout
+C. Dynamic layout
+D. Repeating layout
+Answer: C
+Explanation:
+
+70. An online sales application supports both laptop and mobile devices. You are configuring the application skin and you notice the responsive layout in the mobile device & not displaying views as stakeholders require. Which two options allow you to resolve this situation without negatively impacting the laptop users?
+A. Use the same application skin in all portals.
+B. Update the process to give mobile users a separate portal.
+C. Adjust the responsive behavior in the skin for optimal viewing in the mobile portal.
+D. Do not use a skin for the mobile application version.
+Answer: B, D
+Explanation:
+
+71. A form listing nearby restaurants has columns: - Restaurant name - Restaurant location - Thumbnail image of the seating area - Make reservation (check box) You want to ensure that users have the information they a reservation regardless of screen size. When viewed on a small screen, you do not need to display the images.What three configuration steps do you take to support this requirement?
+A. Set the importance of the Make reservation column to Primary.
+B. Set the importance of the Restaurant name column to Primary.
+C. Set the importance of the image column to Other.
+D. Set the importance of the image column to Secondary.
+E. Set the importance of the Restaurant location and Make reservation columns to Secondary.
+F. Set the importance of the Restaurant name and Make reservation columns to Primary.
+Answer: B, C, E
+Explanation:
+
+72. You want your application to have consistent styling across portals. You want the background color of all buttons in your application to be blue. You want the background color of the buttons to be easily updated in case corporate branding changes.Which attribute do you modify to set the background color?
+A. The controls format
+B. The application skin
+C. The buttons format
+D. The background mixin
+Answer: C
+Explanation:
+
+73. When implementing a business process as a Pega case type, which of the following would indicate a boundary between case stages?
+A. The case reaches a specific milestone
+B. The case has been resolved
+C. The case changes ownership
+D. A subcase needs to be created
+Answer: A
+Explanation:
+
+74. What does the "Situational Layer Cake" help to provide?
+A. Best practices, industry-specified frameworks
+B. A specialized process based on a specific enterprise, location or channel
+C. A specialized process based on a specific device or social media channel
+D. Rapid development of an industry-specific solution
+Answer: B
+Explanation:
+
+75. Which two aspects of application delivery are improved by using Direct Capture of Objectives?
+A. Speed
+B. Coding
+C. Accuracy
+D. Testing
+Answer: C, D
+Explanation:
+
+76. While running through a case life cycle, a business stakeholder notices a problem in a summary view. The view should be read-only but half of the form can be edited.How can the business communicate this problem to the development team using Agile Workbench?
+A. Create a comment
+B. Create a story
+C. Create a bug
+D. Create a note
+Answer: D
+Explanation:
+
+77. You have been asked to create a pie chart that shows the number of cases each manager has created. A list report contains columns for manager name, case ID, and office. How do you configure the list report in order to create the pie chart?
+A. Summarize the manager name column
+B. Summarize the case ID column
+C. Group the manager name column
+D. Group the case ID column
+Answer: B
+Explanation:
+
+78. A list report includes columns for purchase requests and regional cost centers. A manager wants the report to show the total number of purchase requests for each of the regional cost centers.How do you configure the report definition?
+A. Use the purchase requests column to group the cost centers
+B. Filter the results so that only cost center and purchase requests are included in the report
+C. Summarize the regional cost centers by count
+D. Summarize the purchase requests column by count
+Answer: D
+Explanation:
+
+79. When applying for a credit limit increase, customers with standard credit cards must provide information in an Employment Information process. Requests from customers with Platinum credit cards automatically skip this process.What task do you perform to implement this requirement?
+A. In the Employment Information process add a custom condition to test the card type
+B. In the Employment Information process add a card type true/false field to a user view
+C. In the Employment Information process validate card type for continued processing
+D. In the Employment Information process add an Approve/Reject step to test the card type
+Answer: B
+Explanation:
+
+80. A life insurance company has satellite offices in various countries. Each satellite office has its own work queue. Company policy requires that life underwriting is assigned to offices based on the residence of the policy owner.Which routing approach supports this requirement?
+A. Route the assignment to the correct work queue using skill-based routing
+B. Route the assignment to a specific underwriter based on business logic
+C. Route the assignment to the correct work queue based on business logic
+D. Route the assignment to the correct work queue using an authority matrix
+Answer: C
+Explanation:
+
+81. You are designing a medical claim case type and have the following requirement: Medical claims must be resolved within 5 days.To meet this requirement you need to set the _____ in the service level to 5 days.
+A. urgency
+B. goal
+C. passed deadline
+D. deadline
+Answer: D
+Explanation:
+
+82. How do you adjust the urgency value of an aging assignment to increase the likelihood that the assignment is completed before the deadline?
+A. Apply an urgency value to the deadline interval
+B. Add an escalation action to the goal interview
+C. Adjust the default assignment urgency value
+D. Apply an urgency value to the goal interval
+Answer: A
+Explanation:
+
+83. A car rental company provides luxury cars in certain geographical locations. According to policy, the rental request for a luxury car must be processed by an agent who is trained to rent luxury cars. Which routing approach do you use?
+A. Route to a skilled member of a work group
+B. Route requests to a skilled work group
+C. Route the request to a manager who assigns the agent
+D. Route to a work group based on the location
+Answer: B
+Explanation:
+
+84. An airline has the following requirement: A passenger requiring a service animal must document the type of animal, the size of the animal, and any relevant medical information the crew may need during the flight. The application prompts the passenger for this information when the passenger declares that they will travel with a service animal. How do you configure the case life cycle to meet this requirement?
+A. Configure a stage in the case life cycle for service animal accommodation and apply a stage validation condition
+B. Create a child case for service animal accommodation to automatically resolve unless the passenger requires the accommodation
+C. Add a process to the case life cycle for service animal accommodation and apply a condition to determine when to run the process
+D. Apply an optional action to the appropriate stage to allow the passenger to provide the information as needed
+Answer: A
+Explanation:
+
+85. An application allows consultants to enter their hours on a project on a weekly basis. Consultant hours must be approved by both their manager and the project supervisor. The approvals can be performed in any order. How do you configure the approvals in the application?
+A. Add the manager approval to an alternative stage in the case life cycle
+B. Add an optional process to each approval in the appropriate stage
+C. Configure a single cascading approval based on an authority matrix
+D. Configure a parallel process for each of the required approvals
+Answer: C
+Explanation:
+
+86. When implementing a business process as a Pega case type, which of the following would indicate a boundary between case stages?
+A. The case reaches a specific milestone
+B. The case has been resolved
+C. The case changes ownership
+D. A subcase needs to be created
+Answer: A
+Explanation:
+
+87. When defining a new case type, the best course of action is to:
+A. Identify steps and their processes, then add stages to reference the steps
+B. Identify processes, then steps, and then stages
+C. Identify stages, then add steps, and then define processes
+D. Identify processes, then add stages, and then add steps
+Answer: D
+Explanation:
+
+88. A new work status value is defined using a field value rule for which Pega 7 property?
+A. pyStatusWork
+B. pyCaseStatus
+C. pxCaseStatus
+D. pyWorkstatus
+Answer: D
+Explanation:
+
+89. An application references the property .Customer.Address(Billing).State. What is the property mode for .Address(Billing)?
+A. Page
+B. Page Group
+C. Page List
+D. Single Value
+Answer: C
+Explanation:
+
+90. Key Performance Indicators (KPIs) are used to ______________.
+A. determine whether an application has satisfied all of its requirements
+B. determine if an application has met all of its business objectives
+C. verify whether end users are satisfied with the application
+D. determine whether or not an application has implemented all of its specifications
+Answer: D
+Explanation:
+
+91. Which explorers can be used to view properties for a data object in your application?
+A. Case Explorer
+B. Data Explorer
+C. Records Explorer
+D. Application Explorer
+Answer: B, D
+Explanation:
+
+92. Which statement best describes the behavior observed when running a flow in draft mode?
+A. Flows can be saved even if rules have not been configured for flow shapes
+B. UI fields marked as required can be skipped when running the flow
+C. Service levels are ignored when running the flow
+D. Decision outcomes are chosen by the user if the decision rule cannot be found
+Answer: A
+Explanation:
+
+93. An experienced Pega business architect can apply their expertise __________.
+A. throughout the entire development life cycle
+B. during the analytical modeling phase only
+C. during the executable modeling phase only
+D. during the descriptive modeling phase only
+Answer: D
+Explanation:
+
+94. A _____________ rule allows us to set a property value automatically, whenever an input value changes.
+A. Declarative Network
+B. Declare Expressions
+C. Property
+D. Data Transform
+Answer: B
+Explanation:
+
+95. Which statement best describes the difference between a local flow action and a connector flow action?
+A. A local flow action can be configured for a decision rule, while a connector flow action cannot
+B. A local flow action can be reused within a flow rule, while a connector flow action cannot
+C. A connector flow action can be reused within a flow rule, while a local flow action cannot
+D. A connector flow action completes an assignment, while a local flow action does not
+Answer: A
+Explanation:
+
+96. A reservation process allows customers to reserve a flight, hotel room, and rental car as part of a travel itinerary. Which configuration displays a check box to allow users to select travel insurance only if the itinerary includes a flight?
+A. A declare expression configured for forward chaining
+B. A visible when condition applied to the check box
+C. A validate rule applied to the flow action
+D. An action set applied to the check box
+Answer: B
+Explanation:
+
+97. You are implementing a UI form collecting job applicant information. Users must provide values to certain fields before submitting the form. Which configuration adds asterisks to indicate the mandatory fields on the form?
+A. Use a Validate rule to verify the mandatory fields have a value
+B. Use multiple Validate rules for each mandatory field
+C. Configure the mandatory fields as Required in the section rule
+D. Use an Edit Validate rule to verify if each of the mandatory properties has a value
+Answer: B
+Explanation:
+
+98. A bookseller maintains a database of more than 10,000 book titles. You have been asked to configure a form that a allow users to select a book by title. How do you configure the form?
+A. Add a drop-down control arid source the data from the property value used in the control.
+B. Add a drop-down control and Source the data using a data page.
+C. Add an autocomplete control and Source the data using a data page.
+D. Add an autocomplete control and source the data from the clipboard work page.
+Answer: B
+Explanation:
+
+99. An online car parts business wants customers to find parts easily. You are asked to implement the following requirement: Customer must select a make, model, and year to initiate a vehicle-specific search. How do you configure the data storage in the application to implement the requirement?
+A. Configure a data page to store the make, model, and year data.
+B. Configure a connection to a system of record using the External Database Mapping
+C. Configure a local data storage of the make, model, and year of the vehicle.
+D. Configure a static list of the make, model, and year vehicles.
+Answer: D
+Explanation:
+
+100. A hotel booking application allows customers to change rooms after making a reservation. The status of each room in each hotel is stored on a data page sourced from a database table. Which two configuration options do you use to update the database table when a customer changes rooms?
+A. A When rule to trigger the database update
+B. An editable data page containing the room information
+C. A data transform to copy updates to the data page
+D. A savable data page containing the room information
+Answer: C
+Explanation:
+
+101. You are configuring an external data source using the Integration Designer. You have the REST, Dev, Stage, and Prod endpoint URLs, and a name for the data source.What other information do your need to configure the external data source?
+A. A backup endpoint URL if the configured WL refuses to connect
+B. The name of the database where the source data is stored
+C. A plan for mapping the data and REST response fields
+D. The data views using the external data source
+Answer: B
+Explanation:
+
+102. A data page holds product information and has the Reload if Older Than field set to 30 minutes. The data page is created at 7:43.The user then performs the following actions:8:10 the user refreshes the product information8:45 the user refreshes the product information At what time is the data page reloaded?
+A. 8:10
+B. 8:45
+C. 8:40
+D. 8:13
+Answer: BD
+Explanation:
+
+103. Which source do you select for a data page that contains the details of single record for a data type?
+A. Connector
+B. Report definition
+C. Data transform
+D. Lookup
+Answer: A
+Explanation:
+
+104. An on-demand transportation application has a Conversation preference data type. When customers use the application a ride, they can specify their conversation preference: whether they would like to talk to their driver or if they would prefer silence. Company stakeholder are interested in analyzing the conversation the performance data. How is the Conversation preference data type sourced?
+A. No system of record
+B. External system of record
+C. Local system of record
+Answer: D
+Explanation:
+
+105. You have created a new report that contains a list of employees, hire dates, and managers. You have been asked to display each manager in a row. Beneath each manager row you must list the manager's employees and their hire dates. How do you support this request?
+A. Summarize the manager column
+B. Group the manager column
+C. Filter the manager column
+D. Sort the manager column
+Answer: B
+Explanation:
+
+106. A report contains columns for Customer, Billing Cycle, Credit Card, and Expiration Date. A manager requests that the report show only those customers who meet the following conditions: - The customer is on a monthly billing cycle - The credit card is either MoreCash or Vista - The credit card expires withinWhich set of filtering condition returns a report with the desired data?
+A. Credit Card equals MoreCash OR Credit Card equals Vista AND Billing Cycle is not quarterly AND Expiration Date is less than 60 days
+B. Credit Card equals MoreCash OR Credit Card [equals Vista AND Billing Cycle equals monthly AND Expiration Date equals next 60 days
+C. Credit Card equals MoreCash AND Credit Card equals Vista AND Billing Cycle equals monthly AND Expiration Date is 60 days greater than today
+D. Credit Card equals MoreCash or Vista, Billing Cycle monthly, and Expiration Date equals next 60 days
+Answer: A
+Explanation:
+
+107. A list report includes columns for purchase requests and regional cost centers. A manager wants the report to show the total number of purchase requests for each of the regional cost centers. How do you configure the report definition?
+A. Summarize the regional cost centers by count.
+B. Summarize the purchase requests column by count.
+C. Use the purchase requests column to group the cost centers.
+D. Filter the results so that the report includes only cost center and purchase requests.
+Answer: B
+Explanation:
+
+108. While running a process, you notice that a read-only field on a form contains a value. Which tool allows you to determine if a declare expression was used to calculate the value?
+A. Live UI
+B. Clipboard tool
+C. Declarative network
+D. The Tracer
+Answer: B
+Explanation:
+
+109. You are implementing a UI form collecting job applicant information. Users must provide values to certain fields before submitting the form. Which configuration adds asterisks to indicate the mandatory fields on the form?
+A. Use a Validate rule to verify the mandatory fields have a value
+B. Use multiple Validate rules for each mandatory field
+C. Configure the mandatory fields as Required in the section rule
+D. Use an Edit Validate rule to verify if each of the mandatory properties has a value
+Answer: B
+Explanation:
+
+110. An online car parts business wants customers to find parts easily. You are asked to implement the following requirement: Customer must select a make, model, and year to initiate a vehicle-specific search. How do you configure the data storage in the application to implement the requirement?
+A. Configure a data page to store the make, model, and year data.
+B. Configure a connection to a system of record using the External Database Mapping
+C. Configure a local data storage of the make, model, and year of the vehicle.
+D. Configure a static list of the make, model, and year vehicles.
+Answer: D
+Explanation:
+
+111. A hotel booking application allows customers to change rooms after making a reservation. The status of each room in each hotel is stored on a data page sourced from a database table.Which two configuration options do you use to update the database table when a customer changes rooms?
+A. A When rule to trigger the database update
+B. An editable data page containing the room information
+C. A data transform to copy updates to the data page
+D. A savable data page containing the room information
+Answer: C
+Explanation:
+
+112. You are configuring an external data source using the Integration Designer. You have the REST, Dev, Stage, and Prod endpoint URLs, and a name for the data source. What other information do your need to configure the external data source?
+A. A backup endpoint URL if the configured WL refuses to connect
+B. The name of the database where the source data is stored
+C. A plan for mapping the data and REST response fields
+D. The data views using the external data source
+Answer: B
+Explanation:
+
+113. An on-demand transportation application has a Conversation preference data type. When customers use the application a ride, they can specify their conversation preference: whether they would like to talk to their driver or if they would prefer silence. Company stakeholder are interested in analyzing the conversation the performance data. How is the Conversation preference data type sourced?
+A. No system of record
+B. External system of record
+C. Local system of record
+Answer: BD
+Explanation:
+
+114. You are assigned to a pega implementation project as a pega business architect. Which task are you expected to perform?
+A. Organize the project Kickoff meeting.
+B. Help to refine ahead of a sprint.
+C. Identify the initial of case types.
+D. Identify the scope of the initial release.
+Answer: A
+Explanation:
+
+115. Consider the following user story: As an account owner, I want to be able to add a member to my account so I can give the member temporary access. Which two questions help you define the fields for the user view?
+A. Will field information about the temporary member be stored in an external database?
+B. What fields does the account owner need to see to be able to add a temporary member?
+C. How do the fields for the temporary member need to be displayed?
+D. Do the fields about the temporary member need to be displayed in multiple languages?
+Answer: A
+Explanation:
+
+116. In a purchase order case the vendor assigned might not respond to a customer's query in the desired amount of time required by policy. The vendor must respond within the time required according to policy. Both the vendor and customer should be notified at each milestone. To satisfy this requirement, create a service level that specifies two of the following options.
+A. Set the goal to be the required response time based on policy and send notifications to both parties.
+B. Set the deadline to be the desired response time based on policy and sends notifications to both parties.
+C. Set the deadline to be the required response time based on policy and send notifications to both parties.
+D. Set the goal to be the desired response time based on policy and send notifications to both parties.
+Answer: A, B
+Explanation:
+
+117. You configure a service level to adjust assignment urgency to 100 when the goal interval lapses. How does the assignment urgency impact the deadline and passed intervals?
+A. Urgency value continues to increment as configured.
+B. Service level processing is halted until the assignment is completed.
+C. The user is notified that the maximum urgency value has been reached.
+D. Urgency value remains at 100, but other service level processing continues
+Answer: C
+Explanation:
+
+118. How do you provide users with guidance for completing a form and avoid the need for application training?
+A. Add an instruction to the assignment.
+B. Send a notification to the assigned user.
+C. Add an optional action to the case to explain the task.
+D. Add the corresponding step to an appropriate stage.
+Answer: B
+Explanation:
+
+119. A home loan application requires application the legal team manager and the Finance team manager. The Legal team manager must approve before the Finance team manager. How do you configure this requirement?
+A. Create an approval step with cascading approval.
+B. Apply business logic to route a single assignment in the correct order.
+C. Route an assignment to a work queue where both roles have access.
+D. Create an approval process for each manager in parallel.
+Answer: B
+Explanation:
+
+120. Which two of the following scenarios are good candidates for rule delegation?
+A. Content of an entail confirming a customer submission
+B. Business policies controlled by regularity compliance
+C. Password validation standards
+D. The service level on expense reports
+Answer: C
+Explanation:
+
+121. You have created a new report that contains a list of employees, hire dates, and managers. You have been asked to display each manager in a row. Beneath each manager row, you must list the employees of the manager and their hire dates. How do you support this request?
+A. Summarize the manager column.
+B. Sort the manager column.
+C. Group the manager column.
+D. Filter the manager column.
+Answer: AD
+Explanation:
+
+122. A Customer applies for a credit card. In order for the credit card to be approved, the credit card consultant must receive the results of a credit check. How do you configure the case types to reflect their relationship?
+A. Make credit card request a child case of credit check.
+B. Make credit check a child case of credit card request.
+C. Make both loan request and credit check top cases.
+D. Make credit check a spin-off case of credit card request.
+Answer: B, C
+Explanation:
+
+123. When processing an auto accident claim, the system requires three approvals: Approval from the adjuster who inspected the car, approval from the medical administrator who provided medical care to the insured, and approval From the insurance agent who verified the claim. How do you implement this requirement so each approver can work independently?
+A. Create three assignments and route to the appropriate approver.
+B. Create an approval step with cascading approval.
+C. Route to a workbasket where all three roles have access.
+D. Create business logic to route to the different approvers.
+Answer: A
+Explanation:
+
+124. How do you defer a feedback item to an upcoming application release in Agile Workbench?
+A. Set the item priority to "nice to have".
+B. Set the item priority to "to do".
+C. Set the item priority to "future".
+D. Set the item priority to "low".
+Answer: A
+Explanation:
+
+125. Select two ways you use Agile Workbench to add detail to bugs and feedback items.
+A. Use the integrated video recording tool.
+B. Use the integrated audio recording tool.
+C. Record the bugs and feedback in the case life cycle step descriptions.
+D. Use the integrated screen capture tool.
+Answer: A, C
+Explanation:
+
+126. What are the two uses of Agile Workbench in product development?
+A. Backlog storage
+B. Capturing user story refining
+C. Progress tracking
+D. Feature updates
+Answer: B, C
+Explanation:
+
+127. An application lets customers book airline reservations online. What would you expect to be defined as the case type in the application?
+A. A reservation
+B. A reviewed reservation
+C. An airline ticket
+D. A confirmation email
+Answer: A, D
+Explanation:
+
+128. You are helping to implement the technical components of a new application. Before you can begin work, you must obtain definitions of the business processes and service-level agreements. Which members of the development team would you go to for this information?
+A. Business architects
+B. Stakeholders
+C. Case participants
+D. Subject Matter Experts (SMEs)
+Answer: A, D
+Explanation:
+
+129. You want to engage business and IT resources to review the working models. What two best practices accomplish this objective?
+A. Direct Capture of Objectives (DCO)
+B. Approval process
+C. Iterative delivery
+D. Guardrail compliance
+Answer: D
+Explanation:
+
+130. Which two are benefits of following Pega guardrails.
+A. Guardrails help project managers ensure that applications are completed on time.
+B. Guardrails help developers build applications that are easier to maintain and have fewer defects.
+C. Guardrails help developers to track compliance with Pega best practices.
+D. Guardrails help managers create schedules for efficiently allocating developer resources.
+Answer: C
+Explanation:
+
+131. When collecting information for a loan application, a case worker needs to enter the date of birth on the loan application form. What two tasks do you perform to enable the case worker to enter this information?
+A. Add the date of birth field to the case worker's view of the case type
+B. Add the date of birth field to all the user views in the case type
+C. Add a date of birth field to the appropriate stage
+D. Add a date of birth data field to the case type
+Answer: B
+Explanation:
+
+132. A Pega team is working with an organization to customize a Pega application. The team is following the Journey Centric Delivery methodology. What two tasks must the team perform in the first stage?
+A. Review the goals and approach with the project team and sponsors.
+B. Identify case types and build a user case backlog using DCO.
+C. Prioritize the user stories in the backlog for work to do in the first sprint.
+D. Create an estimation of effort based on the case type backlog.
+Answer: A
+Explanation:
+
+133. Select the answer that summarizes the role of the Pega Business Architect (BA) during Journey Centric Development.
+A. The Pega Business Architect (BA) implements Pega training to bridge skill gaps in the customer's teams.
+B. The Pega Business Architect (BA) designs detailed acceptance criteria which helps to define the test plan for the resulting configuration.
+C. The Pega Business Architect (BA) runs the project kickoff during which a series of presentations are made to ensure everyone is aware of the project goals.
+D. The Pega Business Architect (BA) participates in refining the backlog of user stories and developing application features.
+Answer: B
+Explanation:
+
+134. How do you defer a feedback item to an upcoming application release in Agile Workbench?
+A. Set the item priority to "nice to have".
+B. Set the item priority to "to do".
+C. Set the item priority to "future".
+D. Set the item priority to "low"
+Answer: C
+Explanation:
+
+135. You use Agile Workbench to update the status of a bug or feedback item. Where can you view the resulting impact of project completion?
+A. Associate a feature with the item, update the work status if necessary, and specify an owner and due date.
+B. The Application Overview landing page
+C. case life cycle design
+Answer: A
+Explanation:
+
+136. When preparing a backlog item for tracking in the Application Overview dashboard, what tasks do you perform?
+A. Associate a feature with the item, update the work status if necessary, and specify an owner and due date.
+B. The Application Overview landing page
+C. case life cycle design
+Answer: B, D
+Explanation:
+
+137. _______________ delivers a meaningful business outcome to a customer, partner, or internal stakeholder.
+A. Stage
+B. Case
+C. Step
+D. Data
+Answer: B, D
+Explanation:
+
+138. The modeling technique used to describe in business terms how a business application should work is called ______________.
+A. Associate a feature with the item, update the work status if necessary, and specify an owner and due date.
+B. The Application Overview landing page
+C. case life cycle design
+Answer: None provided
+Explanation:
+
+139. A ________________ is used as a first level of organizing work in a case.
+A. Stage
+B. Case
+C. Step
+D. Data
+Answer: D
+Explanation:
+
+140. When modeling the life cycle of a case, stages typically represent a _______________ or a ________________.
+A. single actor performing a single action
+B. transfer of authority
+C. subset of data used to resolve the case
+D. significant change in the status of a case
+Answer: C
+Explanation:
+
+141. When modeling the life cycle of a case, alternate stages typically represent ____________ and can ___________.
+A. only be accessed manually
+B. be sequenced into the primary stages
+C. a separate, but related business transaction
+D. exceptions to the normal course of events
+Answer: C
+Explanation:
+
+142. What are the main differences between an optional user action and an optional process?
+A. An optional user action is a single task and typically returns to the primary path of a case, whereas an optional process is a series of steps that may or may not return to the primary path of a case.
+Answer: D
+Explanation:
+
+143. A business process requirement states that users should be able to modify the shipping address at any time and not interrupt the primary case. Which of the following options is the best way to design for this requirement?
+A. Add a step in a process.
+B. Add a process in a stage.
+C. Add an optional process to any stage in the case type.
+D. Add a local action to the case type.
+Answer: A
+Explanation:
+
+144. Which requirement could be satisfied with a user action?
+A. An application randomly sends a survey to customers once their case is resolved.
+B. Reassign any task that remains open after three days to another user.
+C. Allow a user to transfer a case to another employee at any stage of the case.
+D. Requiring a separate approval process whenever an order exceeds USD 10,000.
+Answer: None provided
+Explanation:
+
+145. Adding instructions to a step ____________.
+A. Instructs an architect how to build the step.
+B. Describes the business value of the step.
+C. Describes to an end user what should be done in the step.
+D. Defines what the step should do.
+Answer: None provided
+Explanation:
+
+146. A step in the case life cycle has a case status value of Pending-Approval. When is the status of the case automatically updated?
+A. The status of a case cannot be automatically updated
+B. Only if the user manually updates the case status
+C. At the end of the step
+D. At the beginning of the step
+Answer: None provided
+Explanation:
+
+147. What type of step typically requires contextual instructions?
+A. Collect information
+B. Create case
+C. Change stage
+D. Approve/Reject
+Answer: None provided
+Explanation:
