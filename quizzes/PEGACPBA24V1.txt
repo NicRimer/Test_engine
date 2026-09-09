@@ -57,15 +57,15 @@ Answer: C,D
 A. a,c,b,d
 B. a,b,d,c
 C. a,d,b,c
-D. a,b,d,c
-Answer: C
+D. a,b,c,d
+Answer: D
 
 8. You are developing a car maintenance application for a car service center. Specific services are performed by different teams. Example services are oil changes, tire rotations, and windshield wiper inspections. Which two configuration options perform the correct assignment routing? (Choose two.)
 A. Configure routing to a skilled work group using the appropriate skill parameters for the selected service
 B. Configure single level approval routing to a supervisor who assigns the task to the specific team
 C. Configure routing to use business logic to assign tasks to the appropriate team using the type of service
 D. Configure all assignments to route to the service manager who then assigns the tasks to the specific team
-Answer: A,D
+Answer: A,C
 
 9. In which two situations do you use a Data Transform? (Choose two.)
 A. Create properties after creating a Case.
@@ -240,7 +240,7 @@ B. Develop scenarios to test application functionality.
 C. Plan current and future application needs.
 D. Assign IT team members user stories to work on.
 E. Execute the assigned work on schedule.
-Answer: B,C,E
+Answer: A,C,E
 Explanation:
 B: Correct – BAs develop test scenarios.
 C: Correct – BAs plan application needs.
@@ -301,7 +301,7 @@ B. Ensure the delegated ruleset exists in the Production rulesets list
 C. Ensure the delegated rules are added to a locked ruleset
 D. Ensure a ruleset that will contain the delegated rules exists
 E. Ensure a ruleset exists for the users who will manage the delegated rules
-Answer: A,B,E
+Answer: A,B,D
 
 32. A survey is sent to a customer via email. Who do you configure a solution to ensure the email includes the case ID for the survey?
 A. Call a data transform to copy the case ID from pyWorkPage to the email.
@@ -418,5 +418,5 @@ A. Add the manager approval to an alternative stage in the case life cycle
 B. Add an optional process to each approval in the appropriate stage
 C. Configure a single cascading approval based on an authority matrix
 D. Configure a parallel process for each of the required approvals
-Answer: C
+Answer: D
 
