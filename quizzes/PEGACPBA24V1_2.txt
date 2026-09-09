@@ -35,7 +35,7 @@ A. Adopting a delegation strategy can help deliver applications more quickly by 
 B. Adopting a rule delegation strategy enables business users and architects to focus on their specific tasks related to application development and maintenance.
 C. Adopting a rule delegation strategy can help improve the business’ ability to adapt to changing business conditions.
 D. Adopting a delegation strategy enables architects to limit the availability of application changes to specific users and access groups to manage application updates.
-Answer: B, C
+Answer: A, C
 Explanation:
 
 006. A home loan application requires application the legal team manager and the Finance team manager. The Legal team manager must approve before the Finance team manager. How do you configure this requirement?
@@ -222,7 +222,7 @@ A. Add the manager’s approvals to a substitute stage for the situation life cy
 B. Design an equal cycle for every one of the expected approvals.
 C. Add a discretionary cycle to every approval in the proper stage.
 D. Design single cascading approval in light of a power lattice.
-Answer: D
+Answer: B
 Explanation:
 
 029. Select the trademark used to distinguish up-and-comer rules to be appointed to business clients in CPBA.
@@ -230,7 +230,7 @@ A. Changing business conditions expect that the standard is overseen without IT 
 B. Responsibility for appointed rules changes from work gathering to work for a bunch.
 C. Successive changes are expected to ceaselessly rethink the client experience.
 D. Changes to business conditions expect that the standard is made do with IT intercession.
-Answer: B
+Answer: A
 Explanation:
 
 030. In a purchase order case the merchant doled out probably won’t answer a client’s question in the ideal measure of time expected by strategy. The seller should answer within the time expected by the strategy. Both the seller and client ought to be advised at every achievement. To fulfill this prerequisite, make a help level that indicates two of the accompanying choices. (Choose Two)
@@ -246,7 +246,7 @@ A. Utilize the Insert Property element of a Send Email move toward adding the ca
 B. Make an interaction utilizing the Send Email step permitting delegates to add the case ID to the email rapidly.
 C. Delegate a business rule, so delegates can redo the email content depending on the situation, depends upon the situation.
 D. Make an expected field for the case ID that should be placed by a client during the case cycle preceding sending the review.
-Answer: B
+Answer: A
 Explanation:
 
 032. How would you change the urgency of an aging task to improve the probability that the task is finished before the deadline in CPBA?
@@ -254,7 +254,7 @@ A. Apply an urgency adjustment in accordance with the goal interval.
 B. Apply an urgency adjustment with the deadline interval
 C. Change the default task urgency.
 D. Add an escalation activity to the interval.
-Answer: B
+Answer: A
 Explanation:
 
 033. A home loan application requires approvals from the Legal team manager and the Finance group chief. The Legal group director should support the Finance group chief. How would you design this necessity?
@@ -327,7 +327,7 @@ A. pyStatusWork
 B. pyCaseStatus
 C. pxCaseStatus
 D. pyWorkstatus
-Answer: D
+Answer: A
 Explanation:
 
 042. When designing a case, it is recommended that each stage be decomposed into no more than ______ steps.
@@ -343,7 +343,7 @@ A. Page
 B. Page Group
 C. Page List
 D. Single Value
-Answer: C
+Answer: B
 Explanation:
 
 044. Key Performance Indicators (KPIs) are used to ______________.
@@ -351,7 +351,7 @@ A. determine whether an application has satisfied all of its requirements
 B. determine if an application has met all of its business objectives
 C. verify whether end users are satisfied with the application
 D. determine whether or not an application has implemented all of its specifications
-Answer: D
+Answer: B
 Explanation:
 
 045. Which explorers can be used to view properties for a data object in your application? (Choose Two)
@@ -406,7 +406,7 @@ A. Declarative Network
 B. Declare Expressions
 C. Property
 D. Data Transform
-Answer: D
+Answer: B
 Explanation:
 
 052. Which statement best describes the difference between a local flow action and a connector flow action?
@@ -430,7 +430,7 @@ A. Organize the project Kickoff meeting.
 B. Help to refine ahead of a sprint.
 C. Identify the initial of case types.
 D. Identify the scope of the initial release.
-Answer: D
+Answer: B
 Explanation:
 
 055. Consider the following user story: As an account owner, I want to be able to add a member to my account so I can give the member temporary access. Which two questions help you define the fields for the user view? (Choose Two)
@@ -535,7 +535,7 @@ A. Place the UI rules in the base layer, and create a new layer for the payment 
 B. Place the UI rules and generic payment method rules in the base layer, and create a new layer for the division-specific payment rules.
 C. Place the UI rules in the base layer, and create a parallel base layer for the payments rules.
 D. Place the UI rules in the base layer, and create a new layer for the payment rule for each division.
-Answer: D
+Answer: B
 Explanation:
 
 068. With Pega's Situational Layer Cake ™ approach, how do you configure a regional variation for Human Resources (HR) time off cases?
@@ -559,7 +559,7 @@ A. Use the same application skin in all portals.
 B. Update the process to give mobile users a separate portal.
 C. Adjust the responsive behavior in the skin for optimal viewing in the mobile portal.
 D. Do not use a skin for the mobile application version.
-Answer: B, D
+Answer: B, C
 Explanation:
 
 071. A form listing nearby restaurants has columns: - Restaurant name - Restaurant location - Thumbnail image of the seating area - Make reservation (check box) You want to ensure that users have the information they a reservation regardless of screen size. When viewed on a small screen, you do not need to display the images.What three configuration steps do you take to support this requirement? (Choose Three)
@@ -633,7 +633,7 @@ A. In the Employment Information process add a custom condition to test the card
 B. In the Employment Information process add a card type true/false field to a user view
 C. In the Employment Information process validate card type for continued processing
 D. In the Employment Information process add an Approve/Reject step to test the card type
-Answer: B
+Answer: A
 Explanation:
 
 080. A life insurance company has satellite offices in various countries. Each satellite office has its own work queue. Company policy requires that life underwriting is assigned to offices based on the residence of the policy owner.Which routing approach supports this requirement?
@@ -681,7 +681,7 @@ A. Add the manager approval to an alternative stage in the case life cycle
 B. Add an optional process to each approval in the appropriate stage
 C. Configure a single cascading approval based on an authority matrix
 D. Configure a parallel process for each of the required approvals
-Answer: C
+Answer: D
 Explanation:
 
 086. When implementing a business process as a Pega case type, which of the following would indicate a boundary between case stages?
@@ -705,7 +705,7 @@ A. pyStatusWork
 B. pyCaseStatus
 C. pxCaseStatus
 D. pyWorkstatus
-Answer: D
+Answer: A
 Explanation:
 
 089. An application references the property .Customer.Address(Billing).State. What is the property mode for .Address(Billing)?
@@ -713,7 +713,7 @@ A. Page
 B. Page Group
 C. Page List
 D. Single Value
-Answer: C
+Answer: B
 Explanation:
 
 090. Key Performance Indicators (KPIs) are used to ______________.
@@ -721,7 +721,7 @@ A. determine whether an application has satisfied all of its requirements
 B. determine if an application has met all of its business objectives
 C. verify whether end users are satisfied with the application
 D. determine whether or not an application has implemented all of its specifications
-Answer: D
+Answer: B
 Explanation:
 
 091. Which explorers can be used to view properties for a data object in your application? (Choose Two)
@@ -753,7 +753,7 @@ A. Declarative Network
 B. Declare Expressions
 C. Property
 D. Data Transform
-Answer: D
+Answer: B
 Explanation:
 
 095. Which statement best describes the difference between a local flow action and a connector flow action?
@@ -777,7 +777,7 @@ A. Use a Validate rule to verify the mandatory fields have a value
 B. Use multiple Validate rules for each mandatory field
 C. Configure the mandatory fields as Required in the section rule
 D. Use an Edit Validate rule to verify if each of the mandatory properties has a value
-Answer: D
+Answer: C
 Explanation:
 
 098. A bookseller maintains a database of more than 10,000 book titles. You have been asked to configure a form that a allow users to select a book by title. How do you configure the form?
@@ -809,7 +809,7 @@ A. A backup endpoint URL if the configured WL refuses to connect
 B. The name of the database where the source data is stored
 C. A plan for mapping the data and REST response fields
 D. The data views using the external data source
-Answer: A
+Answer: C
 Explanation:
 
 102. A data page holds product information and has the Reload if Older Than field set to 30 minutes. The data page is created at 7:43.The user then performs the following actions 8:10 the user refreshes the product information 8:45 the user refreshes the product information At what time is the data page reloaded?
@@ -896,7 +896,7 @@ A. A backup endpoint URL if the configured WL refuses to connect
 B. The name of the database where the source data is stored
 C. A plan for mapping the data and REST response fields
 D. The data views using the external data source
-Answer: A
+Answer: C
 Explanation:
 
 113. An on-demand transportation application has a Conversation preference data type. When customers use the application a ride, they can specify their conversation preference: whether they would like to talk to their driver or if they would prefer silence. Company stakeholder are interested in analyzing the conversation the performance data. How is the Conversation preference data type sourced?
@@ -911,7 +911,7 @@ A. Organize the project Kickoff meeting.
 B. Help to refine ahead of a sprint.
 C. Identify the initial of case types.
 D. Identify the scope of the initial release.
-Answer: D
+Answer: B
 Explanation:
 
 115. Consider the following user story: As an account owner, I want to be able to add a member to my account so I can give the member temporary access. Which two questions help you define the fields for the user view? (Choose Two)
@@ -983,7 +983,7 @@ A. Create three assignments and route to the appropriate approver.
 B. Create an approval step with cascading approval.
 C. Route to a workbasket where all three roles have access.
 D. Create business logic to route to the different approvers.
-Answer: B
+Answer: A
 Explanation:
 
 124. How do you defer a feedback item to an upcoming application release in Agile Workbench?
