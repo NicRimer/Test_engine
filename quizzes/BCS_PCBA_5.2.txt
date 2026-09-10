@@ -4,7 +4,8 @@ B. Process
 C. Information
 D. People
 Answer: A
-Explanation: organization policies and job roles are considered part of the organization element of the POPIT model.
+Explanation:
+organization policies and job roles are considered part of the organization element of the POPIT model.
 
 2. Adam is considering starting up a botanical nursery to fulfill a growing demand for house plants. He has identified a requirement for purchasing horticultural tools. Which of Porter's five forces might this be a consideration for?
 A. Threat of new entrants
@@ -12,7 +13,8 @@ B. Threat of substitute products and services
 C. Bargaining power of suppliers
 D. Bargaining power of buyers
 Answer: A
-Explanation: The requirement for significant up-front capital expenditure would be considered a barrier to entry for new entrants. Therefore, this relates to the threat of new entrants.
+Explanation:
+The requirement for significant up-front capital expenditure would be considered a barrier to entry for new entrants. Therefore, this relates to the threat of new entrants.
 
 3. You are working with a global Accredited Training Provider (ATP) who deliver online training to support trainees in their preparation for BCS examinations. The ATP has a single Head of Training, who is accountable for the performance of the global Academy. The ATP operates in a number of different geographic regions, each with their own local teams of Sales agents, Administrators, and Trainers. The Sales agents are responsible for gathering the necessary information from trainees, while completing a booking on a training event. It is the responsibility of the Administrators within each target market / region to be the liaison between the Training Provider and the BCS, and to share the necessary trainee information with the BCS. The Trainers have no involvement in the booking processes and are responsible only for delivering the training event to the highest quality of service standards. The global Head of Training has decided to fund a project to update its internal business processes for completing bookings on training events. The changes are intended to align with BCS policy updates on what information needs to be gathered for purposes of booking a BCS exam. A stakeholder management strategy is being developed for the project. Which of the following stakeholders should be kept under Constant Active Management?
 A. Sales Agents
@@ -20,7 +22,8 @@ B. Global Head of Training
 C. Trainers
 D. Administrators
 Answer: B
-Explanation: The Global Head of Training is the key player and manager of the function involved in the project. Their concerns and opinions need to be considered when making recommendations. They should be kept informed throughout the project so that recommendations do not come as a surprise. This is what is meant by Constant Active Management.
+Explanation:
+The Global Head of Training is the key player and manager of the function involved in the project. Their concerns and opinions need to be considered when making recommendations. They should be kept informed throughout the project so that recommendations do not come as a surprise. This is what is meant by Constant Active Management.
 
 4. A business analyst is working with the CEO of an insurance company to agree a business activity model. Activities have been agreed to recruit new staff and develop a new insurance product. Which type of activity on the business analysis model has been defined?
 A. Planning
@@ -28,7 +31,8 @@ B. Enabling
 C. Doing
 D. Control
 Answer: B
-Explanation: Enabling activities lead into the doing activities on the model and acquire or replenish the resources needed to carry them out. Recruiting staff and putting resources in place are examples of enabling activities.
+Explanation:
+Enabling activities lead into the doing activities on the model and acquire or replenish the resources needed to carry them out. Recruiting staff and putting resources in place are examples of enabling activities.
 
 5. Which of the following is a valid use of a business case?
 A. To provide information to key stakeholders to support decision making.
@@ -36,7 +40,8 @@ B. To model the business activities in the target state.
 C. To document the latest business strategy.
 D. To document the detailed requirements of the change.
 Answer: A
-Explanation: The business case provides information to the business sponsor and other key decision makers to support the Go/No-Go decision.
+Explanation:
+The business case provides information to the business sponsor and other key decision makers to support the Go/No-Go decision.
 
 6. Paradise Gardens is a successful botanical nursery business. Over the last year, the owners Adam and Eve have noticed an increase in requests for artificial plants, a product the business currently does not offer. Adam believes selling artificial plants is fundamentally against their value proposition, despite it being a lucrative segment of the market. Eve disagrees with her business partner and feels offering a wider product range will enable them to tap into a customer base they have previously struggled to gain traction with. Which element of CATWOE are they unable to agree on?
 A. Owner
@@ -44,7 +49,8 @@ B. Worldview
 C. Actor
 D. Technology
 Answer: B
-Explanation: Adam and Eve have differing worldviews. Their outlook and rationale for what would make the business successful going forward are fundamentally different.
+Explanation:
+Adam and Eve have differing worldviews. Their outlook and rationale for what would make the business successful going forward are fundamentally different.
 
 7. A business analyst has identified the high costs of the existing payroll system. In which section of the business case should this information be included?
 A. Description of the current situation
@@ -52,7 +58,8 @@ B. Risk assessment
 C. Options considered
 D. The business activity model
 Answer: A
-Explanation: The scenario refers to the current system, so the high costs should be included in the description of the current situation.
+Explanation:
+The scenario refers to the current system, so the high costs should be included in the description of the current situation.
 
 8. A business analyst is working with the CEO and General Manager of a retail company to capture and document their business perspectives. The business analyst is explaining to their colleagues why it is necessary to agree a consensus business activity model (BAM). Which of the following should be their explanation?
 A. To present an agreed perspective and help obtain stakeholder buy-in.
@@ -60,7 +67,8 @@ B. To reflect where there are differences between stakeholder perspectives.
 C. To ensure all stakeholders understand the business analyst's perspective.
 D. To get agreement on the Worldview and Transformation.
 Answer: A
-Explanation: Individual business activity models can be used to create a consensus BAM representing an agreed way forward. This involves negotiation between stakeholders and business analysts and helps ensure stakeholder buy-in.
+Explanation:
+Individual business activity models can be used to create a consensus BAM representing an agreed way forward. This involves negotiation between stakeholders and business analysts and helps ensure stakeholder buy-in.
 
 9. A Business Analyst (BA) has been asked to join a project for a dominant Telecommunications provider, that intends to launch a new generation of communication services to their target market. As part of the initial investigation, the BA will need to research the way in which the provider is structured and the span of control of various impacted managers. The BA will also need to better understand what products and services the provider has sold to its current customer base, and how the provider currently provides services to their customers. This will help them to design business processes for migrating current customers to the new generation of communication services, and who needs to be involved in this part of the project. Which of the following sources of information should the BA use?
 A. Website for the organization
@@ -70,7 +78,8 @@ D. Procedure manuals
 E. Empathy maps
 F. organization chart
 Answer: A, D, F
-Explanation: The organization's website can provide descriptions of its products and services. Procedure manuals can document how processes currently operate. An organization chart shows the organizational structure and span of control, including the areas and people for which managers have responsibility.
+Explanation:
+The organization's website can provide descriptions of its products and services. Procedure manuals can document how processes currently operate. An organization chart shows the organizational structure and span of control, including the areas and people for which managers have responsibility.
 
 10. A business analyst employed by a cinema chain is working on implementing a project that will impact how and when customers purchase cinema snacks and confectioneries. The analyst is developing a new business process and will need to liaise with a number of stakeholders across the business to have the process defined and approved. How would the cinema floor staff be classified in terms of power/interest?
 A. High power/low interest
@@ -78,7 +87,8 @@ B. High power/high interest
 C. Medium power/medium interest
 D. Low power/high interest
 Answer: D
-Explanation: Cinema floor staff should be kept informed about changes to the business process because the changes may affect their day-to-day responsibilities. Therefore, they are likely to have high interest but low power.
+Explanation:
+Cinema floor staff should be kept informed about changes to the business process because the changes may affect their day-to-day responsibilities. Therefore, they are likely to have high interest but low power.
 
 11. The project team have been reviewing the risks associated with implementing a new payroll system into their organization. They have identified that there could be a significant cost to the organization if the system fails and have asked the solution supplier to cover any such losses. Which type of risk management strategy is being used here?
 A. Avoidance
@@ -86,7 +96,8 @@ B. Mitigation
 C. Acceptance
 D. Transference
 Answer: D
-Explanation: The risk has been transferred to the supplier, making this an example of risk transference.
+Explanation:
+The risk has been transferred to the supplier, making this an example of risk transference.
 
 12. A decision or action made within an organization is considered to be which type of business event?
 A. Internal
@@ -94,7 +105,8 @@ B. External
 C. Time-based
 D. Planning
 Answer: A
-Explanation: Decisions made through business activities within the system are considered internal business events.
+Explanation:
+Decisions made through business activities within the system are considered internal business events.
 
 13. A business analyst is exploring an issue relating to delayed deliveries at a logistics company with a group of stakeholders. Having already identified the customers' needs, the group have discussed multiple options, from providing additional incentives for delivery drivers to the possibility of overhauling the tracking software they currently use. Which aspect of designing and defining the solution is being demonstrated in this scenario?
 A. Prototype
@@ -102,7 +114,8 @@ B. Ideate
 C. Options considered
 D. Controlling
 Answer: B
-Explanation: The Ideate stage is used to generate ideas. The scenario demonstrates divergent thinking, with the stakeholders generating multiple possible solutions.
+Explanation:
+The Ideate stage is used to generate ideas. The scenario demonstrates divergent thinking, with the stakeholders generating multiple possible solutions.
 
 14. During which stage of the business change lifecycle are the benefits that are documented in the business case measured to determine to what extent they have been achieved?
 A. Alignment
@@ -110,7 +123,8 @@ B. Definition
 C. Implementation
 D. Realisation
 Answer: D
-Explanation: Benefits are assessed during Realisation to determine whether the expected benefits documented in the business case have actually been achieved.
+Explanation:
+Benefits are assessed during Realisation to determine whether the expected benefits documented in the business case have actually been achieved.
 
 15. Which of the following activities takes place during convergent thinking in the define stage of the Double Diamond model?
 A. Establishing the technical feasibility of possible solutions.
@@ -118,7 +132,8 @@ B. Broadening the range of possible solutions.
 C. Creating multiple prototypes for possible solutions.
 D. Reaching agreement on the problem or opportunity to be addressed.
 Answer: D
-Explanation: The second stage of the Double Diamond is the Define stage. During convergent thinking, stakeholders narrow down the findings and reach agreement on the problem or challenge to be addressed.
+Explanation:
+The second stage of the Double Diamond is the Define stage. During convergent thinking, stakeholders narrow down the findings and reach agreement on the problem or challenge to be addressed.
 
 16. A Business Analyst (BA) was recruited by a retail bank provider to support a business change programme focused on enhancing customer experience throughout various business processes. The BA has undertaken some background research and initial investigation, using a range of techniques, and now needs to present their findings of the current situation from the perspective of current customers. Which of the following techniques should the BA use to provide this type of overview?
 A. Interviews
@@ -126,7 +141,8 @@ B. Business Activity Modelling
 C. Rich Pictures
 D. Customer Journey Maps
 Answer: D
-Explanation: A Customer Journey Map can be used to analyse a process from a specific customer perspective. It considers the individual customer experience and can help identify areas for improvement.
+Explanation:
+A Customer Journey Map can be used to analyse a process from a specific customer perspective. It considers the individual customer experience and can help identify areas for improvement.
 
 17. A telecommunications provider provides two options for new customers purchasing new broadband services. These include the self-install option and professional installation with an engineer visit. The business analyst is reviewing the current performance measures used to measure the performance of engineer visits. Which two KPIs align to the internal business process element of the balanced scorecard?
 A. Number of customer complaints received.
@@ -135,7 +151,8 @@ C. Percentage margin for installation services.
 D. Star rating left by customers for installation services.
 E. Percentage of installations right first time.
 Answer: B, E
-Explanation: The Customer element includes customer complaints and star ratings. The Financial element includes percentage margin. Average installation wait time and the percentage of installations completed right first time measure how efficiently and effectively the internal process is delivered, so they belong to the Internal Business Process element.
+Explanation:
+The Customer element includes customer complaints and star ratings. The Financial element includes percentage margin. Average installation wait time and the percentage of installations completed right first time measure how efficiently and effectively the internal process is delivered, so they belong to the Internal Business Process element.
 
 18. Paradise Gardens, an online botanical nursery selling plants, are looking to refresh the look of their brand. You are taking over the role of the previously assigned business analyst and are in the process of reviewing existing documentation they had created. In particular you are reviewing the business plan which has been compiled without conforming to VMOST. Which two of the following would fall under the Vision and Objectives headings of the VMOST?
 A. We strive to provide quality greenery across the UK.
@@ -144,7 +161,8 @@ C. Grow profit margins by 10% year on year for the next 3 years.
 D. Developing a new website for the company intranet.
 E. Recruit and retain the best skilled gardeners.
 Answer: B, C
-Explanation: B represents the company's desired future state and therefore its Vision. C is a measurable target and therefore an Objective. A is a mission statement describing the organization's purpose.
+Explanation:
+B represents the company's desired future state and therefore its Vision. C is a measurable target and therefore an Objective. A is a mission statement describing the organization's purpose.
 
 19. A consultant Business Analyst (BA) is assigned to a client operating in the Home Insurance sector. They have not worked with the client before and have been tasked with eliciting requirements for replacing an outdated insurance policy management system. The BA will need to understand how the system is currently used to support key business processes, such as generating insurance quotes, setting up insurance policies, and processing insurance claims. They will also need to understand the variances required by the process tasks to support the range of events that the Insurance provider supports, and what information is used by the various policy documents produced by the current system. Which of the following investigation techniques should the analyst use for these investigation purposes?
 A. Scenario analysis, Observation, Document analysis.
@@ -152,7 +170,8 @@ B. Surveys, Scenario analysis, Document analysis.
 C. Observation, Document analysis, Interviews.
 D. Workshops, Observation, Interviews.
 Answer: A
-Explanation: Scenario analysis can explore alternative paths and exceptional situations that the business needs to support. Observation helps the BA understand how process tasks are actually carried out by staff. Document analysis can be used to examine completed forms and other documentation to understand the information produced and used by the system.
+Explanation:
+Scenario analysis can explore alternative paths and exceptional situations that the business needs to support. Observation helps the BA understand how process tasks are actually carried out by staff. Document analysis can be used to examine completed forms and other documentation to understand the information produced and used by the system.
 
 20. A Business Analyst (BA) for an airline provider has been tasked with helping the business to reach a consensus on what essential activities the airline should focus on in a new AI-supported airline industry. The BA has interviewed the key stakeholders and now has a good understanding of their relative perspectives on the required future state of the airline’s operations. What approach should the BA take next?
 A. Derive a consensus model that reflects all the activities required to support the relevant perspectives of the various key stakeholders.
@@ -160,4 +179,5 @@ B. Test a consensus model against reality, by assessing how well the airline cou
 C. Derive a conceptual model for each key stakeholder, showing the essential activities that the airline must specialise if that stakeholder’s perspective is to be fulfilled.
 D. Collaborate with the stakeholders to design the business processes required to deliver the key activities that the airline will support in the conceptual AI-aligned business system.
 Answer: C
-Explanation: After understanding each key stakeholder's perspective, the BA should collaborate with each stakeholder to develop a Business Activity Model (BAM) reflecting that stakeholder's perspective. These individual conceptual models can then be used to derive a consensus model that accommodates the different perspectives. Gap analysis can then be conducted to test the concept against reality.
+Explanation:
+After understanding each key stakeholder's perspective, the BA should collaborate with each stakeholder to develop a Business Activity Model (BAM) reflecting that stakeholder's perspective. These individual conceptual models can then be used to derive a consensus model that accommodates the different perspectives. Gap analysis can then be conducted to test the concept against reality.
