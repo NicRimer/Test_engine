@@ -25,7 +25,7 @@ Answer: D
 Explanation:
 Poor collaboration between development and operations can result in problems being discovered late, particularly during deployment. This creates rework, delays, and deployment risk.
 
-4. What is one benefit of DevOps?
+4. What is one benefit of DevOps? (Choose two)
 A. Fewer defects
 B. Tightly coupled architecture
 C. Increased batch size
